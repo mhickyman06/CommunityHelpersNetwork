@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Gallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div style="margin-top:100px">
+    <div class="home-page-welcome">
+        <h3 class="mt-2 h-st b-h2">Project Gallery</h3>
+    </div>
+</div>
+
+<div class="container g-sect" style="margin:100px 20px">
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-2">
+            <img asp-append-version="true" src="~/Images/galery-img2.jpg" style="width:290px;height:200px" />
+            <h5>Captured during the meeting</h5>
+            <h6 class="h6">23 March 2020</h6>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2 ">
+            <img asp-append-version="true" src="~/Images/galery-img3.jpg" style="width:290px;height:200px;margin-top:30px" />
+            <h5>Captured during the meeting</h5>
+            <h6 class="h6">23 March 2020</h6>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2 ">
+            <img asp-append-version="true" src="~/Images/galery-img6.jpg" style="width:290px;height:200px;margin-top:30px" />
+            <h5>Captured during the meeting</h5>
+            <h6 class="h6">23 March 2020</h6>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+            <img asp-append-version="true" src="~/Images/galery-img5.jpg" style="width:290px;height:200px" />
+            <h5>Captured during the meeting</h5>
+            <h6 class="h6">23 March 2020</h6>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@section Scripts{
+
+    <script>
+        $(".nav-link3").css("color", "#4ac9f0");
+    </script>
+}

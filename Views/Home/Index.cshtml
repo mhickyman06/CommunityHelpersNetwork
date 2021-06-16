@@ -1,0 +1,239 @@
+﻿@model HelpersNetworkViewModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["DailyView"] = Model.DailyViewModel.Body;
+}
+<style>
+</style>
+<!--Header Section-->
+<header>
+    <!-- header inner -->
+    <div class="head">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-9">
+                    <marquee behavior="" direction="">
+                        <h6 style="padding-top:25px;color:white">
+                            @ViewData["DailyView"]
+                        </h6>
+                    </marquee>
+                </div>
+                <div class="col-3" style="padding-top:15px">
+                    <a href="#" class="btn-sm donate-btn " style="color:white">Donate</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="header-top1">
+        <div class="header">
+            @{
+                await Html.RenderPartialAsync("_MenuBar");
+            }
+        </div>
+        <!-- end header inner -->
+        <!-- end header -->
+
+        <div class="container-fluid welcome-text wow fadeInRight" data-wow-delay="0.0s">
+            <div class="row">
+                <div class="col-6">
+                    <h1>
+                        A community need constant, consistent and considerate interventions.<br />
+                        We are here to inspire and ensure that
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--End Header Section-->
+<!--What we do Section-->
+<div class="works mt-5" id="works">
+    <div class="container">
+        <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
+            <h6>Who we are</h6>
+            <p>
+                Community Helpers Network is a faith based Non-Governmental Organisation that takes the
+                light of the church to the community for human capacity and infrastructure development.
+                We also bring the community back to the church for personal and spiritual developments and interventions.
+            </p>
+            <div class="row imageview mt-5">
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
+                    <div class="service-item">
+                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img1.jpg" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="service-item">
+                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img2.jpeg" />
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="service-item">
+                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img3.jpeg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="works" id="works">
+    <div class="container">
+        <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
+            <h6>How we work</h6>
+            <p>
+                We work with individuals, companies, religeous bodies,
+                non governmental organisation and government agencies to bring human capacity and infrastructural development
+                to communities.
+            </p>
+        </div>
+        <div class="row imageview mt-5">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
+                <div class="service-item">
+                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img1.jpg" />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-4  wow fadeInUp" data-wow-delay="0.2s">
+                <div class="service-item">
+                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img2.jpeg" />
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="service-item">
+                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img3.jpeg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="works" id="works">
+    <div class="container">
+        <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
+            <h6>Our unique approach</h6>
+            <p>
+                We establish Community Helpers Network as a group
+                in many churches in a local governemnt for effective
+                community interventions within the community each church is situated
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Our Values Section-->
+<div class="wrapper row2 mt-5">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle">
+            <h6 class="heading" style="font-weight:800">Our Values</h6>
+        </div>
+        <ul class="nospace group services">
+            <li class="one_third first">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-balance-scale"></i> Respect</h6>
+                    <p>
+                        We respect the values and the beliefs of the people with
+                        and for whom we work and we act in consideration of their environment. We help always.
+                    </p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-certificate"></i>Integrity</h6>
+                    <p>
+                        We adhere strictly to strong principles;
+                        we take responsibility for our actions, processes and results,
+                        and we expect the same from our stakeholders. We honour our commitments.
+                    </p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-handshake"></i>Collaborations</h6>
+                    <p>
+                        We believe we are more powerful when we work together
+                        within our team and with our partners. We all join forces for greater impact.
+                    </p>
+                </article>
+            </li>
+            <li class="one_third first">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-motorcycle"></i>Innovation</h6>
+                    <p>
+                        We are entrepreneur; we have the courage and the creativity to pursue unique ideas
+                        that have the potential of pushing boundaries. We think outside the box and we make it happen.
+                    </p>
+                </article>
+            </li>
+            <li class="one_third">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-ice-cream"></i>Fun</h6>
+                    <p>
+                        We aspire to connect, spread joy and excitement in everything we do.
+                        While having fun, we strive to achieve positive and sustainable results.
+                    </p>
+                </article>
+            </li>
+        </ul>
+    </section>
+</div>
+<!--Latest Event-->
+<div class="wrapper row2 " style="background-color:#6f838a;">
+    <section class="hoc container clear">
+        <!-- ################################################################################################ -->
+        <div class="sectiontitle" style="position:relative; z-index:99; color:white">
+            <h6 class="heading" style="color:white;font-weight:800">Community Latest Event</h6>
+        </div>
+        <div class="group latest">
+            @{
+                var firstevent = Model.EventModels.FirstOrDefault();
+
+
+                <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
+                    <!-- ################################################################################################ -->
+                    <img src="~/content/Images/@firstevent.Images" style="width:-webkit-fill-available;" alt="">
+                    <div class="txtwrap">
+                        <h6 class="heading" style="font-weight:800">@firstevent.Title</h6>
+                        <time class="font-xs block btmspace-10" datetime="@firstevent.DatePublished">@firstevent.DatePublished</time>
+                        <p>@firstevent.ShortDescription</p>
+                        <footer><a href="">Read More</a></footer>
+                    </div>
+                    <!-- ################################################################################################ -->
+                </article>
+
+                var events = @Model.EventModels.GetRange(1, 2);
+                foreach (var Event in events)
+                {
+                    <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
+                        <!-- ################################################################################################ -->
+                        <img src="~/content/Images/@Event.Images" style="width:-webkit-fill-available;" alt="">
+                        <div class="txtwrap">
+                            <h6 class="heading" style="font-weight:800">@Event.Title</h6>
+                            <time class="font-xs block btmspace-10" datetime="@Event.DatePublished">@Event.DatePublished</time>
+                            <p>@Event.ShortDescription</p>
+                            <footer><a href="#">Read More</a></footer>
+                        </div>
+                        <!-- ################################################################################################ -->
+                    </article>
+                }
+
+            }
+        </div>
+        <a class="btn custom_btn  text-center text-white mt-3" asp-action="News" asp-controller="Home" style="position:relative; left:50%">See more</a>
+    </section>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(".nav-link1").css("color", "#4ac9f0");
+    </script>
+}

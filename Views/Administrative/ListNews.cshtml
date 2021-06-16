@@ -1,0 +1,77 @@
+﻿@model IEnumerable<News>
+
+@{
+    ViewData["Title"] = "ListEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container m-4" >
+
+
+        <h1>ListNews</h1>
+
+        <p>
+            <a asp-action="CreateNews">Create New</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ShortDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Body)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PageTtile)
+                    </th>
+                   
+                    <th>
+                        @Html.DisplayNameFor(model => model.Images)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatePublished)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShortDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Body)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PageTtile)
+                        </td>
+                       
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Images)
+                        </td>
+                        <td>
+                            
+                            @Html.ActionLink("EditEvent", "EditEvent", new {  id=item.Id  }) 
+                            @Html.ActionLink("EventDetails", "EventDetails", new {  id=item.Id }) 
+                            @Html.ActionLink("DeleteNews", "DeleteNews", new {  id=item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

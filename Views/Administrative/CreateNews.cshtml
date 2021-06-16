@@ -1,0 +1,71 @@
+﻿@model NewsViewModel ;
+
+<div class="container ml-4 mt-4 mb-4">
+    <h1>Create News</h1>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-7">
+            <form method="post" asp-action="CreateNews" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Title" class="control-label"></label>
+                    <input asp-for="@Model.Title" class="form-control" />
+                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="@Model.PageTtile" class="control-label"></label>
+                    <input asp-for="@Model.PageTtile" class="form-control" />
+                    <span asp-validation-for="@Model.PageTtile" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.ShortDescription" class="control-label"></label>
+                    <input asp-for="@Model.ShortDescription" class="form-control" />
+                    <span asp-validation-for="@Model.ShortDescription" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="@Model.Body" class="control-label"></label>
+                    <input asp-for="@Model.Body" class="form-control" />
+                    <span asp-validation-for="@Model.Body" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row ">
+                    <label asp-for="@Model.PhotoSource" class="col-form-label col-sm-3"></label>
+                    <div class="col-sm-9">
+                        <div class="custom-file">
+                            <input asp-for="@Model.PhotoSource" class="form-control custom-file-input " />
+                            <label class="control-label custom-file-label ">choose File</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            })
+        })
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,35 @@
+    <div class="container-fluid">
+        <div class="row">
+            @*col-xl-2 col-lg-2 col-md-2 col-sm-2*@
+            <div class=" col-lg-2 col-md-2 col-sm-12 logo_section">
+                <div class="full">
+                    <div class="center-desk">
+                        <div class="logo">
+                            <a href="index.html"><img src="~/images/IMG-20210615-WA0000.jpg" style="height:70px" alt="#" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*col-xl-10 col-lg-10 col-md-10 col-sm-10*@
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                <div class="menu-area">
+                    <div class="limit-box">
+                        <nav class="main-menu">
+                            <ul class="menu-area-main">
+                                <li> <a asp-action="Index" asp-controller="Home" class="nav-link1">Home</a> </li>
+                                <li>
+                                    <a asp-action="AboutUs" asp-controller="Home" class="nav-link2">Our Vission</a>                                   
+                                </li>
+                                <li> <a asp-action="Gallery" asp-controller="Home" class="nav-link3">Project Gallery</a> </li>
+                                <li><a asp-action="communityproject" asp-controller="Home" class="nav-link4">Community Latest Project</a></li>
+                                <li> <a asp-action="News" asp-controller="Home"class="nav-link5">News</a> </li>
+                                <li> <a asp-action="Contact" asp-controller="Home"class="nav-link6">Contact us</a> </li>                                   
+                                <li ><a asp-action="Register" asp-controller="Account"class="nav-link7">Join us</a></li>
+                                <li><a asp-action="Login" asp-controller="Account"class="nav-link8">Sign in</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
