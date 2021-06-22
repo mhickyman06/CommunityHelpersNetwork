@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,17 +19,18 @@ namespace HelpersNetwork.Models
         [Display(Name = "Date Published")]
         public DateTime DatePublished { get; set; } = DateTime.Now;
         [Required]
-        [StringLength(50,ErrorMessage ="Title must be within 5 - 50",MinimumLength =5)] 
         public string Title { get; set; }
         [Required]
         public string PageTtile { get; set; }
         [Required]
         [Display(Name ="Short Description")]
-        [StringLength(100,ErrorMessage ="Description must be between 10 - 100",MinimumLength =10)]
         public string ShortDescription { get; set; }
 
         [Required]
         public string Body { get; set; }
-        public string  Images { get; set; }
+
+        [Required]
+        [DisplayName("Event Image")]
+        public string  ImagePath { get; set; }
     }
 }

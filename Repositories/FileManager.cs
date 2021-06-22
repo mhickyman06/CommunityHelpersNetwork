@@ -30,7 +30,8 @@ namespace HelpersNetwork.Models
                 {
                     Directory.CreateDirectory(save_path);
                 }
-                var filename = new Guid() + image.FileName;
+                Guid guid = Guid.NewGuid();
+                var filename = guid + image.FileName;
                 using (var filestream = new FileStream(Path.Combine(save_path, filename), FileMode.Create))
                 {
                     await image.CopyToAsync(filestream);

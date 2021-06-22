@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using HelpersNetwork.Models;
 using Microsoft.AspNetCore.Authorization;
-using HelpersNetwork.Views.Home;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
@@ -17,24 +16,30 @@ using HelpersNetwork.ViewModels;
 
 namespace HelpersNetwork.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController: Controller 
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly IHelpersNetworkEventRepository Repository;
+        private readonly IHelpersNetworkRepository<EventModel> _eventrepository;
+        private readonly IHelpersNetworkRepository<News> _newsrepository;
+        private readonly IHelpersNetworkRepository<ProjectGallery> _gelleryrepository;
 
         public IWebHostEnvironment webHostEnvironment { get; }
         private IFileManagerService FileManager { get; }
 
         public HomeController(ILogger<HomeController> logger,
             IWebHostEnvironment WebHostEnvironment ,
-            IHelpersNetworkEventRepository repository,
-            IFileManagerService fileManager
+            IHelpersNetworkRepository<EventModel> eventrepository,
+            IHelpersNetworkRepository<News> newsrepository,
+            IFileManagerService fileManager,
+            IHelpersNetworkRepository<ProjectGallery> galleryrepository
             )
         {
             _logger = logger;
             webHostEnvironment = WebHostEnvironment;
-            Repository = repository;
+            this._eventrepository = eventrepository;
+            this._newsrepository = newsrepository;
+            this._gelleryrepository = galleryrepository;
             FileManager = fileManager;
 
         }
@@ -42,11 +47,10 @@ namespace HelpersNetwork.Controllers
 
         public IActionResult Index()
         {
-            var dailymod = Repository.GetDailyViewModel();
-
+            var dailymod = _eventrepository.GetDailyViewModel();
             HelpersNetworkViewModel HNV1 = new HelpersNetworkViewModel
             {
-                EventModels = Repository.Read(),
+                EventModels = _eventrepository.Read(),
                 DailyViewModel = dailymod
             };
             return View(HNV1);
@@ -73,54 +77,19 @@ namespace HelpersNetwork.Controllers
         {
             return View();
         }
-    //    public IActionResult ConfirmEmail()
-    //    {
-    //         private readonly UserManager<HelpersNetworkUser> _userManager;
-
-    //    public ConfirmEmailModel(UserManager<HelpersNetworkUser> userManager)
-    //    {
-    //        _userManager = userManager;
-    //    }
-
-    //    [TempData]
-    //    public string StatusMessage { get; set; }
-
-    //    public async Task<IActionResult> OnGetAsync(string userId, string code)
-    //    {
-    //        if (userId == null || code == null)
-    //        {
-    //            return RedirectToPage("/Index");
-    //        }
-
-    //        var user = await _userManager.FindByIdAsync(userId);
-    //        if (user == null)
-    //        {
-    //            return NotFound($"Unable to load user with ID '{userId}'.");
-    //        }
-
-    //        code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-    //        var result = await _userManager.ConfirmEmailAsync(user, code);
-    //        StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
-    //        return Page();
-    //    }
-    //}
-    //        return View();
-    //    }
-
-
-
-
+  
 
 
         public IActionResult Gallery()
         {
-            return View();
+            List<ProjectGallery> model = _gelleryrepository.Read();
+            return View(model);
         }
         public IActionResult News()
         {
             HelpersNetworkViewModel HNV1 = new HelpersNetworkViewModel();
-            HNV1.News = Repository.GetNewsModel();
-            HNV1.EventModels = Repository.Read();
+            HNV1.News = _newsrepository.Read();
+            HNV1.EventModels =_eventrepository.Read();
             return View(HNV1);
         }
        
@@ -130,7 +99,7 @@ namespace HelpersNetwork.Controllers
             {
                 return NotFound();
             }
-            var model = Repository.GetNewsByCondition(id);
+            var model = _newsrepository.FindbyCondition(id);
             return View(model);
         }
 

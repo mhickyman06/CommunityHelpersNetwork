@@ -29,7 +29,7 @@ namespace HelpersNetwork.Models
         [DataType(DataType.Text)]
         public string Body { get; set; }
        
-        public string Images { get; set; }
+        public string ImagePath { get; set; }
 
         //public string DateCreated { get; set; }
 

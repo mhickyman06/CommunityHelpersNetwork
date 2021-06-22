@@ -2,26 +2,22 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
 @*<ul class="navbar-nav">*@
 @if (SignInManager.IsSignedIn(User))
 {
-    <li >
-        <a id="manage"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+    <li>
+        <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello &nbsp; @UserManager.GetUserName(User)!</a>
     </li>
-    <li >
-        <form id="logoutForm" class="form-inline"asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="margin-top:40px">Logout</button>
+    <li>
+        <form id="logoutForm" class="form-inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+             <a href="#" onclick="document.getElementById('logoutForm').submit();" class="nav-link8">Logout</a>
+              @*<button id="logout" type="submit" class="nav-link btn btn-link text-dark" style="margin-top:40px">Logout</button>*@
         </form>
     </li>
 }
 else
 {
-    <li class="nav-link-6">
-        <a class="register"  id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-link-7">
-        <a  class="login" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+    <li><a asp-action="Register" asp-controller="Account" class="nav-link7">Join us</a></li>
+    <li><a asp-action="Login" asp-controller="Account" class="nav-link8">Sign in</a></li>
 }
 @*</ul>*@

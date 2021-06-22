@@ -7,30 +7,33 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HelpersNetwork.Controllers
 {
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> logger;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        //private readonly IMailService mailService;
+        private readonly IMailService mailService;
 
         public AccountController(ILogger<AccountController> logger,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager
-            //IMailService mailService
+            RoleManager<IdentityRole> roleManager,
+            IMailService mailService
             )
         {
             this.logger = logger;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
-            //this.mailService = mailService;
+            this.mailService = mailService;
         }
         
         [HttpGet]
@@ -45,60 +48,147 @@ namespace HelpersNetwork.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            var userExists = await userManager.FindByEmailAsync(model.Email);
-
-            if (userExists != null)
-                return NotFound();
-
-
-            var enumdisplaystatus = (Sex)model.Sex;
-            string enumname = enumdisplaystatus.ToString();
-
-            ApplicationUser user = new ApplicationUser()
+            if (ModelState.IsValid)
             {
-                Name = model.Name,
-                Age = model.Age,
-                Sex = enumname,
-                Address = model.Address,
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Email,                              
-            };
-            var result = await userManager.CreateAsync(user, model.ConfirmPassword);
-            if (!await roleManager.RoleExistsAsync(ConstantRoles.User))
-                await roleManager.CreateAsync(new IdentityRole(ConstantRoles.User));
+                var userExists = await userManager.FindByEmailAsync(model.Email);
 
-            if (await roleManager.RoleExistsAsync(ConstantRoles.User))
-            {
-                await userManager.AddToRoleAsync(user, ConstantRoles.User);
-            }
-            if (!result.Succeeded)
-            {
-                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = Url.Action(nameof(ConfirmEmail),
-                    "Account", new { token, email = user.Email }, Request.Scheme);
-
-                var mailRequest = new MailRequest
+                if (userExists == null)
                 {
-                    Body = confirmationLink,
-                    Subject = "Confirmation Link",
-                    ToEmail = user.Email
-                };
+                    var enumdisplaystatus = (Sex)model.Sex;
+                    string enumname = enumdisplaystatus.ToString();
 
-                //await mailService.SendEmailAsync(mailRequest);
-            }
-            else
-            {
-                foreach (var error in result.Errors)
-                {
-                    logger.LogTrace("Account/Controller");
-                    logger.LogError(error.Description);
-                    ModelState.AddModelError("", error.Description);
+                    ApplicationUser user = new ApplicationUser()
+                    {
+                        Name = model.Name,
+                        Age = model.Age,
+                        Gender = enumname,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber,
+                        State = model.State,
+                        LocalGovt = model.LocalGovt,
+                        Nationality = model.Nationality,
+                        Email = model.Email,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                        UserName = model.Email,
+                    };
+
+                    if (!await roleManager.RoleExistsAsync(ConstantRoles.User))
+                        await roleManager.CreateAsync(new IdentityRole(ConstantRoles.User));
+
+                   
+                    var result = await userManager.CreateAsync(user, model.ConfirmPassword);
+              
+                    if (result.Succeeded)
+                    {
+                       
+                       await userManager.AddToRoleAsync(user, ConstantRoles.User);
+                        
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var confirmationLink = Url.Action(nameof(ConfirmEmail),
+                            "Account", new { token, email = user.Email }, Request.Scheme);
+
+                        var mailRequest = new MailRequest
+                        {
+                            Body = confirmationLink,
+                            Subject = "Confirmation Link",
+                            ToEmail = user.Email
+                        };
+
+                        var mailRequestOwner = new MailRequest
+                        {
+                            Body = $"A user with the name {user.Name}, and  Phone Number {user.PhoneNumber} Just Registered on your application",
+                            Subject = " SuccessfullY Registered User",
+                            ToEmail = "michealmadu73@gmail.com"
+                        };
+
+                        await mailService.SendEmailAsync(mailRequest);
+
+                        await mailService.SendEmailAsync(mailRequestOwner);
+
+                        logger.LogInformation("A user has just been created");
+
+                        return RedirectToAction(nameof(SuccessRegistration));
+
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            logger.LogTrace("Account/Controller");
+                            logger.LogError(error.Description);
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
                 }
             }
-
+         
             return View(model);
         }
+
+        [HttpGet]
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login(LoginModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    return View(nameof(UserNotFound));
+                }
+                else
+                {
+
+                    var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.IsPersistent, false);
+                    if (result.Succeeded)
+                    {
+                        if (returnUrl != null && Url.IsLocalUrl(returnUrl))
+                        {
+                            logger.LogInformation("User is  Logged in");
+                            return RedirectToAction(returnUrl);
+                        }
+
+                        if (await userManager.IsInRoleAsync(user, ConstantRoles.User))
+                        {
+                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else if(await userManager.IsInRoleAsync(user, ConstantRoles.Admin))
+                        {
+                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                            return RedirectToAction("Index", "Administrator");
+                        }
+                        else
+                        {
+                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                            logger.LogInformation("User is  Logged in");
+                            return RedirectToAction("Administrator", "Index");
+                        }
+                    }
+                    ModelState.AddModelError("", "Invalid Input");
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            logger.LogInformation("User is Logged out");
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         [Route("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
@@ -118,10 +208,7 @@ namespace HelpersNetwork.Controllers
             {
                 return View(nameof(ConfirmEmail));
             }
-            //else if (user.AccountRole == ConstantRoles.Spellers)
-            //{
-            //    return RedirectToAction("GetAllSpellers", "School", new { Message = "You Have Succesfully Registered A Speller" });
-            //}
+           
             return View("Error");
         }
 
@@ -148,6 +235,39 @@ namespace HelpersNetwork.Controllers
                 return Json($"the {Email} is already in use please choose an another email ");
             }
 
+        }
+
+        [HttpPost("GetStateLocalGovt")]
+        [Route("GetStateLocalGovt")]
+        [AllowAnonymous]
+        public IActionResult GetStateLocalGovt(int? Id)
+        {
+
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var enumdisplaystatus = (States)Id;
+            string enumname = enumdisplaystatus.ToString();
+
+            List<string> Model = new List<string>();
+            StatesLocalGovt stl = new StatesLocalGovt();
+
+            for (int i = 0; i < StatesLocalGovt.allstateslocalgovt.Count(); i++)
+            {
+                if (Id == i)
+                {
+                    Model = StatesLocalGovt.allstateslocalgovt.ElementAt(i);
+                }
+            }
+            return Ok(new { Model, enumname, Id });
+        }
+
+        [HttpGet]
+        [Route("UserNotFound")]
+        public IActionResult UserNotFound()
+        {
+            return View();
         }
     }
 }

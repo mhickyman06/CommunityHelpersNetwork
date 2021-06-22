@@ -21,7 +21,7 @@
 /*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
 
 @import url(animate.min.css);
-@import url(normalize.css);
+/*@import url(normalize.css);*/
 @import url(meanmenu.css);
 @import url(owl.carousel.min.css);
 @import url(swiper.min.css);
@@ -1179,17 +1179,31 @@ ul.social_icon li a:hover {
     background: rgba(0,0,0,.7);
     z-index: 9;
 }
-.latest-event {
-    background: url(../Images/about-img.jpg);
-    /*text-align:center;*/
-    margin-top: 50px;
-    background-size: cover;
-    background-position: top;
-    background-repeat: no-repeat;
-    padding-bottom: 90px;
-    width: 100%;
-    /*height:500px;*/
+.login-register-layout {
+    background-color: #023041;
+    /*padding-bottom: 90px;*/
 }
+/*.login-register-layout::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 700px;
+    background: rgba(0,0,0,.7);
+    z-index: 9;
+}*/
+    .latest-event {
+        background: url(../Images/about-img.jpg);
+        /*text-align:center;*/
+        margin-top: 50px;
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        padding-bottom: 90px;
+        width: 100%;
+        /*height:500px;*/
+    }
 .latest-event::after {
     content: '';
     position: absolute;
@@ -1683,6 +1697,7 @@ ul.social_icon li a:hover {
      color: #fff;
      line-height: 55px;
      font-size: 45px;
+     font-weight:500;
      margin-bottom: 20px;
 }
 .contact .contact .titlepage {
@@ -1690,7 +1705,7 @@ ul.social_icon li a:hover {
      width: 100%;
      max-width: 527px;
 }
-.contact .contact .titlepage h2:after {
+/*.contact .contact .titlepage h2:after {
      position: absolute;
      content: "";
      background: #fff;
@@ -1698,26 +1713,27 @@ ul.social_icon li a:hover {
      bottom: -10px;
      left: 0;
      height: 12px;
-}
+}*/
 .contact .contact {
-     background: #4ac9f0;
+     /*background: #4ac9f0;*/
      width: 100%;
      height: 100%;
-     padding: 90px 30px 50px 0px;
+     /*padding: 90px 30px 50px 0px;*/
 }
 .request {
      float: right;
      width: 100%;
-     max-width: 527px;
+     /*max-width: 527px;*/
+     margin-top:50px;
 }
 .contact .contact::after {
      position: absolute;
      content: "";
      width: 192px;
      height: 670px;
-     background: url(../images/c.png);
+     /*background: url(../images/c.png);*/
      top: 0px;
-     background-repeat: no-repeat;
+     /*background-repeat: no-repeat;*/
      z-index: 999;
      float: right;
      right: -159px;

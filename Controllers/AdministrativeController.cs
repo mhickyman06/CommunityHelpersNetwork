@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HelpersNetwork.Data;
 using HelpersNetwork.Models;
 using HelpersNetwork.ViewModels;
-using HelpersNetwork.Views.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,63 +14,45 @@ using Microsoft.EntityFrameworkCore;
 namespace HelpersNetwork.Controllers
 {
     [Authorize(Policy = "AdminPanel")]
-    public class AdministrativeController : Controller
+    [Route("api/[controller]")]
+
+    public class AdministratorController : Controller
     {
-        private readonly IHelpersNetworkEventRepository Repository;
+        private readonly IHelpersNetworkRepository<EventModel> _eventrepository;
+        private readonly IHelpersNetworkRepository<News> _newsrepository;
+        private readonly IHelpersNetworkRepository<ProjectGallery> _gelleryrepository;
         private IFileManagerService FileManager { get; }
-        //private RoleManager<IdentityRole> RoleManager { get; }
         public HelpersNetworkIdentityDbContext HelpersNetworkContext { get; }
 
-        public AdministrativeController(IHelpersNetworkEventRepository repository,
+        public AdministratorController(IHelpersNetworkRepository<EventModel> eventrepository,
+              IHelpersNetworkRepository<News> newsrepository,
+              IHelpersNetworkRepository<ProjectGallery> projectgalleryrepository,
              IFileManagerService fileManager,
-             //RoleManager<IdentityRole> roleManager,
              HelpersNetworkIdentityDbContext helpersNetworkContext
             )
         {
-            Repository = repository;
+            this._eventrepository = eventrepository;
+            this._newsrepository = newsrepository;
+            this._gelleryrepository = projectgalleryrepository;
             FileManager = fileManager;
-            //RoleManager = roleManager;
             HelpersNetworkContext = helpersNetworkContext;
         }
+
+        [HttpGet]
+        [Route("Index")]
         public IActionResult Index()
         {
             return View();
         }
-        //[HttpGet]
-        //public IActionResult CreateRole()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> CreateRole(CreateRoleViewModel createRoleView)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        IdentityRole role = new IdentityRole()
-        //        {
-        //            Name = createRoleView.RoleName
-        //        };
-        //        IdentityResult result = await RoleManager.CreateAsync(role);
-        //        if (result.Succeeded)
-        //        {
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        foreach (IdentityError error in result.Errors)
-        //        {
-        //            ModelState.AddModelError("", error.Description);
-        //        }
-        //    }
 
-        //    return View(createRoleView);
-        //}
 
-            public IActionResult ListMembers()
-            {
+        public IActionResult ListMembers()
+        {
 
-                 var Members = HelpersNetworkContext.Users.ToList(); 
-                 return View(Members);
+            var Members = HelpersNetworkContext.Users.ToList();
+            return View(Members);
 
-            }
+        }
         [HttpGet]
         public IActionResult DeleteMembers(string id)
         {
@@ -85,171 +66,46 @@ namespace HelpersNetwork.Controllers
             {
                 return NotFound();
             }
-            //return View(movie);
             return View(model);
-            //if(id == null)
-            //{
-            //    return NotFound();
-            //}
-            //var model = HelpersNetworkContext.Users.Find(id);
-            //return View(model);
+
         }
         [HttpPost, ActionName("DeleteMembers")]
         [ValidateAntiForgeryToken]
 
         public IActionResult DeleteMembersConfirmed(string Id)
         {
-            //var model = Repository.DeleteNews(Id);
             var model = HelpersNetworkContext.Users.Find(Id);
             HelpersNetworkContext.Users.Remove(model);
-            HelpersNetworkContext.SaveChanges();         
+            HelpersNetworkContext.SaveChanges();
             return RedirectToAction(nameof(ListMembers));
         }
-        public IActionResult DeleteNews(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var model = Repository.FindNewsByCondition(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            //retur
-            return View(model);
-        }
 
-        [HttpPost, ActionName("DeleteNews")]
-        [ValidateAntiForgeryToken]
+        //public IActionResult DeleteNews(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var model = _newsrepository.FindbyCondition(id);
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(model);
+        //}
+        #region News
 
-        public IActionResult DeleteNewsConfirmed(int Id)
-        {
-            var model = Repository.DeleteNews(Id);
-            News EVM1 = new News
-            {
-                Id = model.Id,
-                Title = model.Title,
-                DatePublished = model.DatePublished,
-                ShortDescription = model.ShortDescription,
-                Body = model.Body,
-                PageTtile = model.PageTtile,
-                Images = model.Images
-            };
-
-            return RedirectToAction(nameof(ListNews));
-        }
+         
         [HttpGet]
-
-        public IActionResult EditDailyView(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var model = Repository.GetDailyViewModelByCondition(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            return View(model);
-        }
-        [HttpPost]
-        //[ ActionName("EditViewModel")]
-        public IActionResult EditDailyView(int id, DailyViewModel dailyViewModel)
-        {
-            if (id != dailyViewModel.Id)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Repository.EditDailyViewModel(dailyViewModel);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (Repository.GetDailyViewModelByCondition(dailyViewModel.Id) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(DailyView));
-            }
-            return View(dailyViewModel);
-
-            //var model = dailyViewModel;
-            //if (ModelState.IsValid)
-            //{
-            //    Repository.EditDailyViewModel(dailyViewModel);
-            //    return RedirectToAction(nameof(DailyView));
-            //}
-            //return View(model);
-        }
-        public IActionResult DeleteEvent(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var events = Repository.FindEventByCondition(id);
-            if (events == null)
-            {
-                return NotFound();
-            }
-            //return View(movie);
-            return View(events);
-        }
-        //[HttpPost]
-        [HttpPost, ActionName("DeleteEvent")]
-        [ValidateAntiForgeryToken]
-
-        public IActionResult DeleteEventConfirmed(int Id)
-        {
-            var model = Repository.Delete(Id);
-            EventModel EVM1 = new EventModel
-            {
-                Id = model.Id,
-                Title = model.Title,
-                DatePublished = model.DatePublished,
-                ShortDescription = model.ShortDescription,
-                Body = model.Body,
-                PageTtile = model.PageTtile,
-                Images = model.Images
-            };
-
-            return RedirectToAction(nameof(ListEvent));
-        }
-
-        public IActionResult ListEvent()
-        {
-            var model = Repository.Read();
-            return View(model);
-        }
-        public IActionResult ListNews()
-        {
-            var model = Repository.GetNewsModel();
-            return View(model);
-        }
-
-        public IActionResult DailyView()
-        {
-            var model = Repository.GetDailyViewModel();
-            return View(model);
-        }
-
-        [HttpGet]
+        [Route("CreateNews")]
         public IActionResult CreateNews()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreateNews(/*News news*/NewsViewModel newsView)
+        [Route("CreateNews")]
+        public async Task<IActionResult> CreateNews(NewsViewModel newsView)
         {
 
             if (ModelState.IsValid)
@@ -262,21 +118,113 @@ namespace HelpersNetwork.Controllers
                     DatePublished = newsView.DatePublished,
                     ShortDescription = newsView.ShortDescription,
                     Body = newsView.Body,
-                    Images = await FileManager.SaveImage(newsView.PhotoSource)
+                    ImagePath = await FileManager.SaveImage(newsView.PhotoSource)
                 };
-                Repository.CreateNews(/*news*/ News);
+                _newsrepository.Create(News);
                 return RedirectToAction(nameof(News));
             }
             return View(newsView);
         }
 
+        [HttpPost, ActionName("DeleteNews")]
+        [ValidateAntiForgeryToken]
+        [Route("DeleteNews")]
+
+        public IActionResult DeleteNews(int Id)
+        {
+            _newsrepository.Delete(Id);
+            //News EVM1 = new News
+            //{
+            //    Id = model.Id,
+            //    Title = model.Title,
+            //    DatePublished = model.DatePublished,
+            //    ShortDescription = model.ShortDescription,
+            //    Body = model.Body,
+            //    PageTtile = model.PageTtile,
+            //    ImagePath = model.ImagePath
+            //};
+
+            return Ok();
+            //return RedirectToAction(nameof(ListNews));
+        }
+
+        [Route("ListNews")]
+        public IActionResult ListNews()
+        {
+            var model = _eventrepository.Read();
+            return View(model);
+        }
+        #endregion
+
+        #region DailyView
+
         [HttpGet]
+        [Route("EditDailyView")]
+        public IActionResult EditDailyView(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var model = _eventrepository.FindbyCondition(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+        [HttpPost]
+        [Route("EditDailyView")]
+        public IActionResult EditDailyView(int id, DailyViewModel dailyViewModel)
+        {
+            if (id != dailyViewModel.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _eventrepository.EditDailyViewModel(dailyViewModel);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_eventrepository.FindbyCondition(dailyViewModel.Id) == null)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(DailyView));
+            }
+            return View(dailyViewModel);
+
+
+        }
+
+        [HttpGet]
+        [Route("DailyView")]
+        public IActionResult DailyView()
+        {
+            var model = _eventrepository.GetDailyViewModel();
+            return View(model);
+        }
+        #endregion
+
+        #region Event
+
+        [HttpGet]
+        [Route("CreateEvent")]
         public IActionResult CreateEvent()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(/*News news*/CreateEventViewModel createEventViewModel)
+        [Route("CreateEvent")]
+        public async Task<IActionResult> CreateEvent(CreateEventViewModel createEventViewModel)
         {
 
             if (ModelState.IsValid)
@@ -289,9 +237,9 @@ namespace HelpersNetwork.Controllers
                     DatePublished = createEventViewModel.DatePublished,
                     ShortDescription = createEventViewModel.ShortDescription,
                     Body = createEventViewModel.Body,
-                    Images = await FileManager.SaveImage(createEventViewModel.images)
+                    ImagePath = await FileManager.SaveImage(createEventViewModel.images)
                 };
-                Repository.Create(/*news*/ events);
+                _eventrepository.Create(events);
                 return RedirectToAction(nameof(Index));
             }
             return View(createEventViewModel);
@@ -301,9 +249,60 @@ namespace HelpersNetwork.Controllers
         {
             return View();
         }
-        public IActionResult EditDetails()
+        //public IActionResult DeleteEvent(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var events = Repository.FindEventByCondition(id);
+        //    if (events == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(events);
+        //}
+
+        [HttpPost, ActionName("DeleteEvent")]
+        [ValidateAntiForgeryToken]
+        [Route("DeleteEvent")]
+
+        public IActionResult DeleteEvent(int Id)
         {
-            return View();
+            _eventrepository.Delete(Id);
+            //EventModel EVM1 = new EventModel
+            //{
+            //    Id = model.Id,
+            //    Title = model.Title,
+            //    DatePublished = model.DatePublished,
+            //    ShortDescription = model.ShortDescription,
+            //    Body = model.Body,
+            //    PageTtile = model.PageTtile,
+            //    ImagePath = model.ImagePath
+            //};
+
+            return Ok();
+            //return RedirectToAction(nameof(ListEvent));
         }
+
+        [HttpGet]
+        [Route("ListEvent")]
+        public IActionResult ListEvent()
+        {
+            var model = _eventrepository.Read();
+            return View(model);
+        }
+        #endregion
+       
+
+       
+
+       
+
+       
+        //public IActionResult EditDetails()
+        //{
+        //    return View();
+        //}
     }
 }

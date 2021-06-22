@@ -1,6 +1,7 @@
 using HelpersNetwork.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace HelpersNetwork.ViewModels
@@ -13,8 +14,20 @@ namespace HelpersNetwork.ViewModels
         [DataType(DataType.Date)]
         public string Age { get; set; }
         [Required]
+        [DisplayName("Gender")]
         public int Sex { get; set; }
         public string Address { get; set; }
+
+        [DisplayName("Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [DisplayName("State of Origin")]
+        public string State { get; set; }
+
+        [DisplayName("Local Government Area")]
+        public string LocalGovt { get; set; }
+
+        public string Nationality { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]

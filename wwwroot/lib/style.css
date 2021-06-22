@@ -1369,13 +1369,14 @@ a:focus {
 .contact {
     position: relative;
     width: 100%;
-    margin: 45px 0;
-    background: #EF233C;
+    /*margin: 45px 0;*/
+    background: #023041;
+    font-family:"Montserrat"
 }
 
 .contact .container-fluid {
-    background: url(../img/contact.jpg) left center no-repeat;
-    background-size: contain;
+    /*background: url(../img/contact.jpg) left center no-repeat;
+    background-size: contain;*/
 }
 
 .contact .contact-form {

@@ -1,4 +1,4 @@
-﻿
+﻿@model List<ProjectGallery>;
 @{
     ViewData["Title"] = "Gallery";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,7 +20,17 @@
 <div class="container g-sect" style="margin:100px 20px">
 
     <div class="row">
-        <div class="col-lg-4 col-md-6 mb-2">
+        @{
+            foreach (var gallery in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
+                    <img asp-append-version="true" src="~/content/Images/@gallery.ImagePath" style="width:90%;height:200px" />
+                    <h5>@gallery.ImageTitle</h5>
+                    <h6 class="h6">@gallery.DatePublished</h6>
+                </div>
+            }
+        }
+        @*<div class="col-lg-4 col-md-6 mb-2">
             <img asp-append-version="true" src="~/Images/galery-img2.jpg" style="width:290px;height:200px" />
             <h5>Captured during the meeting</h5>
             <h6 class="h6">23 March 2020</h6>
@@ -39,9 +49,8 @@
             <img asp-append-version="true" src="~/Images/galery-img5.jpg" style="width:290px;height:200px" />
             <h5>Captured during the meeting</h5>
             <h6 class="h6">23 March 2020</h6>
-        </div>
+        </div>*@
     </div>
-
 </div>
 
 

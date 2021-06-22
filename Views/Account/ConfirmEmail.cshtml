@@ -1,0 +1,40 @@
+
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "_Layout";
+}
+
+<style>
+    .email-confirmtext-head {
+        color: black;
+        font-size: x-large;
+        font-family: "Montserrat";
+        font-weight: 700;
+    }
+    .email-confirmtext {
+        color: black;
+        font-size: large;
+        font-family: "Montserrat";
+        font-weight: 700;
+    }
+</style>
+
+<header>
+    <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div style="margin-top:100px">
+    <div class="home-page-welcome">
+        <h3 class="mt-2 h-st b-h2">Email Confirmation</h3>
+    </div>
+</div>
+
+<div style="margin-top:100px; margin-bottom:200px">
+    @*<h1 class="text-center email-confirmtext-head">ConfirmEmail</h1>*@
+    <div class="mt-3">
+        <p class="text-center email-confirmtext">Thank You For confirmng Your Email Account. <a asp-action="Login">Click this to Login</a></p>
+    </div>
+</div>

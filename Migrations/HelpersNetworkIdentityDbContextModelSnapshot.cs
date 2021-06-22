@@ -45,6 +45,13 @@ namespace HelpersNetwork.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocalGovt")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -53,6 +60,9 @@ namespace HelpersNetwork.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -75,8 +85,7 @@ namespace HelpersNetwork.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sex")
-                        .IsRequired()
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -97,6 +106,209 @@ namespace HelpersNetwork.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("HelpersNetwork.Models.CommunityLatestProject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatePublished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProjectTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("communityLatestProjects");
+                });
+
+            modelBuilder.Entity("HelpersNetwork.Models.DailyViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DailyViewModels");
+                });
+
+            modelBuilder.Entity("HelpersNetwork.Models.EventModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatePublished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageTtile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventModels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Body = " Community Helpers Network is a faith based Non-Governmental Organisation that takes the   light of the church to the communityfor human capacity and infrastructure development. We also bring the community back to the church for personal and spiritual developments and interventions.",
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 671, DateTimeKind.Local).AddTicks(5721),
+                            ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg",
+                            PageTtile = "Ovalshape Moringa Tea",
+                            ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
+                            Title = "Ovalshape Nigeria presents Moringa Tea"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Body = " Community Helpers Network is a faith based Non-Governmental Organisation that takes the   light of the church to the communityfor human capacity and infrastructure development. We also bring the community back to the church for personal and spiritual developments and interventions.",
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 672, DateTimeKind.Local).AddTicks(6876),
+                            ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg",
+                            PageTtile = "Ovalshape Moringa Tea",
+                            ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
+                            Title = "Ovalshape Nigeria presents Moringa Tea"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Body = " Community Helpers Network is a faith based Non-Governmental Organisation that takes the   light of the church to the communityfor human capacity and infrastructure development. We also bring the community back to the church for personal and spiritual developments and interventions.",
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 672, DateTimeKind.Local).AddTicks(7020),
+                            ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg",
+                            PageTtile = "Ovalshape Moringa Tea",
+                            ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
+                            Title = "Ovalshape Nigeria presents Moringa Tea"
+                        });
+                });
+
+            modelBuilder.Entity("HelpersNetwork.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DatePublished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PageTtile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
+                });
+
+            modelBuilder.Entity("HelpersNetwork.Models.ProjectGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DatePublished")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectGalleries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 678, DateTimeKind.Local).AddTicks(3586),
+                            ImagePath = "galery-img2.jpg",
+                            ImageTitle = "Capured  during the meeting"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 678, DateTimeKind.Local).AddTicks(5821),
+                            ImagePath = "galery-img3.jpg",
+                            ImageTitle = "Capured  during the meeting"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 678, DateTimeKind.Local).AddTicks(5896),
+                            ImagePath = "galery-img5.jpg",
+                            ImageTitle = "Capured  during the meeting"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DatePublished = new DateTime(2021, 6, 21, 13, 27, 55, 678, DateTimeKind.Local).AddTicks(5904),
+                            ImagePath = "galery-img6.jpg",
+                            ImageTitle = "Capured  during the meeting"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -177,12 +389,10 @@ namespace HelpersNetwork.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -219,12 +429,10 @@ namespace HelpersNetwork.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");

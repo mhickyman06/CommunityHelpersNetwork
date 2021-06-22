@@ -7,6 +7,7 @@ namespace HelpersNetwork.Models.SeedRoles
 {
     public static class ConstantRoles
     {
+        public static string SystemAdministrator = "SystemAdministrator";
         public static string Admin = "Admin";
         public static string User = "User";
       

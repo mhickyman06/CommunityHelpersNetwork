@@ -1,10 +1,22 @@
-﻿@model HelpersNetworkViewModel;
+﻿@model  HelpersNetworkViewModel;
 
 @{
     ViewData["Title"] = "Home Page";
-    ViewData["DailyView"] = Model.DailyViewModel.Body;
+    ViewData["DailyView"] = Model.DailyViewModel?.Body;
 }
 <style>
+    .section-img{
+        width:100%;
+        height:200px
+    }
+    .last-item{
+        display:inherit;
+    }
+    @@media screen and (max-width: 575px){
+        .last-item {
+            display:none;
+        }
+    }
 </style>
 <!--Header Section-->
 <header>
@@ -20,7 +32,7 @@
                         </h6>
                     </marquee>
                 </div>
-                <div class="col-3" style="padding-top:15px">
+                <div class="col-3" style="padding-top:15px; padding-left:0" >
                     <a href="#" class="btn-sm donate-btn " style="color:white">Donate</a>
                 </div>
             </div>
@@ -65,14 +77,14 @@
                         <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img1.jpg" />
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="service-item">
-                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img2.jpeg" />
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4 wow fadeInUp" data-wow-delay="0.4s">
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-4  wow fadeInUp" data-wow-delay="0.2s">
                     <div class="service-item">
                         <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img3.jpeg" />
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
+                    <div class="service-item">
+                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img4.jpg" />
                     </div>
                 </div>
             </div>
@@ -92,20 +104,20 @@
                 to communities.
             </p>
         </div>
-        <div class="row imageview mt-5">
+        <div class="row imageview mt-5">           
             <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img1.jpg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/download.jpg" />
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 mb-4  wow fadeInUp" data-wow-delay="0.2s">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img2.jpeg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/download (2) - Copy.jpg" />
                 </div>
             </div>
-            <div class="col-lg-4 mb-4 wow fadeInUp" data-wow-delay="0.4s">
+            <div class="col-lg-4 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img3.jpeg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/OIP.jpg" />
                 </div>
             </div>
         </div>
@@ -188,41 +200,38 @@
 <!--Latest Event-->
 <div class="wrapper row2 " style="background-color:#6f838a;">
     <section class="hoc container clear">
-        <!-- ################################################################################################ -->
         <div class="sectiontitle" style="position:relative; z-index:99; color:white">
             <h6 class="heading" style="color:white;font-weight:800">Community Latest Event</h6>
         </div>
         <div class="group latest">
             @{
-                var firstevent = Model.EventModels.FirstOrDefault();
+                var firstevent = Model.EventModels?.FirstOrDefault();
 
 
                 <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
-                    <!-- ################################################################################################ -->
-                    <img src="~/content/Images/@firstevent.Images" style="width:-webkit-fill-available;" alt="">
+                    <img src="~/content/Images/@firstevent?.ImagePath" style="width:-webkit-fill-available;" alt="">
                     <div class="txtwrap">
-                        <h6 class="heading" style="font-weight:800">@firstevent.Title</h6>
-                        <time class="font-xs block btmspace-10" datetime="@firstevent.DatePublished">@firstevent.DatePublished</time>
-                        <p>@firstevent.ShortDescription</p>
+                        <h6 class="heading" style="font-weight:800">@firstevent?.Title</h6>
+                        <time class="font-xs block btmspace-10" datetime="@firstevent?.DatePublished">@firstevent?.DatePublished</time>
+                        <p>@firstevent?.ShortDescription</p>
                         <footer><a href="">Read More</a></footer>
                     </div>
-                    <!-- ################################################################################################ -->
                 </article>
-
-                var events = @Model.EventModels.GetRange(1, 2);
-                foreach (var Event in events)
+                if (Model.EventModels != null)
                 {
-                    <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
-                        <!-- ################################################################################################ -->
-                        <img src="~/content/Images/@Event.Images" style="width:-webkit-fill-available;" alt="">
-                        <div class="txtwrap">
-                            <h6 class="heading" style="font-weight:800">@Event.Title</h6>
-                            <time class="font-xs block btmspace-10" datetime="@Event.DatePublished">@Event.DatePublished</time>
-                            <p>@Event.ShortDescription</p>
-                            <footer><a href="#">Read More</a></footer>
-                        </div>
-                        <!-- ################################################################################################ -->
-                    </article>
+                    var events = @Model.EventModels.GetRange(1, 2);
+                    foreach (var Event in events)
+                    {
+                        <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="~/content/Images/@Event.ImagePath" style="width:-webkit-fill-available;" alt="">
+                            <div class="txtwrap">
+                                <h6 class="heading" style="font-weight:800">@Event.Title</h6>
+                                <time class="font-xs block btmspace-10" datetime="@Event?.DatePublished">@Event?.DatePublished</time>
+                                <p>@Event?.ShortDescription</p>
+                                <footer><a href="#">Read More</a></footer>
+                            </div>
+                        </article>
+                    }
                 }
 
             }
