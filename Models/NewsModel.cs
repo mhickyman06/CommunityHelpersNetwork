@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelpersNetwork.Models
 {
-    public class News
+    public class NewsModel
     {
         [Key]
         public int Id { get; set; }
@@ -16,14 +16,12 @@ namespace HelpersNetwork.Models
         [Display(Name = "Date Published")]
         public DateTime DatePublished { get; set; } = DateTime.Now;
         [Required]
-        [StringLength(50, ErrorMessage = "Title must be within 5 - 50", MinimumLength = 5)]
         public string Title { get; set; }
         [Required]
         public string PageTtile { get; set; }
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Short Description")]
-        [StringLength(100, ErrorMessage = "Description must be between 10 - 100", MinimumLength = 10)]
         public string ShortDescription { get; set; }   
         [Required]
         [DataType(DataType.Text)]

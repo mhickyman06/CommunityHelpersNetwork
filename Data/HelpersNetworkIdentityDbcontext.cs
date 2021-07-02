@@ -11,9 +11,8 @@ namespace HelpersNetwork.Data
 
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<EventModel> EventModels { get; set; }
         public DbSet<DailyViewModel> DailyViewModels { get; set; }
-        public DbSet<News> News { get; set; }
+        public DbSet<NewsModel> News { get; set; }
 
         public DbSet<ProjectGallery> ProjectGalleries { get; set; }
 
@@ -22,79 +21,87 @@ namespace HelpersNetwork.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
-            builder.Entity<EventModel>().HasData(
-                    new EventModel
-                    {
-                        Id = 1,
-                        DatePublished = DateTime.Now,
-                        PageTtile = "Ovalshape Moringa Tea",
-                        Title = "Ovalshape Nigeria presents Moringa Tea",
-                        ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
-                        Body = " Community Helpers Network is a faith based Non-Governmental" +
-                        " Organisation that takes the   light of the church to the community" +
-                        "for human capacity and infrastructure development. We also bring the" +
-                        " community back to the church for personal and spiritual developments and interventions.",
-                        ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg"
-                    },
-                     new EventModel
-                     {
-                         Id = 2,
-                         DatePublished = DateTime.Now,
-                         PageTtile = "Ovalshape Moringa Tea",
-                         Title = "Ovalshape Nigeria presents Moringa Tea",
-                         ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
-                         Body = " Community Helpers Network is a faith based Non-Governmental" +
-                        " Organisation that takes the   light of the church to the community" +
-                        "for human capacity and infrastructure development. We also bring the" +
-                        " community back to the church for personal and spiritual developments and interventions.",
-                         ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg"
-                     },
-                      new EventModel
-                      {
-                          Id= 3,
-                          DatePublished = DateTime.Now,
-                          PageTtile = "Ovalshape Moringa Tea",
-                          Title = "Ovalshape Nigeria presents Moringa Tea",
-                          ShortDescription = "Community Helpers Network is a faith based Non-Governmental Organisation that takes the light of the church ",
-                          Body = " Community Helpers Network is a faith based Non-Governmental" +
-                        " Organisation that takes the   light of the church to the community" +
-                        "for human capacity and infrastructure development. We also bring the" +
-                        " community back to the church for personal and spiritual developments and interventions.",
-                          ImagePath = "00000000-0000-0000-0000-000000000000HelpersHeadImage.jpg"
-                      }
-                );
-            builder.Entity<ProjectGallery>().HasData(
-                    new ProjectGallery
-                    {
-                        Id = 1,
-                        ImagePath = "galery-img2.jpg",
-                        ImageTitle = "Capured  during the meeting",
-                        DatePublished = DateTime.Now,                      
-                    },
-                     new ProjectGallery
-                     {
-                         Id = 2,
-                         ImagePath = "galery-img3.jpg",
-                         ImageTitle = "Capured  during the meeting",
-                         DatePublished = DateTime.Now,
-                     },
-                      new ProjectGallery
-                      {
-                          Id = 3,
-                          ImagePath = "galery-img5.jpg",
-                          ImageTitle = "Capured  during the meeting",
-                          DatePublished = DateTime.Now,
-                      },
-                       new ProjectGallery
-                       {
-                           Id = 4,
-                           ImagePath = "galery-img6.jpg",
-                           ImageTitle = "Capured  during the meeting",
-                           DatePublished = DateTime.Now,
-                       }
-                ) ;
-            base.OnModelCreating(builder);
+            //builder.Entity<NewsModel>().HasData(
+            //        new NewsModel
+            //        {
+            //            Id = 1,
+            //            DatePublished = DateTime.Now,
+            //            PageTtile = "ovalshape moringa tea",
+            //            Title = "ovalshape nigeria presents moringa tea",
+            //            ShortDescription = "community helpers network is a faith based non-governmental organisation that takes the light of the church ",
+            //            Body = " community helpers network is a faith based non-governmental" +
+            //            " organisation that takes the   light of the church to the community" +
+            //            "for human capacity and infrastructure development. we also bring the" +
+            //            " community back to the church for personal and spiritual developments and interventions.",
+            //            ImagePath = "00000000-0000-0000-0000-000000000000helpersheadimage.jpg",
+            //        },
+            //          new NewsModel
+            //          {
+            //              Id = 2,
+            //              DatePublished = DateTime.Now,
+            //              PageTtile = "ovalshape moringa tea",
+            //              Title = "ovalshape nigeria presents moringa tea",
+            //              ShortDescription = "community helpers network is a faith based non-governmental organisation that takes the light of the church ",
+            //              Body = " community helpers network is a faith based non-governmental" +
+            //            " organisation that takes the   light of the church to the community" +
+            //            "for human capacity and infrastructure development. we also bring the" +
+            //            " community back to the church for personal and spiritual developments and interventions.",
+            //              ImagePath = "00000000-0000-0000-0000-000000000000helpersheadimage.jpg"
+            //          },
+            //            new NewsModel
+            //            {
+            //                Id = 3,
+            //                DatePublished = DateTime.Now,
+            //                PageTtile = "ovalshape moringa tea",
+            //                Title = "ovalshape nigeria presents moringa tea",
+            //                ShortDescription = "community helpers network is a faith based non-governmental organisation that takes the light of the church ",
+            //                Body = " community helpers network is a faith based non-governmental" +
+            //            " organisation that takes the   light of the church to the community" +
+            //            "for human capacity and infrastructure development. we also bring the" +
+            //            " community back to the church for personal and spiritual developments and interventions.",
+            //                ImagePath = "00000000-0000-0000-0000-000000000000helpersheadimage.jpg"
+            //            }
+            //    );
+
+            //builder.Entity<ProjectGallery>().HasData(
+            //        new ProjectGallery
+            //        {
+            //            Id = 1,
+            //            DatePublished = DateTime.Now,
+            //            ImageTitle = "Captured during meeting",
+            //            ImagePath = "galery-img2.jpg",
+            //        },
+            //          new ProjectGallery
+            //          {
+            //              Id = 2,
+            //              DatePublished = DateTime.Now,
+            //              ImageTitle = "Captured during meeting",
+            //              ImagePath = "galery-img3.jpg",
+            //          },
+            //            new ProjectGallery
+            //            {
+            //                Id = 3,
+            //                DatePublished = DateTime.Now,
+            //                ImageTitle = "Captured during meeting",
+            //                ImagePath = "galery-img4.jpg",
+            //            },
+            //            new ProjectGallery
+            //            {
+            //                Id = 4,
+            //                DatePublished = DateTime.Now,
+            //                ImageTitle = "Captured during meeting",
+            //                ImagePath = "galery-img5.jpg",
+            //            },
+            //            new ProjectGallery
+            //            {
+            //                Id = 5,
+            //                DatePublished = DateTime.Now,
+            //                ImageTitle = "Captured during meeting",
+            //                ImagePath = "galery-img6.jpg",
+            //            }
+            //    );
+           base.OnModelCreating(builder);
         }
     }
-  
 }
+

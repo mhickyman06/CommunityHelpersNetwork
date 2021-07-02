@@ -1,0 +1,92 @@
+
+@model NewsViewModel
+
+@{
+    ViewData["Title"] = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+  
+</style>
+
+<header>
+    <div class="header" style="background-color: #023041;
+        top: 0px;
+        position: fixed;
+        z-index: 999;
+        width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div style="margin-top:100px">
+    <div class="home-page-welcome">
+        <h3 class="mt-2 h-st b-h2">NewsAndEvents</h3>
+    </div>
+</div>
+
+
+
+
+
+<div class="container" style="padding:0; margin-top:80px">
+
+    @*<nav aria-label="Home Paging " class="mt-3 mb-4">
+            @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+        </nav>*@
+
+    <div class="row">
+
+        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+            <div class="news-block mb-3">
+                @foreach (var item in Model.newsModel)
+                {
+                    <div class="mb-4">
+                        <div class="mb-3">
+                            <img asp-append-version="true" class="News-img" src="~/content/Images/@item.ImagePath" />
+                        </div>
+                        <div>
+                            <h6 class="newsdate" datetime="@item.DatePublished.ToString("dd/MM/yyyy HH:mm")">@item.DatePublished.ToString("dd/MM/yyyy HH:mm")</h6>
+                            <h5 class="mt-2 newsparagraph"><b>@item.Title</b></h5>
+                            <p class="newsparagraph" style="font-weight:400">@item.ShortDescription</p>
+                            <a class="btn btn-lg news-btn" style="color:white" asp-action="NewsDetails" asp-controller="News" asp-route-id="@item.Id">Read More</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <div class="comunityproject">
+                <h3 class="mt-3 text-center youtube-head">Latest Project Videos</h3>
+                <div class="mt-4 ml-4">
+                    @foreach (var youtubevideo in Model.ProjectVideosmodel)
+                    {
+                        <div class="mb-3">
+                            <div>
+                                <a href="@youtubevideo.VideoUrl"><img src="@youtubevideo.ThumbnailPath" /></a>                             
+                            </div>
+                            <div>
+                                <p class="youtube-p" style="font-size:15px">@youtubevideo.Title</p>
+                                <p class="youtube-p">@youtubevideo.Description</p>
+                                <p class="youtube-p"datetime="@youtubevideo.PublicationDate" style="font-size:smaller;color:#4ac9f0">@youtubevideo.PublicationDate</p>
+                            </div>
+                        </div>
+                     }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <nav aria-label="News navigation example">
+            <vc:pager paging-list="@Model.newsModel" />
+        </nav>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(".nav-link5").css("color", "#4ac9f0");
+    </script>
+}

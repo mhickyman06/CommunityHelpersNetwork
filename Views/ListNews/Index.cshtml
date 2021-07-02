@@ -1,0 +1,141 @@
+@model PagingList<NewsModel>;
+
+@{
+    ViewData["Title"] = "News List";
+
+    Layout = "_AdministratorPortalLayout";
+
+}
+
+
+<div class="container-fluid">
+    <div class="mt-5">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">News List</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date Published</th>
+                                <th>Page Title</th>
+                                <th>Title</th>
+                                <th>Short Description</th>
+                                <th>Body</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var news in Model)
+                            {
+                                <tr id="row_@news.Id">
+                                    <td>@news.DatePublished.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@news.PageTtile</td>
+                                    <td>@news.Title</td>
+                                    <td>@news.ShortDescription</td>
+                                    <td>@news.Body</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" asp-action="EditNews" asp-controller="Administrator" asp-route-Id="@news.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete(@news.Id)">
+                                            <i class=" fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Delete News</h3>
+                                    <a href="#" style="margin-left:auto" class="close" data-dismiss="modal">&times;</a>
+                                </div>
+                                <div class="modal-body">
+                                    <h4 class="modal-bodycontent">Are you sure you want to remove this News?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                                    <a href="#" class="btn btn-success" onclick="DeleteNews()">Confirm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hiddennewsid" />
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <div style="margin-top:20px">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">News Images</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <div class="col-sm-5 ml-3 mb-4" id="col_@item.Id">
+                                <h6>@item.Title</h6>
+                                <div class="mt-3">
+                                    @{
+                                        var imagepath = System.IO.Path.Combine("~/content/Images/", item.ImagePath);
+
+                                        if (imagepath != null)
+                                        {
+                                            <div style="margin-bottom:5px;">
+                                                <img class="spell-video" asp-append-version="true" src="@imagepath" />
+                                                @if (item.ImagePath == "Error")
+                                                {
+                                                    <h6>No Image was uploaded for this News</h6>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <nav aria-label="ListNews navigation example">
+            <vc:pager paging-list="@Model" />
+        </nav>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var ConfirmDelete = function (NewsId) {
+            $("#hiddennewsid").val(NewsId);
+            $("#myModal").modal('show');
+        }
+
+        var DeleteNews = function () {
+            var newsid = $("#hiddennewsid").val();
+            $.ajax({
+                type: "POST",
+                url: "DeleteNews",
+                data: {
+                    Id: newsid
+                },
+                success: function (result) {
+                    $("#myModal").modal("hide");
+                    $("#row_" + newsid).remove();
+                    $("#col_" + newsid).remove();
+                }
+            })
+        }
+    </script>
+}

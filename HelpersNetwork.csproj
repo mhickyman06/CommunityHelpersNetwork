@@ -9,6 +9,9 @@
     <Content Remove="web.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.52.0" />
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.52.0.2366" />
+    <PackageReference Include="Google.Apis.YouTubeAnalytics.v1" Version="1.49.0.2197" />
     <PackageReference Include="MailKit" Version="2.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.7" />
@@ -21,10 +24,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\content\Images\" />
     <Folder Include="wwwroot\Test\" />
   </ItemGroup>
 

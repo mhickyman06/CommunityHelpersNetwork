@@ -1,4 +1,6 @@
-﻿using HelpersNetwork.Data;
+﻿using Google.Apis.Services;
+using Google.Apis.YouTube.v3;
+using HelpersNetwork.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -15,10 +17,13 @@ namespace HelpersNetwork.Models
     public class HelpersNetworkRepository<T> : IHelpersNetworkRepository<T> where T : class
     {
         private HelpersNetworkIdentityDbContext _context;
+        private readonly IFileManagerService fileManagerService;
         private DbSet<T> table = null;
-        public HelpersNetworkRepository(HelpersNetworkIdentityDbContext context)
+        public HelpersNetworkRepository(HelpersNetworkIdentityDbContext context,
+            IFileManagerService fileManagerService)
         {
             this._context = context;
+            this.fileManagerService = fileManagerService;
             table = _context.Set<T>();
         }
         public void Create(T model)
@@ -29,16 +34,21 @@ namespace HelpersNetwork.Models
         public void Delete(int? Id)
         {
             T existing = table.Find(Id);
-            table.Remove(existing);
-           
+            table.Remove(existing);          
         }
-
-        public void EditDailyViewModel(DailyViewModel dailyViewModel)
+        public void Delete(int? Id, string imagePath)
         {
-            _context.DailyViewModels.Attach(dailyViewModel);
-            _context.Entry(dailyViewModel).State = EntityState.Modified;
-
+            T existing = table.Find(Id);
+            fileManagerService.DeleteImage(imagePath);
+            table.Remove(existing);
         }
+
+        //public void EditDailyViewModel(DailyViewModel dailyViewModel)
+        //{
+        //    _context.DailyViewModels.Attach(dailyViewModel);
+        //    _context.Entry(dailyViewModel).State = EntityState.Modified;
+
+        //}
 
         public T FindbyCondition(int? id)
         {
@@ -55,7 +65,25 @@ namespace HelpersNetwork.Models
             return table.ToList();
         }
 
-        public void Update(T model)
+        public IOrderedQueryable<NewsModel> ReadNews()
+        {
+
+            var query = _context.News.AsNoTracking().OrderByDescending(x => x.DatePublished);
+            return query;
+        }
+        public IOrderedQueryable<ProjectGallery> ReadProjectImages()
+        {
+
+            var query = _context.ProjectGalleries.AsNoTracking().OrderByDescending(x => x.DatePublished);
+            return query;
+        }
+        public IOrderedQueryable<CommunityLatestProject> ReadProjectVideos()
+        {
+
+            var query = _context.communityLatestProjects.AsNoTracking().OrderByDescending(x => x.DatePublished);
+            return query;
+        }
+        public void Update( T model)
         {
             table.Attach(model);
             _context.Entry(model).State = EntityState.Modified;
@@ -64,6 +92,36 @@ namespace HelpersNetwork.Models
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public async Task<YouTubeVideoDetails> GetVideoDetails(string searchid)
+        {
+            YouTubeVideoDetails videoDetails = null;
+            using (var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "AIzaSyAwxnAxSvngDvA5-81Tze8iFHrZstoTsZY",
+            }))
+            {
+                var searchRequest = youtubeService.Videos.List("snippet");              
+                searchRequest.Id = searchid;
+                var searchResponse = await searchRequest.ExecuteAsync();
+
+                var youTubeVideo = searchResponse.Items.FirstOrDefault();
+
+                if (youTubeVideo != null)
+                {
+
+                    videoDetails = new YouTubeVideoDetails()
+                    {
+                        Description = youTubeVideo.Snippet.Description,
+                        Title = youTubeVideo.Snippet.Title,
+                        ChannelTitle = youTubeVideo.Snippet.ChannelTitle,
+                        PublicationDate = youTubeVideo.Snippet.PublishedAt,
+                        ThumbnailPath = youTubeVideo.Snippet.Thumbnails.Default__.Url
+                    };
+                }
+            }
+            return videoDetails;
         }
     }
 

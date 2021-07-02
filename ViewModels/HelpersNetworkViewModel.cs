@@ -1,5 +1,6 @@
 ﻿using HelpersNetwork.Models;
 using Microsoft.AspNetCore.Http;
+using ReflectionIT.Mvc.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace HelpersNetwork.ViewModels
 {
     public class HelpersNetworkViewModel
     {
-        public List<EventModel>? EventModels { get; set; }
+        //public List<EventModel>? EventModels { get; set; }
         public DailyViewModel?   DailyViewModel { get; set; }
-        public List<News>? News { get; set; }
+        public PagingList<NewsModel>? News { get; set; }
     }
 }

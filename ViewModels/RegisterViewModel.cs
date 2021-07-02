@@ -27,6 +27,9 @@ namespace HelpersNetwork.ViewModels
         [DisplayName("Local Government Area")]
         public string LocalGovt { get; set; }
 
+        [Required]
+        public string Religion { get; set; }
+
         public string Nationality { get; set; }
 
         [Required]

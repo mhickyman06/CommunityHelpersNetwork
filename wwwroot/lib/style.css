@@ -7,6 +7,11 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+p {
+    text-shadow: 0 0 black;
+    color:black;
+}
+
 h1,
 h2, 
 h3, 
@@ -43,7 +48,8 @@ a:focus {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 1px;
-    color: #ffffff;
+    /*color: #ffffff;*/
+    color:white;
     background: #EF233C;
     border: 2px solid transparent;
     border-radius: 0;
@@ -433,7 +439,7 @@ a:focus {
     background: #ffffff;
 }
 
-.section-header p::before {
+/*.section-header p::before {
     position: absolute;
     content: "";
     height: 3px;
@@ -453,7 +459,7 @@ a:focus {
     left: 3px;
     background: #EF233C;
     z-index: 1;
-}
+}*/
 .about-head {
     position: relative;
     margin-bottom: 45px;

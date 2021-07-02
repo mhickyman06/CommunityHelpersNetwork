@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HelpersNetwork.ViewModel;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration;
 using System;
 using System.Collections.Generic;
@@ -12,14 +15,16 @@ namespace HelpersNetwork.Models
 {
     public class FileManagerService : IFileManagerService
     {
-        public FileManagerService(IConfiguration configuration)
+        private readonly ILogger<FileManagerService> logger;
+
+        public FileManagerService(IConfiguration configuration,
+            ILogger<FileManagerService> logger)
         {
             _imagepath = configuration["path:Images"];
-
+            this.logger = logger;
         }
 
         public string _imagepath { get; }
-        public ILogger Logger { get; }
 
         public async Task<string> SaveImage(IFormFile image)
         {
@@ -42,6 +47,24 @@ namespace HelpersNetwork.Models
                 Console.Write(ex.Message);
                 return "Error";
             }
+        }
+        public void DeleteImage(string imagepath)
+        {
+            try
+            {
+                var save_path = Path.Combine(_imagepath, imagepath);
+                File.Delete(save_path);
+            }
+            catch
+            {
+                logger.LogInformation("Error");
+            }
+        }
+
+        public async Task<string> UpdateImage(string existingimage, IFormFile newimagepath)
+        {
+            DeleteImage(existingimage);
+            return await SaveImage(newimagepath);
         }
     }
 }

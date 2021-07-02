@@ -11,21 +11,14 @@ namespace HelpersNetwork.Models
 
         [DataType(DataType.DateTime)]
         [Display(Name = "Date Published")]
-        public DateTime DatePublished { get; set; } = DateTime.Now;
-
+        public string DatePublished { get; set; } 
+      
         [Required]
-        public string ProjectTitle { get; set; } 
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Short Description")]
-        public string ShortDescription { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        public string Body { get; set; }
-
-        [Required]
-        [DisplayName("Video Url")]
+        [DisplayName("Youtube Video Url")]
         public string  VideoUrl { get; set; }
+
+        [Required]
+        [DisplayName("Youtube Video Id")]
+        public string VideoId { get; set; }
     }
 }

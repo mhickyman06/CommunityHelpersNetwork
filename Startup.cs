@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using ReflectionIT.Mvc.Paging;
 using StudentProject.Models.SeedRoles;
 
 namespace HelpersNetwork
@@ -30,6 +31,7 @@ namespace HelpersNetwork
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -39,20 +41,25 @@ namespace HelpersNetwork
             services.AddDbContext<HelpersNetworkIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("HelpersNetworkContextConnection")));
 
-            services.AddTransient<IHelpersNetworkRepository<EventModel>, HelpersNetworkRepository<EventModel>>();
-            services.AddTransient<IHelpersNetworkRepository<News>, HelpersNetworkRepository<News>>();
+            //services.AddTransient<IHelpersNetworkRepository<EventModel>, HelpersNetworkRepository<EventModel>>();
+            services.AddTransient<IHelpersNetworkRepository<NewsModel>, HelpersNetworkRepository<NewsModel>>();
             services.AddTransient<IHelpersNetworkRepository<ProjectGallery>, HelpersNetworkRepository<ProjectGallery>>();
+            services.AddTransient<IHelpersNetworkRepository<DailyViewModel>, HelpersNetworkRepository<DailyViewModel>>();
+            services.AddTransient<IHelpersNetworkRepository<CommunityLatestProject>, HelpersNetworkRepository<CommunityLatestProject>>();
 
             services.AddTransient<IFileManagerService, FileManagerService>();
 
             services.AddTransient<Services.IMailService, Services.MailService>();
 
+
             services.AddTransient<RolesSeeder>();
 
             services.AddHostedService<SetupIdentityDataSeeder>();
 
-            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -60,6 +67,10 @@ namespace HelpersNetwork
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequireNonAlphanumeric = false;
+
+
+                // my Youtube api key<----> AIzaSyAwxnAxSvngDvA5-81Tze8iFHrZstoTsZY  <------->
+
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<HelpersNetworkIdentityDbContext>();
@@ -77,6 +88,7 @@ namespace HelpersNetwork
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminPanel", policy => policy.RequireRole("Admin"));
@@ -109,7 +121,6 @@ namespace HelpersNetwork
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
             });
         }
     }

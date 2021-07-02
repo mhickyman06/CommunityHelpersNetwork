@@ -1,25 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HelpersNetwork.Models;
+using ReflectionIT.Mvc.Paging;
 
 namespace HelpersNetwork.ViewModels
 {
     public class NewsViewModel
     {
-        public int Id { get; set; }
-       
-        public DateTime DatePublished { get; set; } = DateTime.Now;
-       
-        public string Title { get; set; }
-       
-        public string PageTtile { get; set; }
-       
-        public string ShortDescription { get; set; }
+        public PagingList<NewsModel> newsModel { get; set; }
 
-        public string Body { get; set; }
-        public IFormFile   PhotoSource { get; set; }
+        public List<YouTubeVideoDetails> ProjectVideosmodel { get; set; }
+
 
     }
 }

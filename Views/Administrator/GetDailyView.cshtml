@@ -1,0 +1,31 @@
+@model DailyViewModel;
+
+@{
+    ViewData["Title"] = "News List";
+
+    Layout = "_AdministratorPortalLayout";
+
+}
+
+
+
+
+<div class="container">
+    <div class="mt-5">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Daily View</h3>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">@Model.Body</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-sm" asp-action="EditDailyView" asp-controller="Administrator" asp-route-Id="@Model.Id">
+                     <i class="fa fa-edit" aria-hidden="true"></i>
+                    </a>                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

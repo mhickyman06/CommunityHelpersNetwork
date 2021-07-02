@@ -5,15 +5,26 @@ using System.Threading.Tasks;
 
 namespace HelpersNetwork.Models
 {
+    public delegate void OrderingFormat();
     public interface IHelpersNetworkRepository<T> where T: class
     {
         void Create(T model);
         T FindbyCondition(int? id);
+
         List<T> Read();
+        IOrderedQueryable<NewsModel> ReadNews();
+        IOrderedQueryable<ProjectGallery> ReadProjectImages();
+
+        IOrderedQueryable<CommunityLatestProject> ReadProjectVideos();
         void Delete(int? Id);
+        void Delete(int? Id,string imagepath);
+
+        void Save();
         void Update(T eventModel);
         DailyViewModel GetDailyViewModel();
-        void EditDailyViewModel(DailyViewModel dailyViewModel);
+
+        public Task<YouTubeVideoDetails> GetVideoDetails(string searchid);
+        //void EditDailyViewModel(DailyViewModel dailyViewModel);
     }
     //public interface IHelpersNetworkEventRepository
     // {

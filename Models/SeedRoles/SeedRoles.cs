@@ -71,10 +71,12 @@ namespace StudentProject.Models.SeedRoles
                 var user = new ApplicationUser
                 {
                     Email = "michealmadu73@gmail.com",
-                    UserName = "SystemAdmin101",
+                    UserName = "michealmadu73@gmail.com",
                     Name = "System Administrator",
                     Age = "21",
                     Gender = "Male",
+                    PhoneNumber = "08057012064",
+                    Religion = "Christain",
                     //AccountRole = "Admin",
                     EmailConfirmed = true
                 };
@@ -88,16 +90,32 @@ namespace StudentProject.Models.SeedRoles
                 var user = new ApplicationUser
                 {
                     Email = "femisomade@gmail.com",
-                    UserName = "Admin",
+                    UserName = "femisomade@gmail.com",
                     Name = "Admin101",
                     Age = "40",
                     Gender= "Male",
+                    Religion = "Christain",
                     //AccountRole = "Admin",
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(user, "mikel123");
                 await userManager.AddToRoleAsync(user, ConstantRoles.Admin);
             }
+            #region Seeding DailyView
+            var dailyview = context.DailyViewModels.FirstOrDefault();
+            if(dailyview == null)
+            {
+                var model = new DailyViewModel
+                {
+                    Body = "Welcome to Community Helpers Network Website"
+                };
+
+                 context.DailyViewModels.Add(model);
+                 await context.SaveChangesAsync();
+            }
+            #endregion
         }
+
+
     }
 }

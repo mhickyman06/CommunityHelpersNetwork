@@ -5,18 +5,7 @@
     ViewData["DailyView"] = Model.DailyViewModel?.Body;
 }
 <style>
-    .section-img{
-        width:100%;
-        height:200px
-    }
-    .last-item{
-        display:inherit;
-    }
-    @@media screen and (max-width: 575px){
-        .last-item {
-            display:none;
-        }
-    }
+   
 </style>
 <!--Header Section-->
 <header>
@@ -52,8 +41,8 @@
             <div class="row">
                 <div class="col-6">
                     <h1>
-                        A community need constant, consistent and considerate interventions.<br />
-                        We are here to inspire and ensure that
+                        Every community need constant, consistent and considerate interventions.<br />
+                        We are here to inspire and ensure that.
                     </h1>
                 </div>
             </div>
@@ -201,34 +190,32 @@
 <div class="wrapper row2 " style="background-color:#6f838a;">
     <section class="hoc container clear">
         <div class="sectiontitle" style="position:relative; z-index:99; color:white">
-            <h6 class="heading" style="color:white;font-weight:800">Community Latest Event</h6>
+            <h6 class="heading" style="color:white;font-weight:800">Community Latest News and Event</h6>
         </div>
-        <div class="group latest">
-            @{
-                var firstevent = Model.EventModels?.FirstOrDefault();
-
-
+        <div class="group latest ">
+            @{                
+                 var firstevent = Model.News?.FirstOrDefault();
                 <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
-                    <img src="~/content/Images/@firstevent?.ImagePath" style="width:-webkit-fill-available;" alt="">
+                    <img src="~/content/Images/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
                     <div class="txtwrap">
-                        <h6 class="heading" style="font-weight:800">@firstevent?.Title</h6>
-                        <time class="font-xs block btmspace-10" datetime="@firstevent?.DatePublished">@firstevent?.DatePublished</time>
+                        <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
+                        <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
                         <p>@firstevent?.ShortDescription</p>
-                        <footer><a href="">Read More</a></footer>
+                        <footer><a asp-action="NewsDetails" asp-controller="News"  asp-route-id="@Event.Id"  style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
                     </div>
                 </article>
-                if (Model.EventModels != null)
+                if (Model.News != null)
                 {
-                    var events = @Model.EventModels.GetRange(1, 2);
+                    var events = @Model.News.GetRange(1, 2);
                     foreach (var Event in events)
                     {
                         <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="~/content/Images/@Event.ImagePath" style="width:-webkit-fill-available;" alt="">
+                            <img src="~/content/Images/@Event.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
                             <div class="txtwrap">
-                                <h6 class="heading" style="font-weight:800">@Event.Title</h6>
-                                <time class="font-xs block btmspace-10" datetime="@Event?.DatePublished">@Event?.DatePublished</time>
+                                <h6 class="heading" style="font-weight:600;font-size:medium">@Event.Title</h6>
+                                <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
                                 <p>@Event?.ShortDescription</p>
-                                <footer><a href="#">Read More</a></footer>
+                                <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@Event.Id" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
                             </div>
                         </article>
                     }
@@ -236,7 +223,7 @@
 
             }
         </div>
-        <a class="btn custom_btn  text-center text-white mt-3" asp-action="News" asp-controller="Home" style="position:relative; left:50%">See more</a>
+        <a class="btn btn-lg news-btn  text-center text-white mt-3" asp-action="News" asp-controller="Home" style="position:relative; left:50%">See more</a>
     </section>
 </div>
 

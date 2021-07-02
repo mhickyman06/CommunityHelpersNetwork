@@ -513,6 +513,66 @@ body {
     display: flex;
 }
 
+.comunityproject {
+    border: 1px solid #e0e0e0;
+    height: 600px;
+    width: 100%;
+}
+
+.news-btn {
+    color: white;
+    border-radius: 0;
+    background-color: #023041;
+}
+
+    .news-btn:hover {
+        transition-delay: 1s;
+        background-color: #455c65;
+        color: white;
+        transition: all 0.3s ease 0s
+    }
+
+.newsdate {
+    color: #20bdf0;
+    font-weight: 500;
+    font-family: "Montserrat";
+}
+
+.newsparagraph {
+    font-family: "Montserrat";
+}
+
+.section-img {
+    width: 100%;
+    height: 200px
+}
+
+.last-item {
+    display: inherit;
+}
+
+@media screen and (max-width: 575px) {
+    .last-item {
+        display: none;
+    }
+}
+
+.youtube-head {
+    font-weight: 600;
+    text-shadow: 0 0 black;
+    border-bottom: 1px solid black
+}
+
+.youtube-p {
+    font-size: small;
+    font-family: 'Montserrat';
+    font-weight: 600;
+}
+
+.pagination li a {
+    background-color: #023041;
+    color: white;
+}
 .welcome-text {
     position: relative;
     top: 100px;

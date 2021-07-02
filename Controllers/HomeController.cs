@@ -13,15 +13,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using HelpersNetwork.ViewModels;
+using ReflectionIT.Mvc.Paging;
 
 namespace HelpersNetwork.Controllers
 {
+    public class Gallery : Controller
+    {
+        public Gallery(IHelpersNetworkRepository<ProjectGallery> galleryrepository)
+        {
+            _galleryrepository = galleryrepository;
+        }
+
+        public IHelpersNetworkRepository<ProjectGallery> _galleryrepository { get; }
+
+      
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            var query = _galleryrepository.ReadProjectImages();
+            var model = await PagingList.CreateAsync(query, 2, page);
+            return View(model);
+        }    
+    }
     public class HomeController: Controller 
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly IHelpersNetworkRepository<EventModel> _eventrepository;
-        private readonly IHelpersNetworkRepository<News> _newsrepository;
+        private readonly IHelpersNetworkRepository<NewsModel> _newsrepository;
         private readonly IHelpersNetworkRepository<ProjectGallery> _gelleryrepository;
 
         public IWebHostEnvironment webHostEnvironment { get; }
@@ -29,28 +46,34 @@ namespace HelpersNetwork.Controllers
 
         public HomeController(ILogger<HomeController> logger,
             IWebHostEnvironment WebHostEnvironment ,
-            IHelpersNetworkRepository<EventModel> eventrepository,
-            IHelpersNetworkRepository<News> newsrepository,
+            IHelpersNetworkRepository<NewsModel> newsrepository,
             IFileManagerService fileManager,
             IHelpersNetworkRepository<ProjectGallery> galleryrepository
             )
         {
             _logger = logger;
             webHostEnvironment = WebHostEnvironment;
-            this._eventrepository = eventrepository;
             this._newsrepository = newsrepository;
             this._gelleryrepository = galleryrepository;
             FileManager = fileManager;
-
         }
 
 
         public IActionResult Index()
         {
-            var dailymod = _eventrepository.GetDailyViewModel();
+            var dailymod = _newsrepository.GetDailyViewModel();
+
+            var query = _newsrepository.Read();
+            query.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
+
+            var newsmodel = PagingList.Create(query, 3, 1);
+            newsmodel.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
+
+            //newsmodel.OrderBy(e => DateTime.ParseExact(e.DatePublished.ToString(), "dd.MM.yyyy", null));
+
             HelpersNetworkViewModel HNV1 = new HelpersNetworkViewModel
             {
-                EventModels = _eventrepository.Read(),
+                News = newsmodel,
                 DailyViewModel = dailymod
             };
             return View(HNV1);
@@ -76,32 +99,7 @@ namespace HelpersNetwork.Controllers
         public IActionResult AccessDenied()
         {
             return View();
-        }
-  
-
-
-        public IActionResult Gallery()
-        {
-            List<ProjectGallery> model = _gelleryrepository.Read();
-            return View(model);
-        }
-        public IActionResult News()
-        {
-            HelpersNetworkViewModel HNV1 = new HelpersNetworkViewModel();
-            HNV1.News = _newsrepository.Read();
-            HNV1.EventModels =_eventrepository.Read();
-            return View(HNV1);
-        }
-       
-        public IActionResult NewsDetails(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var model = _newsrepository.FindbyCondition(id);
-            return View(model);
-        }
+        } 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

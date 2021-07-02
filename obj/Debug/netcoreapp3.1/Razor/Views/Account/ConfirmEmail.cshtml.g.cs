@@ -47,8 +47,15 @@ using Microsoft.AspNetCore.Identity;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 6 "C:\Users\HI\Documents\HelpersNetwork\Views\_ViewImports.cshtml"
+using ReflectionIT.Mvc.Paging;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4d945c0dca4eff3a652c80c3c2a0b17c4fe6ecbb", @"/Views/Account/ConfirmEmail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"36f17b747331f9978aa572b9d5cb89328ed1b07f", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f9497bc13e4b77008064841e4ae31c9c37e1b2ed", @"/Views/_ViewImports.cshtml")]
     public class Views_Account_ConfirmEmail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Login", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -116,7 +123,7 @@ using Microsoft.AspNetCore.Identity;
 #nullable disable
             WriteLiteral("    </div>\r\n</header>\r\n<div style=\"margin-top:100px\">\r\n    <div class=\"home-page-welcome\">\r\n        <h3 class=\"mt-2 h-st b-h2\">Email Confirmation</h3>\r\n    </div>\r\n</div>\r\n\r\n<div style=\"margin-top:100px; margin-bottom:200px\">\r\n");
             WriteLiteral("    <div class=\"mt-3\">\r\n        <p class=\"text-center email-confirmtext\">Thank You For confirmng Your Email Account. ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4d945c0dca4eff3a652c80c3c2a0b17c4fe6ecbb5285", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4d945c0dca4eff3a652c80c3c2a0b17c4fe6ecbb5460", async() => {
                 WriteLiteral("Click this to Login");
             }
             );

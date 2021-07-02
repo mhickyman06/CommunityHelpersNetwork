@@ -1,0 +1,88 @@
+@model PagingList<ProjectGallery>;
+
+@{
+    ViewData["Title"] = "List Project Photos";
+
+    Layout = "_AdministratorPortalLayout";
+
+}
+
+
+<div class="container-fluid">
+    <div class="mt-5">
+        <div>
+            <h5>Project Images</h5>
+            <div class="row">
+                @foreach (var gallery in Model)
+                {
+                    var imagepath = System.IO.Path.Combine("~/content/Images/", gallery.ImagePath);
+
+                    <div class="card col-lg-3 col-md-4 col-sm-6 col-xs-12" id="col_@gallery.Id">
+                        <div class="card-header">
+                            <p>@gallery.DatePublished.ToString("dd/MM/yyyy HH:mm")</p>
+                        </div>
+                        <div class="card-body">
+                            <img class="card-img" src="@imagepath" asp-append-version="true" style="height:150px;width:100%" />
+                            <div class="mt-2">
+                                <p>@gallery.ImageTitle</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-primary btn-sm" asp-action="EditProjectImages" asp-controller="Administrator" asp-route-Id="@gallery.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                            <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete(@gallery.Id)">
+                                <i class=" fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Delete ProjectPhoto</h3>
+                                <a href="#" style="margin-left:auto" class="close" data-dismiss="modal">&times;</a>
+                            </div>
+                            <div class="modal-body">
+                                <h4 class="modal-bodycontent">Are you sure you want to remove this Project Photo?</h4>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                                <a href="#" class="btn btn-success" onclick="DeleteNews()">Confirm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="hiddennewsid" />
+            </div>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <nav aria-label="ListProjectPhotos navigation example">
+            <vc:pager paging-list="@Model" />
+        </nav>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var ConfirmDelete = function (NewsId) {
+            $("#hiddennewsid").val(NewsId);
+            $("#myModal").modal('show');
+        }
+
+        var DeleteNews = function () {
+            var newsid = $("#hiddennewsid").val();
+            $.ajax({
+                type: "POST",
+                url: "DeleteProjectImages",
+                data: {
+                    Id: newsid
+                },
+                success: function (result) {
+                    $("#myModal").modal("hide");
+                    $("#col_" + newsid).remove();
+                }
+            })
+        }
+    </script>
+}

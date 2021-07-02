@@ -57,19 +57,35 @@ namespace HelpersNetwork.Controllers
                     var enumdisplaystatus = (Sex)model.Sex;
                     string enumname = enumdisplaystatus.ToString();
 
-                    ApplicationUser user = new ApplicationUser()
+                    //var user = new ApplicationUser()
+                    //{
+                        
+                    //    Name = model.Name,
+                    //    Age = model.Age,
+                    //    Gender = enumname,
+                    //    Address = model.Address,
+                    //    PhoneNumber = model.PhoneNumber,
+                    //    State = model.State,
+                    //    LocalGovt = model.LocalGovt,
+                    //    Nationality = model.Nationality,
+                    //    Phone  = model.PhoneNumber,
+                    //    Email = model.Email,
+                    //    SecurityStamp = Guid.NewGuid().ToString(),
+                    //    UserName = model.Email,
+                    //};
+                    var user = new ApplicationUser
                     {
-                        Name = model.Name,
-                        Age = model.Age,
-                        Gender = enumname,
-                        Address = model.Address,
+                        Email = "michealmadu73@gmail.com",
+                        UserName = "michealmadu73@gmail.com",
+                        Name = "System Administrator",
+                        Age = "21",
+                        Gender = "Male",
                         PhoneNumber = model.PhoneNumber,
+                        Address = model.Address,
                         State = model.State,
                         LocalGovt = model.LocalGovt,
                         Nationality = model.Nationality,
-                        Email = model.Email,
                         SecurityStamp = Guid.NewGuid().ToString(),
-                        UserName = model.Email,
                     };
 
                     if (!await roleManager.RoleExistsAsync(ConstantRoles.User))
@@ -94,6 +110,7 @@ namespace HelpersNetwork.Controllers
                             ToEmail = user.Email
                         };
 
+                        //ovalshapenigeria@gmail.com
                         var mailRequestOwner = new MailRequest
                         {
                             Body = $"A user with the name {user.Name}, and  Phone Number {user.PhoneNumber} Just Registered on your application",

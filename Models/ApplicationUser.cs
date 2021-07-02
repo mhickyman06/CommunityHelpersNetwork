@@ -13,7 +13,10 @@ namespace HelpersNetwork.Models
         [Required]
         public string Gender { get; set; }
         public string Address { get; set; }
-      
+
+        [Required]
+        public string Religion { get; set; }
+
         public string State { get; set; }
 
         public string  LocalGovt { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HelpersNetwork.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,11 @@ namespace HelpersNetwork.Models
 {
    public interface IFileManagerService
     {
+        void DeleteImage(string imagepath);
         Task<string> SaveImage(IFormFile image);
+
+        Task<string> UpdateImage(string existingimage, IFormFile newimagepath);
+
     }
 }
 

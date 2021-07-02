@@ -1,0 +1,45 @@
+@model CreateProjectVideoViewModel;
+
+@{
+    ViewData["Title"] = "Create Project Video";
+    Layout = "_AdministratorPortalLayout";
+}
+
+
+
+<div class="container-fluid">
+    <div class="mb-2">
+        <h4>Create ProjectPhotos</h4>
+    </div>
+    <div style="margin-top:100px">
+        <form id="ProjectImages" asp-action="CreateProjectVideo" asp-controller="Administrator" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.VideoId"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.VideoId" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.VideoId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.VideoUrl"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.VideoUrl" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.VideoUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary" style="border-radius:15px;border:none">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
