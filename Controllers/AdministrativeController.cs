@@ -10,9 +10,11 @@ using HelpersNetwork.Models;
 using HelpersNetwork.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using ReflectionIT.Mvc.Paging;
 
 namespace HelpersNetwork.Controllers
@@ -30,11 +32,25 @@ namespace HelpersNetwork.Controllers
 
         public IHelpersNetworkRepository<NewsModel> Newsrepository { get; }
 
+        [HttpGet]
         [Route("Index")]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string searchstring,int page = 1)
         {
             var query = Newsrepository.ReadNews();
+            var filter = query.AsQueryable();
             var model = await PagingList.CreateAsync(query, 2, page);
+            if (!string.IsNullOrWhiteSpace(searchstring))
+            {
+                query.OrderBy(x => x.Title);
+                filter = filter.Where(x => x.Title.Contains(searchstring));
+                model.OrderBy(x => x.Title);
+                filter.OrderBy(x => x.Title);
+            };
+
+            model.RouteValue = new RouteValueDictionary
+            {
+                {"filter",searchstring }
+            };
             //model.OrderByDescending(x => x.DatePublished);
             return View(model);
         }
@@ -201,7 +217,7 @@ namespace HelpersNetwork.Controllers
 
                 projectvideosrepository.Create(projectvideo);
                 projectvideosrepository.Save();
-                return RedirectToAction(nameof(ListProjectVideos));
+                return RedirectToAction("Index", "ListProjectVideos");
 
             }
             return View(model);
@@ -379,7 +395,7 @@ namespace HelpersNetwork.Controllers
                 };
                 _newsrepository.Create(News);
                 _newsrepository.Save();
-                return RedirectToAction(nameof(ListNews));
+                return RedirectToAction("Index", "ListNews");
             }         
             return View(newsView);
         }
@@ -549,7 +565,7 @@ namespace HelpersNetwork.Controllers
                 };
                 _gelleryrepository.Create(model);
                 _gelleryrepository.Save();
-                return RedirectToAction(nameof(ListProjectPhotos));
+                return RedirectToAction("Index", "ListProjectPhotos");
             }
             return View(createProjectImages);
         }

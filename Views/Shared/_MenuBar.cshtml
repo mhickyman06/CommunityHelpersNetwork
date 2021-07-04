@@ -20,8 +20,15 @@
                             <li>
                                 <a asp-action="AboutUs" asp-controller="Home" class="nav-link2">Our Vision</a>
                             </li>
-                            <li> <a asp-action="Index" asp-controller="Gallery" class="nav-link3">Project Photos</a> </li>
-                            <li><a asp-action="communityproject" asp-controller="Home" class="nav-link4">Project Videos</a></li>
+                            <li>
+                                <a href="#">Gallery</a>
+                                <ul class="sub-down">
+                                    <li> <a asp-action="Index" asp-controller="Gallery" class="nav-link3">Project Photos</a> </li>
+                                    <li><a asp-action="communityproject" asp-controller="Home" class="nav-link4">Project Videos</a></li>
+                                </ul>
+                            </li>
+                          
+
                             <li> <a asp-action="Index" asp-controller="News" class="nav-link5">News</a> </li>
                             <li> <a asp-action="Contact" asp-controller="Home" class="nav-link6">Contact us</a> </li>
                             @*<li ><a asp-action="Register" asp-controller="Account"class="nav-link7">Join us</a></li>

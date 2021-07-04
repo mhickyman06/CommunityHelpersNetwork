@@ -225,3 +225,4 @@ C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\ListPro
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\ListMembers\Index.cshtml.g.cs
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\ListProjectVideos\Index.cshtml.g.cs
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\Gallery\Index.cshtml.g.cs
+C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\ProjectVideos\Index.cshtml.g.cs

@@ -187,7 +187,7 @@
     </section>
 </div>
 <!--Latest Event-->
-<div class="wrapper row2 " style="background-color:#6f838a;">
+<div class="wrapper row2 " style="background-color:#6f838a;margin-bottom:200px">
     <section class="hoc container clear">
         <div class="sectiontitle" style="position:relative; z-index:99; color:white">
             <h6 class="heading" style="color:white;font-weight:800">Community Latest News and Event</h6>
@@ -201,7 +201,7 @@
                         <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
                         <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
                         <p>@firstevent?.ShortDescription</p>
-                        <footer><a asp-action="NewsDetails" asp-controller="News"  asp-route-id="@Event.Id"  style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
+                        <footer><a asp-action="NewsDetails" asp-controller="News"  asp-route-id="@firstevent.Id"  style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
                     </div>
                 </article>
                 if (Model.News != null)

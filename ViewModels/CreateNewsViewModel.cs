@@ -19,6 +19,7 @@ namespace HelpersNetwork.ViewModels
         public string PageTtile { get; set; }
         [Required]
         [DisplayName("Short Description")]
+        [StringLength(400)]
         public string ShortDescription { get; set; }
         [Required]
         public string Body { get; set; }

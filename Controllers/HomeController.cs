@@ -34,6 +34,34 @@ namespace HelpersNetwork.Controllers
             return View(model);
         }    
     }
+    public class ProjectVideos : Controller
+    {
+        public ProjectVideos(IHelpersNetworkRepository<CommunityLatestProject> projectvideorepository)
+        {
+            _projectvideosrepository = projectvideorepository;
+        }
+
+        public IHelpersNetworkRepository<CommunityLatestProject> _projectvideosrepository { get; }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            var videostore = _projectvideosrepository.ReadProjectVideos();
+            List<YouTubeVideoDetails> query = new List<YouTubeVideoDetails>();
+            foreach (var videodetails in videostore)
+            {
+                var projectvideo = await _projectvideosrepository.GetVideoDetails(videodetails.VideoId);
+                projectvideo.InbuiltId = videodetails.Id;
+                projectvideo.VideoUrl = videodetails.VideoUrl;
+                projectvideo.PublicationDate = Convert.ToDateTime(videodetails.DatePublished);
+                query.Add(projectvideo);
+            }
+            var selected = query.OrderByDescending(x => x.PublicationDate);
+            var model = PagingList.Create(query, 1, page);
+
+            return View(model);
+        }      
+    }
     public class HomeController: Controller 
     {
         private readonly ILogger<HomeController> _logger;
@@ -59,15 +87,16 @@ namespace HelpersNetwork.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var dailymod = _newsrepository.GetDailyViewModel();
 
-            var query = _newsrepository.Read();
-            query.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
+            var query = _newsrepository.ReadNews();
+            
+            //query.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
 
-            var newsmodel = PagingList.Create(query, 3, 1);
-            newsmodel.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
+            var newsmodel = await PagingList.CreateAsync(query, 3, 1);
+            //newsmodel.Sort((y, x) => x.DatePublished.ToString("dd/MM/yyyy HH:mm").CompareTo(y.DatePublished.ToString("dd/MM/yyyy HH:mm")));
 
             //newsmodel.OrderBy(e => DateTime.ParseExact(e.DatePublished.ToString(), "dd.MM.yyyy", null));
 

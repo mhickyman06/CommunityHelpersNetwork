@@ -75,11 +75,12 @@ namespace HelpersNetwork.Controllers
                     //};
                     var user = new ApplicationUser
                     {
-                        Email = "michealmadu73@gmail.com",
-                        UserName = "michealmadu73@gmail.com",
-                        Name = "System Administrator",
-                        Age = "21",
-                        Gender = "Male",
+                        Email = model.Email,
+                        UserName = model.Email,
+                        Name = model.Name,
+                        Age = model.Age,
+                        Gender = enumname,
+                        Religion = model.Religion,
                         PhoneNumber = model.PhoneNumber,
                         Address = model.Address,
                         State = model.State,

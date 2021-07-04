@@ -1,0 +1,46 @@
+@model PagingList<YouTubeVideoDetails>;
+@{
+    ViewData["Title"] = "Project Videos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div style="margin-top:100px">
+    <div class="home-page-welcome">
+        <h3 class="mt-2 h-st b-h2">Project Videos</h3>
+    </div>
+</div>
+
+<div class="container g-sect" style="margin:100px 20px">
+    <div class="row">
+        @{
+            foreach (var video in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
+                    <a href="@video.VideoUrl"><img asp-append-version="true" src="@video.ThumbnailPath" style="width:100%;height:200px" /></a>
+                    <h5 style="font-weight:500">@video.Title</h5>
+                    <h6 class="h6">@video.PublicationDate</h6>
+                    <p>@video.Description</p>
+                </div>
+            }
+        }
+    </div>
+    <div class="mt-5 text-center">
+        <nav aria-label="ListMembers navigation example">
+            <vc:pager paging-list="@Model" />
+        </nav>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(".nav-link3").css("color", "#4ac9f0");
+    </script>
+}

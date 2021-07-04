@@ -28,6 +28,7 @@ namespace HelpersNetwork.ViewModels
         public string LocalGovt { get; set; }
 
         [Required]
+        [DisplayName("What is your relationship with God like?")]
         public string Religion { get; set; }
 
         public string Nationality { get; set; }
@@ -39,10 +40,12 @@ namespace HelpersNetwork.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Create Password")]
         public string Password { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Confirm Password")]
         [Compare("Password",ErrorMessage ="Passowrd are not the same")]
         public string ConfirmPassword { get; set; }
 

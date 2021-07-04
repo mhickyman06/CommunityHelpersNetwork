@@ -123,101 +123,40 @@ namespace HelpersNetwork.Models
             }
             return videoDetails;
         }
-    }
+        public async Task<YouTubeVideoDetails> GetVideoDetails(string searchid,long  thumbnailwidth, long thumbnailheight)
+        {
+            YouTubeVideoDetails videoDetails = null;
+            using (var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+            {
+                ApiKey = "AIzaSyAwxnAxSvngDvA5-81Tze8iFHrZstoTsZY",
+            }))
+            {
+                var searchRequest = youtubeService.Videos.List("snippet");
+                searchRequest.Id = searchid;
+                var searchResponse = await searchRequest.ExecuteAsync();
 
-    //public class HelpersNetworkEventRepository : IHelpersNetworkEventRepository
-    //{
-    //    public HelpersNetworkEventRepository(HelpersNetworkIdentityDbContext context)
-    //    {
-    //        Context = context;
-    //    }
+                var youTubeVideo = searchResponse.Items.FirstOrDefault();
 
-    //    private readonly HelpersNetworkIdentityDbContext Context;
+                youTubeVideo.Snippet.Thumbnails.Default__.Width = thumbnailwidth;
 
-    //    public void Create(EventModel eventModel)
-    //    {
-    //        Context.EventModels.Add(eventModel);
-    //        Context.SaveChanges();
-    //    }
+                youTubeVideo.Snippet.Thumbnails.Default__.Height = thumbnailheight;
 
-    //    public EventModel Delete(int Id)
-    //    {
+                if (youTubeVideo != null)
+                {
+                    videoDetails = new YouTubeVideoDetails()
+                    {
+                       
+                        Description = youTubeVideo.Snippet.Description,
+                        Title = youTubeVideo.Snippet.Title,
+                        ChannelTitle = youTubeVideo.Snippet.ChannelTitle,
+                        PublicationDate = youTubeVideo.Snippet.PublishedAt,
+                        ThumbnailPath = youTubeVideo.Snippet.Thumbnails.Default__.Url
 
-    //        var EvementModel = Context.EventModels.Find(Id);
-    //         Context.EventModels.Remove(EvementModel);
-    //        Context.SaveChanges();
-    //        return EvementModel;
-
-    //    }
-
-
-
-
-    //    public List<EventModel> Read()
-    //    {
-    //        return Context.EventModels.ToList();   
-    //    }
-
-    //    public EventModel Update(EventModel eventModel)
-    //    {
-    //        var EventModel = Context.EventModels.Find(eventModel.Id);
-    //       Context.EventModels.Update(EventModel);
-    //        Context.SaveChanges();
-    //        return EventModel;
-
-    //    }
-
-    //   public DailyViewModel GetDailyViewModel()
-    //    {
-    //        return Context.DailyViewModels.FirstOrDefault();
-    //    }
-
-    //    public EventModel FindEventByCondition(int? id)
-    //    {
-    //        var model = Context.EventModels.FirstOrDefault(p => p.Id == id);
-    //        return model;
-    //    }
-    //    public News FindNewsByCondition(int? id)
-    //    {
-    //        var model = Context.News.FirstOrDefault(p => p.Id == id);
-    //        return model;
-    //    }
-
-    //    public void EditDailyViewModel(DailyViewModel dailyViewModel)
-    //    {
-
-    //        Context.DailyViewModels.Update(dailyViewModel);
-    //        Context.SaveChanges();
-    //    }
-
-    //    public DailyViewModel GetDailyViewModelByCondition(int? id)
-    //    {
-    //        var model = Context.DailyViewModels.FirstOrDefault(p => p.Id == id);
-    //        return model;
-    //    }
-
-    //    public void CreateNews(News news)
-    //    {
-    //        Context.News.Add(news);
-    //        Context.SaveChanges();
-    //    }
-
-    //    public List<News> GetNewsModel()
-    //    {
-    //        return Context.News.ToList();
-    //    }
-
-    //    public News GetNewsByCondition(int? id)
-    //    {
-    //        return Context.News.Where(x => x.Id == id).FirstOrDefault();
-    //    }
-
-    //    public News DeleteNews(int Id)
-    //    {
-    //        var model = Context.News.Find(Id);
-    //        Context.News.Remove(model);
-    //        Context.SaveChanges();
-    //        return model;
-    //    }
-    //}
+                    };
+                }
+            }
+            return videoDetails;
+        }
+    } 
 }
+

@@ -22,6 +22,7 @@ namespace HelpersNetwork.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Short Description")]
+        [StringLength(400)]
         public string ShortDescription { get; set; }   
         [Required]
         [DataType(DataType.Text)]
