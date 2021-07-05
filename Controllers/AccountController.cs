@@ -43,6 +43,9 @@ namespace HelpersNetwork.Controllers
             return View();
         }
 
+
+
+
         [HttpPost]
         [AllowAnonymous]
         [Route("Register")]

@@ -16,6 +16,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Math.EC.Rfc7748;
 using ReflectionIT.Mvc.Paging;
+using HelpersNetwork.Services;
+using NETCore.MailKit.Core;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+using Microsoft.AspNetCore.Http;
 
 namespace HelpersNetwork.Controllers
 {
@@ -151,6 +155,7 @@ namespace HelpersNetwork.Controllers
         private readonly IHelpersNetworkRepository<CommunityLatestProject> projectvideosrepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IPasswordHasher<ApplicationUser> passwordHasher;
+        private readonly IMailService emailService;
         private readonly ILogger<AdministratorController> logger;
 
         private IFileManagerService FileManager { get; }
@@ -165,6 +170,7 @@ namespace HelpersNetwork.Controllers
              IHelpersNetworkRepository<CommunityLatestProject> projectvideosrepository,
              UserManager<ApplicationUser> userManager,
              IPasswordHasher<ApplicationUser> passwordHasher,
+             IMailService emailService,
              ILogger<AdministratorController> logger
             )
         {
@@ -176,10 +182,42 @@ namespace HelpersNetwork.Controllers
             this.projectvideosrepository = projectvideosrepository;
             this.userManager = userManager;
             this.passwordHasher = passwordHasher;
+            this.emailService = emailService;
             this.logger = logger;
         }
 
 
+        [HttpPost]
+        [Route("SendUserMail")]
+        public async Task<IActionResult> SendUserMail(SendMailViewModel model)
+        {
+            if(model.Body == null || model.Subject == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var mailrequest = new MailRequest
+            {
+                ToEmail = model.ToEmail,
+                Subject = model.Subject,
+                Body = model.Body
+            };
+            try
+            {
+               await emailService.SendEmailAsync(mailrequest);
+                return Ok(new { Message = "Email sent successfully"});
+            }
+            catch(Exception ex)
+            {
+                logger.LogInformation(ex.Message);
+                return BadRequest(new
+                {
+                    Message = "Not successfull, some error occured while processing",
+                    Error = ex.Message
+                });
+                //return StatusCode(StatusCodes.Status500InternalServerError,
+                // "Error retrieving data from the database");
+            }
+        }
 
         [HttpGet]
         [Route("Index")]
