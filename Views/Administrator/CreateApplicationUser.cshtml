@@ -1,0 +1,161 @@
+@model RegisterViewModel;
+
+@{
+
+    ViewData["Title"] = "Create Application User";
+    Layout = "_AdministratorPortalLayout";
+}
+
+<div class="container-fluid">
+    <div class="mb-2">
+        <h4>Create User</h4>
+    </div>
+    <div style="margin-top:100px">
+        <form id="CreateNews" asp-action="CreateApplicationUser" asp-controller="Administrator" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Name"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Name" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Age"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Age" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Age" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <label class="custom-label" asp-for="@Model.Sex"></label>
+                </div>
+                <div class="col-sm-8">
+                    <select class="form-select-sm  nice-select form-control" style="margin-top:17px;width:100%" asp-for="@Model.Sex" aria-label=".form-select-sm example" asp-items="@Html.GetEnumSelectList<Sex>()">
+                        <option selected="selected" disabled="">Please Select</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="@Model.Sex"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Religion"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea id="shortbio" asp-for="@Model.Religion" class="form-control"
+                                  style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px" oninput="GetInput()">
+                        </textarea>
+                        <span asp-validation-for="@Model.Religion" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Nationality"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Nationality" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Nationality" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.State"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.State" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.State" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.LocalGovt"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.LocalGovt" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.LocalGovt" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Address"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Address" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.PhoneNumber"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.PhoneNumber" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Email"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Email" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.Password"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.Password" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ConfirmPassword"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.ConfirmPassword" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary" style="border-radius:15px;border:none">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+  
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

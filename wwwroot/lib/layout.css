@@ -1,12 +1,4 @@
-﻿@charset "utf-8";
-/*
-Template Name: Kiraric
-Author: <a href="https://www.os-templates.com/">OS Templates</a>
-Author URI: https://www.os-templates.com/
-Licence: Free to use under our free template licence terms
-Licence URI: https://www.os-templates.com/template-terms
-File: Layout CSS
-*/
+﻿
 
 @import url("font-awesome.min.css");
 @import url("framework.css");
@@ -41,7 +33,7 @@ File: Layout CSS
 
 /* Content Area
 --------------------------------------------------------------------------------------------------------------- */
-.container{padding:80px}
+/*.container{padding:80px}*/
 
 /* Content */
 .container .content{}
@@ -354,7 +346,7 @@ table a, #comments a{background-color:inherit;}
 	#pageintro article .heading{margin-bottom:30px; font-size:2rem;}
 	#pageintro article p{font-size:1rem;}
 
-	.sectiontitle{text-align:left; margin-top:20px}
+	.sectiontitle{/*text-align:left;*/ margin-top:20px}
 
 	#footer{padding-bottom:30px;}/* Not needed, just looks a little better - compensates for the grid elements bottom margin */
 }

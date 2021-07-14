@@ -1,0 +1,87 @@
+@model IOrderedQueryable<HelpersNetworkBranchesTb>
+
+
+@{
+    ViewData["Title"] = "Branch List";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<style>
+
+
+    table thead tr th {
+        font-family: "Poppins";
+        font-weight: 500;
+        background-color: #023041;
+    }
+
+    table tbody tr td {
+        font-family: "Montserrat";
+    }
+
+    .mean-container .mean-bar {
+        background-color: #4e7b88;
+    }
+</style>
+
+
+
+<header>
+    <div class="header" style="background-color: #023041;
+        top: 0px;
+        position: fixed;
+        z-index: 999;
+        width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div class="container">
+    <div style="margin-top:200px">
+        <div>
+            <table id="branchesTable" class=" table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>Local Government</th>
+                        <th>Address</th>
+                        <th>Contact Person</th>
+                        <th>Contact Person Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var branch in Model)
+                    {
+                        <tr id="row_@branch.Id">
+                            <td>@branch.BranchName</td>
+                            <td>@branch.BranchCountry</td>
+                            <td>@branch.BranchState</td>
+                            <td>@branch.BranchLocalGovt</td>
+                            <td>@branch.BranchAddress</td>
+                            <td>@branch.BranchContactPerson</td>
+                            <td>@branch.ContactPersonNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.col -->
+
+@section Scripts{
+
+
+    <script>
+
+        $(".nav-link7").css("color", "#4ac9f0");
+    </script>
+    }

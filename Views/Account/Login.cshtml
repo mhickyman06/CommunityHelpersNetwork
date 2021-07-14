@@ -17,7 +17,8 @@
     }
 </style>
 
-<div class="text-center container contact" id="request" style="margin-top:0">
+<div class="text-center container contact" id="request" style="margin-top:0;padding-left: 50px;
+    padding-right: 50px">
     <div class="row">
         <div class="padding-left1">
             <div class="contact">
@@ -26,6 +27,7 @@
                 </div>
                 <form class="request" method="post" asp-action="Login" asp-controller="Account">
                     <div asp-validation-summary="All" class="text-danger mb-4"></div>
+                    
                     <div class="row  mt-3">
                         <div class="col-sm-4">
                             <label class="custom-label" asp-for="@Model.Email"></label>
@@ -56,17 +58,35 @@
                         <span asp-validation-for="@Model.IsPersistent" class="text-danger"></span>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-sm-12">
+                        <div class="col-sm-5">
                             <button class="send">Login</button>
                         </div>
+                        @{
+                            if ((bool)TempData["ShowResend"] == true)
+                            {
+                                <div class="col-sm-5">
+                                    <a asp-action="Unconfirmedemail" asp-controller="Account" class="btn btn-sm send">Resend Verification</a>
+                                </div>
+                            }
+                           
+                            @*string? userid = (string)TempData["UserId"];
+                            bool? show = (bool)TempData["ShowResend"];
+                            if (show == true)
+                            {
+                                <div class="col-sm-5">
+                                    <a asp-action="Unconfirmedemail" asp-controller="Account" class="btn btn-sm send">Resend Verification</a>
+                                </div>
+                            }*@
+                        }
                     </div>
                     <div class="mt-4 text-white">
                         <p>
-                            <a id="forgot-password" asp-action="ForgotPassword" asp-controller="Account" style="color:cornflowerblue">Forgotten your password?</a>
+                            <a id="forgot-password" asp-action="ForgotPassword" asp-controller="Account" style="        color: cornflowerblue
+">Forgotten your password?</a>
                         </p>
                         <p>
                             Dont have an Account <a asp-action="Register" style="color:cornflowerblue">SignUp</a>
-                        </p>                       
+                        </p>
                         <p>
                             CLick to go back to the  <a asp-action="Index" asp-controller="Home" style="color:cornflowerblue">HomePage</a>
                         </p>

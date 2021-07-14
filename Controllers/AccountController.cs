@@ -3,12 +3,17 @@ using HelpersNetwork.Models.SeedRoles;
 using HelpersNetwork.Services;
 using HelpersNetwork.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.Web.CodeGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace HelpersNetwork.Controllers
@@ -60,22 +65,6 @@ namespace HelpersNetwork.Controllers
                     var enumdisplaystatus = (Sex)model.Sex;
                     string enumname = enumdisplaystatus.ToString();
 
-                    //var user = new ApplicationUser()
-                    //{
-                        
-                    //    Name = model.Name,
-                    //    Age = model.Age,
-                    //    Gender = enumname,
-                    //    Address = model.Address,
-                    //    PhoneNumber = model.PhoneNumber,
-                    //    State = model.State,
-                    //    LocalGovt = model.LocalGovt,
-                    //    Nationality = model.Nationality,
-                    //    Phone  = model.PhoneNumber,
-                    //    Email = model.Email,
-                    //    SecurityStamp = Guid.NewGuid().ToString(),
-                    //    UserName = model.Email,
-                    //};
                     var user = new ApplicationUser
                     {
                         Email = model.Email,
@@ -122,14 +111,18 @@ namespace HelpersNetwork.Controllers
                             ToEmail = "michealmadu73@gmail.com"
                         };
 
-                        await mailService.SendEmailAsync(mailRequest);
-
-                        await mailService.SendEmailAsync(mailRequestOwner);
-
-                        logger.LogInformation("A user has just been created");
-
-                        return RedirectToAction(nameof(SuccessRegistration));
-
+                        try
+                        {
+                            await mailService.SendEmailAsync(mailRequest);
+                            await mailService.SendEmailAsync(mailRequestOwner);
+                            logger.LogInformation("A user has just been created");
+                            return RedirectToAction(nameof(SuccessRegistration));
+                        }
+                        catch(Exception ex)
+                        {
+                            logger.LogError(ex.Message);
+                            //userManager.DeleteAsync()
+                        }                                        
                     }
                     else
                     {
@@ -140,7 +133,7 @@ namespace HelpersNetwork.Controllers
                             ModelState.AddModelError("", error.Description);
                         }
                     }
-                }
+                }  
             }
          
             return View(model);
@@ -150,53 +143,61 @@ namespace HelpersNetwork.Controllers
         [Route("Login")]
         public IActionResult Login()
         {
+
+            TempData["ShowResend"] = false;
             return View();
         }
 
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginModel model, string returnUrl)
-        {
+        {         
             if (ModelState.IsValid)
             {
-
                 var user = await userManager.FindByEmailAsync(model.Email);
                 if (user == null)
                 {
                     return View(nameof(UserNotFound));
                 }
-                else
+                if (!user.EmailConfirmed)
                 {
+                    logger.LogWarning("User email is not confirmed");
+                    ModelState.AddModelError("", "Email is not confirmed, Please click the resend verification button");
+                    TempData["ShowResend"] = true;
+                    //TempData["UserId"] = user.Id;
+                    logger.LogInformation(TempData["ShowResend"].ToString());
+                    return View();
+                }
 
-                    var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.IsPersistent, false);
-                    if (result.Succeeded)
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.IsPersistent, false);
+                if (result.Succeeded)
+                {
+                    if (returnUrl != null && Url.IsLocalUrl(returnUrl))
                     {
-                        if (returnUrl != null && Url.IsLocalUrl(returnUrl))
-                        {
-                            logger.LogInformation("User is  Logged in");
-                            return RedirectToAction(returnUrl);
-                        }
-
-                        if (await userManager.IsInRoleAsync(user, ConstantRoles.User))
-                        {
-                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else if(await userManager.IsInRoleAsync(user, ConstantRoles.Admin))
-                        {
-                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
-                            return RedirectToAction("Index", "Administrator");
-                        }
-                        else
-                        {
-                            await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
-                            logger.LogInformation("User is  Logged in");
-                            return RedirectToAction("Administrator", "Index");
-                        }
+                        logger.LogInformation("User is  Logged in");
+                        return RedirectToAction(returnUrl);
                     }
-                    ModelState.AddModelError("", "Invalid Input");
+
+                    if (await userManager.IsInRoleAsync(user, ConstantRoles.User))
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if(await userManager.IsInRoleAsync(user, ConstantRoles.Admin))
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                        return RedirectToAction("Index", "Administrator");
+                    }
+                    else
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: model.IsPersistent);
+                        logger.LogInformation("User is  Logged in");
+                        return RedirectToAction("Administrator", "Index");
+                    }
                 }
             }
+            TempData["ShowResend"] = false;
+            ModelState.AddModelError("", "Invalid Input");  
             return View();
         }
 
@@ -211,6 +212,45 @@ namespace HelpersNetwork.Controllers
         }
 
         [HttpGet]
+        [Route("Unconfirmedemail")]
+        public IActionResult Unconfirmedemail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Unconfirmedemail")]
+        public async Task<IActionResult> Unconfirmedemail(UnconfirmedEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    logger.LogError("User with the email: " + model.Email + " was not found");
+                    ModelState.AddModelError("", "Invalid user, please enter a valid email and try again");
+                    return View(model);
+                }
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action(nameof(ConfirmEmail),
+                    "Account", new { token, email = user.Email }, Request.Scheme);
+
+                var mailRequest = new MailRequest
+                {
+                    Body = confirmationLink,
+                    Subject = "Confirmation Link",
+                    ToEmail = user.Email
+                };
+               
+                await mailService.SendEmailAsync(mailRequest);
+                logger.LogInformation("the specified user with the email: "+ user.Email +" has been confirmed");
+                return RedirectToAction(nameof(SuccessRegistration));
+              
+            }
+            return View();
+        }
+
+        [HttpGet]
         [Route("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
@@ -221,15 +261,16 @@ namespace HelpersNetwork.Controllers
 
             var user = await userManager.FindByEmailAsync(email);
 
-            var result = await userManager.ConfirmEmailAsync(user, token);         
-
-           
+            var result = await userManager.ConfirmEmailAsync(user, token);                    
            
             if (await userManager.IsInRoleAsync(user,ConstantRoles.User))
             {
                 return View(nameof(ConfirmEmail));
             }
-           
+            if (signInManager.IsSignedIn(User) && User.IsInRole(ConstantRoles.Admin))
+            {
+                return View("ListUsers", "Administrator");
+            }
             return View("Error");
         }
 
@@ -256,6 +297,99 @@ namespace HelpersNetwork.Controllers
                 return Json($"the {Email} is already in use please choose an another email ");
             }
 
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Route("ForgotPassword")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(forgotPasswordModel);
+            var user = await userManager.FindByEmailAsync(forgotPasswordModel.Email);
+            if (user == null)
+                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            //var callback = Url.Action(nameof(ResetPassword), "Account", new { token, email = user.Email }, Request.Scheme);
+
+            var callback = Url.Action(nameof(ResetPassword),
+                          "Account", new { token, email = user.Email }, Request.Scheme);
+
+            //var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
+            //await _emailSender.SendEmailAsync(message);
+         
+            var mailRequest = new MailRequest
+            {
+                Body = callback,
+                Subject = "Reset password token",
+                ToEmail = user.Email
+            };
+
+             await this.mailService.SendEmailAsync(mailRequest);
+
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+
+        [HttpGet]
+        [Route("ForgotPasswordConfirmation")]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+
+
+
+
+        [HttpGet]
+        [Route("ResetPassword")]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordModel { Token = token, Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("ResetPassword")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(resetPasswordModel);
+
+            var user = await userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPasswordConfirmation));
+
+            var resetPassResult = await userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return View();
+            }
+
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
+        }
+
+        [HttpGet]
+        [Route("ResetPasswordConfirmation")]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
         }
 
         [HttpPost("GetStateLocalGovt")]

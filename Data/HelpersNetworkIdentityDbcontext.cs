@@ -18,6 +18,10 @@ namespace HelpersNetwork.Data
 
         public DbSet<CommunityLatestProject> communityLatestProjects { get; set; }
 
+        public DbSet<HelpersNetworkBranchesTb> Branches { get; set; }
+
+        public DbSet<chnbankdetails> chnbankdetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

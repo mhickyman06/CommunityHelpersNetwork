@@ -64,7 +64,12 @@ namespace HelpersNetwork.Models
         {
             return table.ToList();
         }
+        public IOrderedQueryable<HelpersNetworkBranchesTb> ReadBranch()
+        {
 
+            var query = _context.Branches.AsNoTracking().OrderByDescending(x => x.BranchName);
+            return query;
+        }
         public IOrderedQueryable<NewsModel> ReadNews()
         {
 

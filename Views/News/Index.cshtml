@@ -50,7 +50,7 @@
                             <h6 class="newsdate" datetime="@item.DatePublished.ToString("dd/MM/yyyy HH:mm")">@item.DatePublished.ToString("dd/MM/yyyy HH:mm")</h6>
                             <h5 class="mt-2 newsparagraph"><b>@item.Title</b></h5>
                             <p class="newsparagraph" style="font-weight:400">@item.ShortDescription</p>
-                            <a class="btn btn-lg news-btn" style="color:white" asp-action="NewsDetails" asp-controller="News" asp-route-id="@item.Id">Read More</a>
+                            <a class="btn-sm news-btn" style="color:white" asp-action="NewsDetails" asp-controller="News" asp-route-id="@item.Id">Read More</a>
                         </div>
                     </div>
                 }

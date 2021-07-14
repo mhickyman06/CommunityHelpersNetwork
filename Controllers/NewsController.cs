@@ -29,7 +29,6 @@ namespace HelpersNetwork.Controllers
         {
             var query = newsrepository.ReadNews();
             var videos = projectvideorepository.ReadProjectVideos();
-            //videos.Sort((y, x) => x.DatePublished.CompareTo(y.DatePublished));
             List<YouTubeVideoDetails> youtubevideo = new List<YouTubeVideoDetails>();
             foreach (var videodetails in videos)
             {
@@ -43,16 +42,13 @@ namespace HelpersNetwork.Controllers
             List<YouTubeVideoDetails> selectedvideos = new List<YouTubeVideoDetails>();
             var selected =  youtubevideo.GetRange(0, 2);
             selected.OrderByDescending(x => x.PublicationDate);
-            var news = await PagingList.CreateAsync(query, 2, page);
-            //news.Sort((y, x) => x.DatePublished.CompareTo(y.DatePublished));
+            var news = await PagingList.CreateAsync(query, 10, page);
 
             var model = new NewsViewModel
             {
                 newsModel = news,
                 ProjectVideosmodel = selected
             };
-            //model.newsModel.Sort((y, x) => x.DatePublished.CompareTo(y.DatePublished));
-
             return View(model);
         }
 

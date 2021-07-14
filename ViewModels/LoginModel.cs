@@ -19,5 +19,9 @@ namespace HelpersNetwork.ViewModels
         public bool IsPersistent { get; set; }
 
         public string SessionResponse { get; set; }
+
+        public string UserId { get; set; }
+
+        public bool ShowResend { get; set; }
     }
 }

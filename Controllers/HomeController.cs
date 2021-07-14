@@ -30,10 +30,12 @@ namespace HelpersNetwork.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var query = _galleryrepository.ReadProjectImages();
-            var model = await PagingList.CreateAsync(query, 2, page);
+            var model = await PagingList.CreateAsync(query, 10, page);
             return View(model);
         }    
     }
+
+   
     public class ProjectVideos : Controller
     {
         public ProjectVideos(IHelpersNetworkRepository<CommunityLatestProject> projectvideorepository)
@@ -57,7 +59,7 @@ namespace HelpersNetwork.Controllers
                 query.Add(projectvideo);
             }
             var selected = query.OrderByDescending(x => x.PublicationDate);
-            var model = PagingList.Create(query, 1, page);
+            var model = PagingList.Create(query, 10, page);
 
             return View(model);
         }      
@@ -68,21 +70,27 @@ namespace HelpersNetwork.Controllers
 
         private readonly IHelpersNetworkRepository<NewsModel> _newsrepository;
         private readonly IHelpersNetworkRepository<ProjectGallery> _gelleryrepository;
+        private readonly IHelpersNetworkRepository<HelpersNetworkBranchesTb> branchrepository;
 
         public IWebHostEnvironment webHostEnvironment { get; }
         private IFileManagerService FileManager { get; }
+        public IHelpersNetworkRepository<chnbankdetails> Bankrepository { get; }
 
         public HomeController(ILogger<HomeController> logger,
             IWebHostEnvironment WebHostEnvironment ,
             IHelpersNetworkRepository<NewsModel> newsrepository,
             IFileManagerService fileManager,
-            IHelpersNetworkRepository<ProjectGallery> galleryrepository
+            IHelpersNetworkRepository<ProjectGallery> galleryrepository,
+            IHelpersNetworkRepository<HelpersNetworkBranchesTb> branchrepository,
+            IHelpersNetworkRepository<chnbankdetails> bankrepository
             )
         {
             _logger = logger;
             webHostEnvironment = WebHostEnvironment;
             this._newsrepository = newsrepository;
             this._gelleryrepository = galleryrepository;
+            this.branchrepository = branchrepository;
+            Bankrepository = bankrepository;
             FileManager = fileManager;
         }
 
@@ -121,6 +129,18 @@ namespace HelpersNetwork.Controllers
             return View();
         }
 
+        public IActionResult Branches()
+        {
+            var model = branchrepository.ReadBranch();
+            return View(model);
+        }
+
+        public IActionResult Donate()
+        {
+            var model = Bankrepository.Read();
+            model.OrderBy(x => x.BankName);
+            return View(model);
+        }
         public IActionResult _StatusMessage()
         {
             return View();

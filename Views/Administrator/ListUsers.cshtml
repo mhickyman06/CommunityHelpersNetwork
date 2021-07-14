@@ -1,4 +1,4 @@
-@model PagingList<ApplicationUser>;
+@model IOrderedQueryable<ApplicationUser>;
 
 @{
     ViewData["Title"] = "Users List";
@@ -6,18 +6,16 @@
     Layout = "_AdministratorPortalLayout";
 
 }
-
-
 <div class="container-fluid">
     <div class="mt-5">
         <div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">News List</h3>
+                    <h3 class="card-title">Users List</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="userstable" class=" table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -48,7 +46,7 @@
                                     <td>@user.LocalGovt</td>
                                     <td>@user.Address</td>
                                     <td>@user.UserName</td>
-                                    <td id="email">@user.Email</td>
+                                    <td id="email_@user.Id">@user.Email</td>
                                     <td>@user.PhoneNumber</td>
                                     <td>@user.EmailConfirmed</td>
                                     <td>
@@ -56,7 +54,8 @@
                                         <a class="btn btn-danger mb-2  btn-sm" href="#" onclick="ConfirmDelete('@user.Id')">
                                             <i class=" fas fa-trash-alt"></i>
                                         </a>
-                                        <a class="btn btn-info mb-2  btn-sm" href="#" onclick="ConfirmSendMail()">
+                                        <a class="btn btn-info mb-2  btn-sm" asp-route-UserId="@user.Id" asp-action="SendUserMail" asp-controller="Administrator">
+                                            @*onclick="ConfirmSendMail('@user.Id')"*@
                                             <i class=" fas fa-mail-bulk"></i>
                                         </a>
                                     </td>
@@ -81,7 +80,6 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="hiddennewsid" />
                     <div class="modal fade" id="mailmodal">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -90,14 +88,14 @@
                                     <a href="#" style="margin-left:auto" class="close" data-dismiss="modal">&times;</a>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="emailuser">
+                                    <form id="emailuser" enctype="multipart/form-data" method="post">
                                         <div class="row mb-3">
                                             <div class="form-group input-group">
                                                 <div class="col-sm-4">
-                                                    <label for="subject" >Subject</label>
+                                                    <label for="subject">Subject</label>
                                                 </div>
                                                 <div class="col-sm-7">
-                                                    <input id="subject" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                                                    <input id="subject" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0; font-size:small" /><br />
                                                 </div>
                                             </div>
                                         </div>
@@ -107,7 +105,25 @@
                                                     <label for="body">Body</label>
                                                 </div>
                                                 <div class="col-sm-7">
-                                                    <textarea id="body" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px"></textarea>
+                                                    <textarea id="body" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px;font-size:small"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="form-group input-group">
+                                                <div class="col-sm-4">
+                                                    <label for="attachments" class="form-label">Attachments</label>
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    @{
+                                                        var id = "";
+                                                        foreach (var item in Model)
+                                                        {
+                                                            id = item.Id;
+                                                        }
+                                                    }
+                                                    <input id="attachments_@id" name="attachments" size="1" class="form-control custom-file-input " type="file" multiple />
+                                                    <label class="control-label custom-file-label ">choose File</label><br />
                                                 </div>
                                             </div>
                                         </div>
@@ -121,11 +137,12 @@
                                 <div class="modal-footer">
                                     <a href="#" class="btn btn-default" data-dismiss="modal" onclick="ClearError()">Cancel</a>
                                     <a href="#" class="btn btn-success" onclick="SendMail()" id="sendBtn" style="display:inherit">Send</a>
-                                    <img src="~/Images/loading.gif" id="loadingBtn"  style="height:50px;width:80px;display:none"/>
+                                    <img src="~/Images/loading.gif" id="loadingBtn" style="height:50px;width:80px;display:none" />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="hiddennewsid" />
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -133,33 +150,41 @@
         </div>
         <!-- /.col -->
     </div>
-    <div class="mt-5 text-center">
-        <nav aria-label="ListMembers navigation example">
-            <vc:pager paging-list="@Model" />
-        </nav>
-    </div>
 </div>
 
 @section Scripts {
     <script>
+        var userid = $("#hiddennewsid").val();
+
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            })
+        });
+
         var ConfirmDelete = function (NewsId) {
             $("#hiddennewsid").val(NewsId);
             $("#myModal").modal('show');
         }
 
-        var ConfirmSendMail = function () {
+        var ConfirmSendMail = function (NewsId) {
             $("#mailmodal").modal('show');
+            $("#hiddennewsid").val(NewsId);
         }
 
         var ClearError = function () {
+            $("#loadingBtn").css("display", "none");
+            $("#sendBtn").css("display", "inherit");
             $("#errorMessagehead").css("display", "none");
             $("#subjecterror").css("display", "none");
             $("#bodyerror").css("display", "none");
+            $("#subjecterror").empty();
+            $("#bodyerror").empty();
         }
 
         var DeleteNews = function () {
 
-            var userid = $("#hiddennewsid").val();
 
             $.ajax({
                 type: "POST",
@@ -181,37 +206,43 @@
         }
         var SendMail = function () {
 
+            var input = $("#attachments_" + userid);
+            var files = input.files;
+
+            var attachments = new FormData();
+
+            for (var i = 0; i != input.length; i++) {
+                attachments.append("files", files[i]);
+
+            }
+
+
             $("#errorMessagehead").css("display", "none");
             $("#subjecterror").css("display", "none");
             $("#bodyerror").css("display", "none");
+            $("#subjecterror").empty();
+            $("#bodyerror").empty();
 
             $("#sendBtn").css("display", "none");
             $("#loadingBtn").css("display", "inherit");
             var errormessage;
-            var useremail = $("#email").text();
+            var useremail = $("#email_" + $("#hiddennewsid").val()).text();
+            console.log("#email_" + $("#hiddennewsid").val());
             var subject = $("#subject").val();
             var body = $("#body").val();
-
-            var subjecterrors = $("#subjecterror").text();
-            var bodyerrors = $("#bodyerror").text();
-
-
-          
-
-            //if (subjecterrors != "" || bodyerrors != "") {
-            //    $("subjecterror").empty();
-            //    $("bodyerror").empty();
-            //}
+            //var attachments = $("#attachments").val();
             const model = {
                 ToEmail: useremail,
                 Subject: subject,
-                Body: body
+                Body: body,
+                Attachments: attachments
             }
             $.ajax({
                 type: "POST",
                 url: "/api/Administrator/SendUserMail",
-                //dataType : "application/json",               
-                data: model,              
+                //dataType : "application/json",
+                contentType: "applicaion/x-www-form-urlencoded",
+                data: model,
                 success: function (result) {
                     console.log(result);
                     alert(result.message);

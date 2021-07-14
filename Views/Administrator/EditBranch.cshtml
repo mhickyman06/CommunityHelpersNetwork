@@ -1,0 +1,112 @@
+@model EditBranchViewModel;
+
+@{
+    ViewData["Title"] = "ProjectImages";
+    Layout = "_AdministratorPortalLayout";
+}
+
+
+<div class="container-fluid">
+    <div class="mb-2">
+        <h4>Edit Branch</h4>
+    </div>
+    <div style="margin-top:100px">
+        <form id="EditBranch" asp-action="EditBranch" asp-controller="Administrator">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id"/>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchName"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchName" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchCountry"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchCountry" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchCountry" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchState"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchState" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchState" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchLocalGovt"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchLocalGovt" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchLocalGovt" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchAddress"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchAddress" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchAddress" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BranchContactPerson"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.BranchContactPerson" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.BranchContactPerson" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.ContactPersonNumber"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <input asp-for="@Model.ContactPersonNumber" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" /><br />
+                        <span asp-validation-for="@Model.ContactPersonNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary" style="border-radius:15px;border:none">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var filename = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(filename);
+            })
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

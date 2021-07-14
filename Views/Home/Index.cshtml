@@ -5,7 +5,10 @@
     ViewData["DailyView"] = Model.DailyViewModel?.Body;
 }
 <style>
-   
+   @@media screen and (max-width:499px){
+       .donate-btn{
+       }
+   }
 </style>
 <!--Header Section-->
 <header>
@@ -14,19 +17,18 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-9">
+                <div class="col-8">
                     <marquee behavior="" direction="">
                         <h6 style="padding-top:25px;color:white">
                             @ViewData["DailyView"]
                         </h6>
                     </marquee>
                 </div>
-                <div class="col-3" style="padding-top:15px; padding-left:0" >
-                    <a href="#" class="btn-sm donate-btn " style="color:white">Donate</a>
+                <div class="col-4" style="padding-top:25px; text-align:right" >
+                    <a asp-action="Donate" asp-controller="Home" class="btn-sm donate-btn " style="color:white;background-color: #48b3d3;padding:10px">Support Us</a>
                 </div>
             </div>
         </div>
-
     </div>
     <div class="header-top1">
         <div class="header">
@@ -39,7 +41,7 @@
 
         <div class="container-fluid welcome-text wow fadeInRight" data-wow-delay="0.0s">
             <div class="row">
-                <div class="col-6">
+                <div class="col-lg-6">
                     <h1>
                         Every community need constant, consistent and considerate interventions.<br />
                         We are here to inspire and ensure that.
@@ -136,10 +138,10 @@
         <div class="sectiontitle">
             <h6 class="heading" style="font-weight:800">Our Values</h6>
         </div>
-        <ul class="nospace group services">
+        <ul class="nospace group services" style="margin-bottom:100px">
             <li class="one_third first">
                 <article class="infobox">
-                    <h6 class="heading" style="font-weight:800"><i class="fa fa-balance-scale"></i> Respect</h6>
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-certificate"></i> Respect</h6>
                     <p>
                         We respect the values and the beliefs of the people with
                         and for whom we work and we act in consideration of their environment. We help always.
@@ -148,7 +150,7 @@
             </li>
             <li class="one_third">
                 <article class="infobox">
-                    <h6 class="heading" style="font-weight:800"><i class="fa fa-certificate"></i>Integrity</h6>
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-balance-scale"></i>Integrity</h6>
                     <p>
                         We adhere strictly to strong principles;
                         we take responsibility for our actions, processes and results,
@@ -167,7 +169,7 @@
             </li>
             <li class="one_third first">
                 <article class="infobox">
-                    <h6 class="heading" style="font-weight:800"><i class="fa fa-motorcycle"></i>Innovation</h6>
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-robot"></i>Innovation</h6>
                     <p>
                         We are entrepreneur; we have the courage and the creativity to pursue unique ideas
                         that have the potential of pushing boundaries. We think outside the box and we make it happen.
@@ -187,21 +189,21 @@
     </section>
 </div>
 <!--Latest Event-->
-<div class="wrapper row2 " style="background-color:#6f838a;margin-bottom:200px">
+<div class="wrapper row2 " style="background-color:#6f838a;margin-bottom:200px;margin-top:100px;padding-bottom:80px">
     <section class="hoc container clear">
         <div class="sectiontitle" style="position:relative; z-index:99; color:white">
             <h6 class="heading" style="color:white;font-weight:800">Community Latest News and Event</h6>
         </div>
-        <div class="group latest ">
-            @{                
-                 var firstevent = Model.News?.FirstOrDefault();
+        <div class="group latest mb-5 ">
+            @{
+                var firstevent = Model.News?.FirstOrDefault();
                 <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
                     <img src="~/content/Images/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
                     <div class="txtwrap">
                         <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
                         <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
                         <p>@firstevent?.ShortDescription</p>
-                        <footer><a asp-action="NewsDetails" asp-controller="News"  asp-route-id="@firstevent.Id"  style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
+                        <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@firstevent.Id" style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
                     </div>
                 </article>
                 if (Model.News != null)
@@ -223,8 +225,8 @@
 
             }
         </div>
-        <a class="btn btn-lg news-btn  text-center text-white mt-3" asp-action="News" asp-controller="Home" style="position:relative; left:50%">See more</a>
     </section>
+    <a class=" btn-lg news-btn  text-center text-white mt-3" asp-action="Index" asp-controller="News" style="position:relative; left:40%">See more</a>
 </div>
 
 @section Scripts{

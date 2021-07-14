@@ -21,6 +21,8 @@ body {
   border-color: #1861ac;
 }
 
+
+
 .daily-inspiration-div {
    
   position: relative;
@@ -51,6 +53,7 @@ body {
     border:2px solid white;
     padding-top:10px;
     margin-top:15px;
+
 }
 
 a.donate-btn{
@@ -110,6 +113,7 @@ html {
         margin-left: 0px;
     }
 }
+
 
 
 .bt-1{
@@ -506,7 +510,8 @@ body {
 
 
 .container {
-    padding-top: 0;
+    padding-top: 100px;
+    padding-bottom:100px;
 }
 
 .imageview {
@@ -525,12 +530,12 @@ body {
     background-color: #023041;
 }
 
-    .news-btn:hover {
-        transition-delay: 1s;
-        background-color: #455c65;
-        color: white;
-        transition: all 0.3s ease 0s
-    }
+.news-btn:hover {
+    transition-delay: 1s;
+    background-color: #455c65;
+    color: white;
+    transition: all 0.3s ease 0s
+}
 
 .newsdate {
     color: #20bdf0;
@@ -575,7 +580,7 @@ body {
 }
 .welcome-text {
     position: relative;
-    top: 100px;
+    top: 160px;
     left: 130px;
     /*left: 3000px;*/
     z-index: 99;
@@ -590,7 +595,7 @@ body {
 
 @media screen and (max-width:699px) {
     .welcome-text {
-        top: 100px;
+        top: 160px;
         text-align: center;
     }
 
@@ -628,6 +633,13 @@ body {
 
 @media screen and (max-width:366px) {
     .welcome-text {
-        top: 60px;
+        top: 140px;
+    }
+
+}
+
+@media screen and (max-width:767px) {
+    .welcome-text {
+        left: 0px;
     }
 }

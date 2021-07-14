@@ -12,6 +12,9 @@ namespace HelpersNetwork.Models
         T FindbyCondition(int? id);
 
         List<T> Read();
+
+        IOrderedQueryable<HelpersNetworkBranchesTb> ReadBranch();
+
         IOrderedQueryable<NewsModel> ReadNews();
         IOrderedQueryable<ProjectGallery> ReadProjectImages();
 

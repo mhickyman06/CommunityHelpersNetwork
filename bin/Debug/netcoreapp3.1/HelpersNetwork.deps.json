@@ -32,6 +32,7 @@
       "HelpersNetwork/1.0.0": {
         "dependencies": {
           "Google.Apis": "1.52.0",
+          "Google.Apis.Gmail.v1": "1.52.0.2356",
           "Google.Apis.YouTube.v3": "1.52.0.2366",
           "Google.Apis.YouTubeAnalytics.v1": "1.49.0.2197",
           "MailKit": "2.13.0",
@@ -43,6 +44,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "3.1.7",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
           "NETCore.MailKit": "2.0.3",
+          "NLog.Web.AspNetCore": "4.12.0",
           "ReflectionIT.Mvc.Paging": "3.0.0",
           "Microsoft.AspNetCore.Antiforgery.Reference": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "3.1.0.0",
@@ -360,6 +362,21 @@
         },
         "compile": {
           "lib/netstandard2.0/Google.Apis.Core.dll": {}
+        }
+      },
+      "Google.Apis.Gmail.v1/1.52.0.2356": {
+        "dependencies": {
+          "Google.Apis": "1.52.0",
+          "Google.Apis.Auth": "1.52.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Gmail.v1.dll": {
+            "assemblyVersion": "1.52.0.2356",
+            "fileVersion": "1.52.0.2356"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Apis.Gmail.v1.dll": {}
         }
       },
       "Google.Apis.YouTube.v3/1.52.0.2366": {
@@ -1802,6 +1819,46 @@
         },
         "compile": {
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
+        }
+      },
+      "NLog/4.7.9": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.7.9.12899"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/NLog.dll": {}
+        }
+      },
+      "NLog.Extensions.Logging/1.7.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "3.1.7",
+          "NLog": "4.7.9"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NLog.Extensions.Logging.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.7.2.1548"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/NLog.Extensions.Logging.dll": {}
+        }
+      },
+      "NLog.Web.AspNetCore/4.12.0": {
+        "dependencies": {
+          "NLog.Extensions.Logging": "1.7.2"
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NLog.Web.AspNetCore.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.12.0.1931"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp3.0/NLog.Web.AspNetCore.dll": {}
         }
       },
       "NuGet.Frameworks/4.7.0": {
@@ -4603,6 +4660,13 @@
       "path": "google.apis.core/1.52.0",
       "hashPath": "google.apis.core.1.52.0.nupkg.sha512"
     },
+    "Google.Apis.Gmail.v1/1.52.0.2356": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3ys2Us5TO0nm1eQGlJhgxDUz021hVtjxGmDGgd9jdPZTnouW1AZEzktjxKPyVGjij7gq5WP3agigf206LpTnjw==",
+      "path": "google.apis.gmail.v1/1.52.0.2356",
+      "hashPath": "google.apis.gmail.v1.1.52.0.2356.nupkg.sha512"
+    },
     "Google.Apis.YouTube.v3/1.52.0.2366": {
       "type": "package",
       "serviceable": true,
@@ -5400,6 +5464,27 @@
       "sha512": "sha512-5PYT/IqQ+UK31AmZiSS102R6EsTo+LGTSI8bp7WAUqDKaF4wHXD8U9u4WxTI1vc64tYi++8p3dk3WWNqPFgldw==",
       "path": "newtonsoft.json.bson/1.0.1",
       "hashPath": "newtonsoft.json.bson.1.0.1.nupkg.sha512"
+    },
+    "NLog/4.7.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Y0dKY5d506ZVcb8dTMp3BSb+jUGaFu/ArvRkgn4daDWKf7qqFXjEFYjqoyTrWkcNguqS6avkwICS0hsFsr4BzA==",
+      "path": "nlog/4.7.9",
+      "hashPath": "nlog.4.7.9.nupkg.sha512"
+    },
+    "NLog.Extensions.Logging/1.7.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0y1QziAUCdePQc4itPOQF3xDcs0iE9NHlIK0hE0eA0+Ef6E9dnJDPveNu7w2ckYaDfJIFHpOoLK8sZmNEyiBCw==",
+      "path": "nlog.extensions.logging/1.7.2",
+      "hashPath": "nlog.extensions.logging.1.7.2.nupkg.sha512"
+    },
+    "NLog.Web.AspNetCore/4.12.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-imBvT0hmVd1bhDpd4cNwurcPDZ9jdHwxH5C3+dzcLQ8stq/wpP/1wbpd3hTzpfrwFkVp06rMXrbdXWcmnw4/Cw==",
+      "path": "nlog.web.aspnetcore/4.12.0",
+      "hashPath": "nlog.web.aspnetcore.4.12.0.nupkg.sha512"
     },
     "NuGet.Frameworks/4.7.0": {
       "type": "package",

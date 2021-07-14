@@ -1,0 +1,59 @@
+@model EditBankBranchDdtails
+
+@{
+    ViewData["Title"] = "Edit Bank Details";
+    Layout = "_AdministratorPortalLayout";
+}
+
+<div class="container-fluid">
+    <div>
+        <h4>Edit Bank Details</h4>
+    </div>
+    <div class="mt-5">
+        <form id="EditNews" asp-action="EditBankDetails" asp-controller="Administrator" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id" />
+
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BankName"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea id="shortbio" asp-for="@Model.BankName" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px"></textarea>
+                        <span asp-validation-for="@Model.BankName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BankAccountName"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea id="shortbio" asp-for="@Model.BankAccountName" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px"></textarea>
+                        <span asp-validation-for="@Model.BankAccountName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group input-group">
+                    <div class="col-sm-4">
+                        <label asp-for="@Model.BankAccountNumber"></label>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea id="shortbio" asp-for="@Model.BankAccountNumber" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px"></textarea>
+                        <span asp-validation-for="@Model.BankAccountNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary" style="border-radius:15px;border:none">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

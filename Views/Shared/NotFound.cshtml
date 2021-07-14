@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Not Found";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
+        @{
+            await Html.RenderPartialAsync("_MenuBar");
+        }
+    </div>
+</header>
+<div class="container" style="padding-top:80px;padding-bottom:80px">
+    <div class="mt-3 alert alert-danger text-center">
+        <h3>@ViewBag.ErrorMessage</h3>
+        <a asp-action="Index" asp-controller="Home">Click here to navigate to the home page</a>
+        <hr />
+    </div>
+</div>

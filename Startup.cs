@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HelpersNetwork.Data;
+using HelpersNetwork.Logging;
 using HelpersNetwork.Models;
 using HelpersNetwork.Models.SeedRoles;
 using HelpersNetwork.Services;
 using MailKit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -46,17 +48,18 @@ namespace HelpersNetwork
             services.AddTransient<IHelpersNetworkRepository<ProjectGallery>, HelpersNetworkRepository<ProjectGallery>>();
             services.AddTransient<IHelpersNetworkRepository<DailyViewModel>, HelpersNetworkRepository<DailyViewModel>>();
             services.AddTransient<IHelpersNetworkRepository<CommunityLatestProject>, HelpersNetworkRepository<CommunityLatestProject>>();
+            services.AddTransient<IHelpersNetworkRepository<HelpersNetworkBranchesTb>, HelpersNetworkRepository<HelpersNetworkBranchesTb>>();
+            services.AddTransient<IHelpersNetworkRepository<chnbankdetails>, HelpersNetworkRepository<chnbankdetails>>();
 
             services.AddTransient<IFileManagerService, FileManagerService>();
 
             services.AddTransient<Services.IMailService, Services.MailService>();
 
+            services.AddSingleton<ILog, LogNLog>();
 
             services.AddTransient<RolesSeeder>();
 
             services.AddHostedService<SetupIdentityDataSeeder>();
-
-
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             
@@ -69,22 +72,26 @@ namespace HelpersNetwork
                 options.Password.RequireNonAlphanumeric = false;
 
 
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
+
+                options.SignIn.RequireConfirmedEmail = true;
                 // my Youtube api key<----> AIzaSyAwxnAxSvngDvA5-81Tze8iFHrZstoTsZY  <------->
 
             })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<HelpersNetworkIdentityDbContext>();
 
-            //services.AddDefaultIdentity<HelpersNetworkUser>(options =>
-            //{
-            //    options.SignIn.RequireConfirmedAccount = false;
-            //    options.Password.RequireLowercase = false;
-            //    options.Password.RequireUppercase = false;
-            //    options.Password.RequiredUniqueChars = 0;
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+             opt.TokenLifespan = TimeSpan.FromHours(2));
 
-            //})
-            //.AddEntityFrameworkStores<HelpersNetworkContext>();
-
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueLengthLimit = int.MaxValue;
+                options.MultipartBodyLengthLimit = int.MaxValue;
+                options.MemoryBufferThreshold = int.MaxValue;
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -96,7 +103,7 @@ namespace HelpersNetwork
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILog logger)
         {
             if (env.IsDevelopment())
             {
@@ -104,7 +111,9 @@ namespace HelpersNetwork
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.ConfigureExcetionalHandler(logger);
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }

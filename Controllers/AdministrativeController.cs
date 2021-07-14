@@ -20,46 +20,12 @@ using HelpersNetwork.Services;
 using NETCore.MailKit.Core;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.AspNetCore.Http;
+using HelpersNetwork.Models.SeedRoles;
 
 namespace HelpersNetwork.Controllers
 {
 
-    [Authorize(Policy = "AdminPanel")]
-    [Route("api/[controller]")]
-
-    public class ListNews : Controller
-    {
-        public ListNews(IHelpersNetworkRepository<NewsModel> newsrepository)
-        {
-            Newsrepository = newsrepository;
-        }
-
-        public IHelpersNetworkRepository<NewsModel> Newsrepository { get; }
-
-        [HttpGet]
-        [Route("Index")]
-        public async Task<IActionResult> Index(string searchstring,int page = 1)
-        {
-            var query = Newsrepository.ReadNews();
-            var filter = query.AsQueryable();
-            var model = await PagingList.CreateAsync(query, 2, page);
-            if (!string.IsNullOrWhiteSpace(searchstring))
-            {
-                query.OrderBy(x => x.Title);
-                filter = filter.Where(x => x.Title.Contains(searchstring));
-                model.OrderBy(x => x.Title);
-                filter.OrderBy(x => x.Title);
-            };
-
-            model.RouteValue = new RouteValueDictionary
-            {
-                {"filter",searchstring }
-            };
-            //model.OrderByDescending(x => x.DatePublished);
-            return View(model);
-        }
-    }
-
+   
     [Authorize(Policy = "AdminPanel")]
     [Route("api/[controller]")]
 
@@ -76,7 +42,7 @@ namespace HelpersNetwork.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var query = projectimagerepository.ReadProjectImages();
-            var model = await PagingList.CreateAsync(query, 2, page);
+            var model = await PagingList.CreateAsync(query, 10, page);
             //model.OrderByDescending(x => x.DatePublished);
             return View(model);
         }
@@ -94,6 +60,7 @@ namespace HelpersNetwork.Controllers
 
         public IHelpersNetworkRepository<CommunityLatestProject> _projectvideosrepository { get; }
 
+
         [HttpGet]
         [Route("Index")]
 
@@ -110,39 +77,11 @@ namespace HelpersNetwork.Controllers
                 query.Add(projectvideo);
             }
             var selected = query.OrderByDescending(x => x.PublicationDate);
-            var model =  PagingList.Create(query, 1, page);
+            var model =  PagingList.Create(query, 10, page);
 
             return View(model);
         }
     }
-
-    [Authorize(Policy = "AdminPanel")]
-    [Route("api/[controller]")]
-
-    public class ListMembers : Controller
-    {
-        public ListMembers(HelpersNetworkIdentityDbContext context)
-        {
-            _context = context;
-        }
-
-        public HelpersNetworkIdentityDbContext _context { get; }
-
-        [HttpGet]
-        [Route("Index")]
-        public async Task<IActionResult> Index(int page = 1)
-        {
-            var query = _context.Users.AsNoTracking().OrderBy(x => x.Name);
-            var model = await PagingList.CreateAsync(query, 1, page);
-            return View(model);
-        }
-    }
-
-
-
-
-
-
 
     [Authorize(Policy = "AdminPanel")]
     [Route("api/[controller]")]
@@ -153,13 +92,17 @@ namespace HelpersNetwork.Controllers
         private readonly IHelpersNetworkRepository<ProjectGallery> _gelleryrepository;
         private readonly IHelpersNetworkRepository<DailyViewModel> dailyviewrepository;
         private readonly IHelpersNetworkRepository<CommunityLatestProject> projectvideosrepository;
+        private readonly IHelpersNetworkRepository<HelpersNetworkBranchesTb> branchrepository;
+        private readonly HelpersNetworkIdentityDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly IMailService emailService;
         private readonly ILogger<AdministratorController> logger;
 
         private IFileManagerService FileManager { get; }
         public HelpersNetworkIdentityDbContext HelpersNetworkContext { get; }
+        public IHelpersNetworkRepository<chnbankdetails> Bankdetailsrepository { get; }
 
         public AdministratorController(
               IHelpersNetworkRepository<NewsModel> newsrepository,
@@ -168,7 +111,11 @@ namespace HelpersNetwork.Controllers
              HelpersNetworkIdentityDbContext helpersNetworkContext,
              IHelpersNetworkRepository<DailyViewModel> dailyviewrepository,
              IHelpersNetworkRepository<CommunityLatestProject> projectvideosrepository,
+             IHelpersNetworkRepository<HelpersNetworkBranchesTb> branchrepository,
+             IHelpersNetworkRepository<chnbankdetails> bankdetailsrepository,
+             HelpersNetworkIdentityDbContext context,
              UserManager<ApplicationUser> userManager,
+             RoleManager<IdentityRole> roleManager,
              IPasswordHasher<ApplicationUser> passwordHasher,
              IMailService emailService,
              ILogger<AdministratorController> logger
@@ -180,43 +127,62 @@ namespace HelpersNetwork.Controllers
             HelpersNetworkContext = helpersNetworkContext;
             this.dailyviewrepository = dailyviewrepository;
             this.projectvideosrepository = projectvideosrepository;
+            this.branchrepository = branchrepository;
+            Bankdetailsrepository = bankdetailsrepository;
+            this.context = context;
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.passwordHasher = passwordHasher;
             this.emailService = emailService;
             this.logger = logger;
         }
 
 
+       
+        [HttpGet]
+        [Route("SendUserMail")]
+        public async Task<IActionResult> SendUserMail(string UserId)
+        {
+            if (UserId == null)
+            {
+                return View("UserNotFound", "Account");
+            }
+            var user = await userManager.FindByIdAsync(UserId);
+            var model = new SendMailViewModel
+            {
+                UserId = user.Id,
+                ToEmail = user.Email,
+            };
+
+            return View(model);
+        }
+
         [HttpPost]
         [Route("SendUserMail")]
         public async Task<IActionResult> SendUserMail(SendMailViewModel model)
         {
-            if(model.Body == null || model.Subject == null)
+            if (ModelState.IsValid)
             {
-                return BadRequest(ModelState);
-            }
-            var mailrequest = new MailRequest
-            {
-                ToEmail = model.ToEmail,
-                Subject = model.Subject,
-                Body = model.Body
-            };
-            try
-            {
-               await emailService.SendEmailAsync(mailrequest);
-                return Ok(new { Message = "Email sent successfully"});
-            }
-            catch(Exception ex)
-            {
-                logger.LogInformation(ex.Message);
-                return BadRequest(new
+                var user = await userManager.FindByIdAsync(model.UserId);
+                if(user == null)
                 {
-                    Message = "Not successfull, some error occured while processing",
-                    Error = ex.Message
-                });
-                //return StatusCode(StatusCodes.Status500InternalServerError,
-                // "Error retrieving data from the database");
+                    return NotFound();
+                }
+                else
+                {
+                    var mailrequest = new MailRequest
+                    {
+                        ToEmail = user.Email,
+                        Subject = model.Subject,
+                        Body = model.Body,
+                        Attachments = model.Attachments
+                    };
+                   
+                    await emailService.SendEmailAsync(mailrequest);
+                    return RedirectToAction(nameof(ListUsers));                   
+                }
             }
+            return View(model);
         }
 
         [HttpGet]
@@ -307,7 +273,90 @@ namespace HelpersNetwork.Controllers
 
         #region Application User
 
-      
+        [HttpGet]
+        [Route("ListUsers")]
+        public IActionResult ListUsers(string Message)
+        {
+            var model = context.Users.AsNoTracking().OrderBy(x => x.Name);          
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [Route("CreateApplicationUser")]
+        public IActionResult CreateApplicationUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("CreateApplicationUser")]
+        public async Task<IActionResult> CreateApplicationUser(RegisterViewModel model)
+        {
+            var userexist = await userManager.FindByEmailAsync(model.Email);
+           
+            if (userexist == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var enumdisplaystatus = (Sex)model.Sex;
+                    string enumname = enumdisplaystatus.ToString();
+
+                    var user = new ApplicationUser
+                    {
+                        Email = model.Email,
+                        UserName = model.Email,
+                        Name = model.Name,
+                        Age = model.Age,
+                        Gender = enumname,
+                        PhoneNumber = model.PhoneNumber,
+                        Religion = model.Religion,
+                        Nationality = model.Nationality,
+                        State = model.State,
+                        LocalGovt = model.LocalGovt,
+                        Address = model.Address,
+                        SecurityStamp = Guid.NewGuid().ToString(),
+                    };
+
+                    if (!await roleManager.RoleExistsAsync(ConstantRoles.User))
+                        await roleManager.CreateAsync(new IdentityRole(ConstantRoles.User));
+
+                    var result = await userManager.CreateAsync(user, model.ConfirmPassword);
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, ConstantRoles.User);
+                        var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var confirmationLink = Url.Action("ConfirmEmail",
+                            "Account", new { token, email = user.Email }, Request.Scheme);
+
+                        var mailRequest = new MailRequest
+                        {
+                            Body = confirmationLink,
+                            Subject = "Confirmation Link",
+                            ToEmail = user.Email
+                        };
+
+                        await emailService.SendEmailAsync(mailRequest);
+                        logger.LogInformation("A user has just been created");
+
+                        return RedirectToAction("SuccessRegistration","Account");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            logger.LogTrace("Account/Controller");
+                            logger.LogError(error.Description);
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }               
+            }
+            return View(model);
+        }
+
+
 
         [HttpPost("RemoveUser")]
         [Route("RemoveUser/{Id}")]
@@ -396,16 +445,258 @@ namespace HelpersNetwork.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-                return RedirectToAction(nameof(ListMembers));
+                return RedirectToAction(nameof(ListUsers));
             }
-            return RedirectToAction(nameof(ListMembers));
+            return RedirectToAction(nameof(ListUsers));
         }
 
         #endregion
 
+        #region BankDetails
+
+        [HttpGet]
+        [Route("ListBankDetails")]
+        public IActionResult ListBankDetails()
+        {
+            var model = Bankdetailsrepository.Read();
+            model.OrderBy(x => x.BankName);
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("CreateBankDetails")]
+        public IActionResult CreateBankDetails()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("CreateBankDetails")]
+        public IActionResult CreateBankDetails(CreateBankDetailsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var bankdetails = new chnbankdetails
+                {
+                    BankName = model.BankName,
+                    BankAccountName = model.BankAccountName,
+                    BankAccountNumber = model.BankAccountNumber
+                };
+
+                Bankdetailsrepository.Create(bankdetails);
+                Bankdetailsrepository.Save();
+                return RedirectToAction(nameof(ListBankDetails));
+            }
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [Route("EditBankDetails")]
+        public IActionResult EditBankDetails(int? Id)
+        {
+            var bankdetails = Bankdetailsrepository.FindbyCondition(Id);
+            if (bankdetails == null)
+            {
+                return NotFound();
+            }
+            var model = new EditBankBranchDdtails
+            {
+                Id = bankdetails.Id,
+                BankName = bankdetails.BankName,
+                BankAccountName = bankdetails.BankAccountName,
+                BankAccountNumber = bankdetails.BankAccountNumber,            
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("EditBankDetails")]
+        public IActionResult EditBankDetails(int? Id, EditBankBranchDdtails model)
+        {
+            var bankdetails = Bankdetailsrepository.FindbyCondition(Id);
+            if (bankdetails == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    bankdetails.BankName = model.BankName;
+                    bankdetails.BankAccountName = model.BankAccountName;
+                    bankdetails.BankAccountNumber = model.BankAccountNumber;                  
+                    Bankdetailsrepository.Update(bankdetails);
+                    Bankdetailsrepository.Save();
+                    return RedirectToAction(nameof(ListBankDetails));
+                }
+            }
+            return View(model);
+        }
+
+
+        [HttpPost("DeleteBankDetails")]
+        [Route("DeleteBankDetails")]
+
+        public JsonResult DeleteBankDetails(int? Id)
+        {
+            var branch = Bankdetailsrepository.FindbyCondition(Id);
+            if (branch == null)
+            {
+                return Json("The Specified branch was not found please check your inputs and try again");
+            }
+            try
+            {
+                Bankdetailsrepository.Delete(Id);
+                Bankdetailsrepository.Save();
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return Json("Couldn't Delete this Bank Details");
+            }
+
+            logger.LogInformation("Successfully Deleted ");
+
+            return Json(new { Status = "Successfully Deleted" });
+
+        }
+
+        #endregion
+
+        #region Branch
+
+        [HttpGet]
+        [Route("ListBranches")]
+        public IActionResult ListBranches()
+        {
+            var model = branchrepository.ReadBranch();
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("CreateBranch")]
+        public IActionResult CreateBranch()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("CreateBranch")]
+        public IActionResult CreateBranch(CreateBranchViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var branch = new HelpersNetworkBranchesTb
+                {
+                    BranchName = model.BranchName,
+                    BranchCountry = model.BranchCountry,
+                    BranchState = model.BranchState,
+                    BranchLocalGovt = model.BranchLocalGovt,
+                    BranchAddress = model.BranchAddress,
+                    BranchContactPerson = model.BranchContactPerson,
+                    ContactPersonNumber = model.ContactPersonNumber
+                };
+
+                branchrepository.Create(branch);
+                branchrepository.Save();
+                return RedirectToAction(nameof(ListBranches));
+            }
+            return View(model);
+        }
+
+
+        [HttpGet]
+        [Route("EditBranch")]
+        public IActionResult EditBranch(int? Id)
+        {
+            var branch = branchrepository.FindbyCondition(Id);
+            if(branch == null)
+            {
+                return NotFound(); 
+            }
+            var model = new EditBranchViewModel
+            {
+                Id = branch.Id,
+                BranchName = branch.BranchName,
+                BranchCountry = branch.BranchCountry,
+                BranchState = branch.BranchState,
+                BranchLocalGovt = branch.BranchLocalGovt,
+                BranchAddress = branch.BranchAddress,
+                BranchContactPerson = branch.BranchContactPerson,
+                ContactPersonNumber = branch.ContactPersonNumber
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("EditBranch")]
+        public IActionResult EditBranch(int? Id,EditBranchViewModel model)
+        {
+            var branch = branchrepository.FindbyCondition(Id);
+            if(branch == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    branch.BranchName = model.BranchName;
+                    branch.BranchCountry = model.BranchCountry;
+                    branch.BranchState = model.BranchState;
+                    branch.BranchLocalGovt = model.BranchLocalGovt;
+                    branch.BranchAddress = model.BranchAddress;
+                    branch.BranchContactPerson = model.BranchContactPerson;
+                    branch.ContactPersonNumber = model.ContactPersonNumber;
+
+                    branchrepository.Update(branch);
+                    branchrepository.Save();
+                    return RedirectToAction(nameof(ListBranches));
+                }
+            }
+            return View(model);
+        }
+
+        [HttpPost("DeleteBranch")]
+        [Route("DeleteBranch")]
+
+        public JsonResult DeleteBranch(int? Id)
+        {
+            var branch = branchrepository.FindbyCondition(Id);
+            if(branch == null)
+            {
+                return Json("The Specified branch was not found please check your inputs and try again");
+            }
+            try
+            {
+                branchrepository.Delete(Id);
+                branchrepository.Save();
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return Json("Couldn't Delete this Branch");
+            }
+
+            logger.LogInformation("Successfully Deleted ");
+
+            return Json(new { Status = "Successfully Deleted" });
+
+        }
+        #endregion
+
         #region News
 
-
+        [HttpGet]
+        [Route("ListNews")]
+        public IActionResult ListNews()
+        {
+            var model = _newsrepository.ReadNews();
+            return View(model);
+        }
 
         [HttpGet]
         [Route("CreateNews")]
@@ -433,7 +724,7 @@ namespace HelpersNetwork.Controllers
                 };
                 _newsrepository.Create(News);
                 _newsrepository.Save();
-                return RedirectToAction("Index", "ListNews");
+                return RedirectToAction(nameof(ListNews));
             }         
             return View(newsView);
         }

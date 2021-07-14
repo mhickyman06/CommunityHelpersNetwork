@@ -11,7 +11,7 @@ namespace HelpersNetwork.ViewModels
         [Required]
         public string Name { get; set; }
         [Required]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         public string Age { get; set; }
         [Required]
         [DisplayName("Gender")]
@@ -48,6 +48,8 @@ namespace HelpersNetwork.ViewModels
         [DisplayName("Confirm Password")]
         [Compare("Password",ErrorMessage ="Passowrd are not the same")]
         public string ConfirmPassword { get; set; }
+
+       
 
     }
 }

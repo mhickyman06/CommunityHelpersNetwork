@@ -1,0 +1,124 @@
+@model IOrderedQueryable<HelpersNetworkBranchesTb>;
+
+@{
+    ViewData["Title"] = "Branch List";
+
+    Layout = "_AdministratorPortalLayout";
+
+}
+
+
+<div class="container-fluid">
+    <div class="mt-5">
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Branch List</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="ListBranchesTable" class=" table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>Local Government</th>
+                                <th>Address</th>
+                                <th>Contact Person</th>
+                                <th>Contact Person Number</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var branch in Model)
+                            {
+                                <tr id="row_@branch.Id">
+                                    <td>@branch.BranchName</td>
+                                    <td>@branch.BranchCountry</td>
+                                    <td>@branch.BranchState</td>
+                                    <td>@branch.BranchLocalGovt</td>
+                                    <td>@branch.BranchAddress</td>
+                                    <td>@branch.BranchContactPerson</td>
+                                    <td>@branch.ContactPersonNumber</td>
+                                    <td>
+                                        <a class="btn btn-primary btn-sm mb-2" asp-action="EditBranch" asp-controller="Administrator" asp-route-Id="@branch.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <a class="btn btn-danger mb-2  btn-sm" href="#" onclick="ConfirmDelete('@branch.Id')">
+                                            <i class=" fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Delete Branch</h3>
+                                    <a href="#" style="margin-left:auto" class="close" data-dismiss="modal">&times;</a>
+                                </div>
+                                <div class="modal-body">
+                                    <h4 class="modal-bodycontent">Are you sure you want to delete this Branch?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                                    <a href="#" class="btn btn-success" onclick="DeleteNews()">Confirm</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hiddennewsid" />
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(function () {
+
+            //$("#ListBranchesTable").DataTable({
+            //    "scrollY": "450px",
+            //    "scrollCollapse": true,
+            //    "paging": true,
+            //});
+        });
+
+        var ConfirmDelete = function (NewsId) {
+            $("#hiddennewsid").val(NewsId);
+            $("#myModal").modal('show');
+        }
+
+
+
+        var DeleteNews = function () {
+
+            var userid = $("#hiddennewsid").val();
+
+            $.ajax({
+                type: "POST",
+                url: "api/Administrator/DeleteBranch",
+                //dataType : "application/json",
+                data: {
+                    Id: userid
+                },
+                success: function (result) {
+
+                    $("#myModal").modal("hide");
+                    $("#row_" + userid).remove();
+                    $("#col_" + userid).remove();
+                },
+                error: function (errors) {
+                    console.log(errors)
+                }
+            })
+        }
+
+    </script>
+}

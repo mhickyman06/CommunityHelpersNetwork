@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - HisSecretPlace</title>
     <meta name="author" content="Michael Madu Oluwaseyi ">
     <meta name="description" content="A site " />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/Custom.css" />
     <link rel="stylesheet" href="~/css/animate.min.css" />
@@ -30,21 +29,31 @@
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.min.css" />
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.css" />
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/brands.css" />
-    <link rel="icon" href="~/lib/fontawesome-free-5.13.0-web/svgs/brands" />
     <link rel="stylesheet" href="~/css/Custom1.css" />
     <link rel="stylesheet" href="~/lib/style.css" />
     <link rel="stylesheet" href="~/lib/framework.css" />
     <link rel="stylesheet" href="~/lib/layout.css" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
-    @*<link rel="preconnect" href="https://fonts.gstatic.com">*@
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,300&family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <environment include="Staging">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="icon" href="~/lib/fontawesome-free-5.13.0-web/svgs/brands" />
+        <link rel="stylesheet" href="~/lib/DataTables-1.10.25/css/jquery.dataTables.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,300&family=Poppins:wght@200&display=swap" rel="stylesheet" />
+    </environment>
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">*@
+
+
     <style>
 
 
-        .f-list li{
-            padding-top:10px;
-            padding-bottom:10px;
+        .f-list li {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         /*.sliding-news {
@@ -117,7 +126,7 @@
         }
     </style>
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="51">
+<body data-spy="scroll" data-target=".navbar" data-offset="51" style="margin-left:0px;margin-right:0px">
     <main role="main">
         @RenderBody()
     </main>
@@ -129,9 +138,9 @@
                     <h3 style="color:white" class="mb-3">Usefull links</h3>
                     <ul class="f-list text-muted">
                         <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">About us</a></li>
+                        <li><a asp-action="AboutUs" asp-controller="Home">About us</a></li>
                         <li><a href="#">Testimonials</a></li>
-                        <li><a href="#">News</a></li>
+                        <li><a asp-action="Index" asp-controller="News">News</a></li>
                     </ul>
                 </div>
 
@@ -144,15 +153,15 @@
                         </li>
                         <li>
                             <i class="fa fa-envelope"></i>
-                            <span>secretplacenigeria@gmail.com</span>
+                            <span>communityhelpersnetwork@gmail.com</span>
                         </li>
                         <li>
                             <i class="fa fa-map-marker"></i>
                             <span>37 Oliwo Odikan Street, Isawo Road,Agric,Ikorodu,Lagos.</span>
                         </li>
                         <li>
-                            <form action="mailto:michealmadu73@gmai.com">
-                                <input placeholder="Enter your message" type="text" />
+                            <form action="mailto:communityhelpersnetwork@gmai.com">
+                                <input placeholder="Enter your message " class="mb-3" type="text" />
                                 <button class="btn btn-sm custom_btn" type="submit" style="background-color: #ff6a00">Email Us</button>
                             </form>
                         </li>
@@ -162,11 +171,14 @@
         </div>
     </footer>
 
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/Custom.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
     <script src="~/lib/wow/wow.min.js"></script>
+
     <script>
         wow = new WOW({
             boxCLass: 'wow',
@@ -177,15 +189,12 @@
         });
         wow.init();
     </script>
-    <script src="~/lib/waypoints/waypoints.min.js"></script>
-    <script src="~/lib/main.js"></script>
-    <script src="~/lib/typed/typed.min.js"></script>
-    <script src="~/lib/isotope/isotope.pkgd.min.js"></script>
-    <script src="~/lib/lightbox/js/lightbox.min.js"></script>
     <script src="~/customJs/custom.js"></script>
     <script src="~/customJs/plugin.js"></script>
-    <script src="~/customJs/popper.min.js"></script>
+    <script src="~/lib/DataTables-1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>*@
 
 
     @{
@@ -199,4 +208,4 @@
     }
 
 </body>
-        </html>
+ </html>
