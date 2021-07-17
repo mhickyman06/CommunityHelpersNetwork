@@ -15,5 +15,6 @@
     <WebStackScaffolding_ControllerDialogWidth>600</WebStackScaffolding_ControllerDialogWidth>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_DbContextTypeFullName>HelpersNetwork.Models.HelpersNetworkDbContext</WebStackScaffolding_DbContextTypeFullName>
+    <NameOfLastUsedPublishProfile>CommunityHelpersNetwork</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

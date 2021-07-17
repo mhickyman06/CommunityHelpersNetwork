@@ -21,7 +21,7 @@
             <div class="row mt-5">
                 @foreach (var gallery in Model)
                 {
-                    var imagepath = System.IO.Path.Combine("~/content/Images/", gallery.ImagePath);
+                    var imagepath = System.IO.Path.Combine("~/ContentImages/", gallery.ImagePath);
 
                     <div class="card col-lg-3 col-md-4 col-sm-6 col-xs-12" id="col_@gallery.Id">
                         <div class="card-header">

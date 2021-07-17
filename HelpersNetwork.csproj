@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+	  <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
 	  <!--<Nullable>enable</Nullable>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="web.config" />
+    <Content Remove="nlog.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Apis" Version="1.52.0" />
@@ -34,7 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="web.config" />
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

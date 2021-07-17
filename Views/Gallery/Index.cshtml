@@ -4,6 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .mean-container .mean-bar {
+        background-color: #4e7b88;
+    }
+</style>
 <header>
     <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
         @{
@@ -24,9 +29,9 @@
             foreach (var gallery in Model)
             {
                 <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
-                    <img asp-append-version="true" src="~/content/Images/@gallery.ImagePath" style="width:90%;height:200px" />
+                    <img asp-append-version="true" src="~/ContentImages/@gallery.ImagePath" style="width:90%;height:200px" />
                     <h5 style="font-weight:500">@gallery.ImageTitle</h5>
-                    <h6 class="h6">@gallery.DatePublished.ToString("dd/MM/yyyy HH:mm")</h6>
+                    <h6 class="h6" style="color: #25c2f0;">@gallery.DatePublished.ToString("dd/MM/yyyy HH:mm")</h6>
                 </div>
             }
         }

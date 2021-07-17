@@ -6,13 +6,15 @@
 }
 
 <style>
-    .details-p{
-        font-family:"Montserrat";
-        font-weight:400;
-        font-size:larger;
+    .details-p {
+        font-family: "Montserrat";
+        font-weight: 400;
+        font-size: larger;
+    }
+    .mean-container .mean-bar {
+        background-color: #4e7b88;
     }
 </style>
-
 <header>
     <div class="header" style="background-color: #023041; top: 0px; position: fixed; z-index: 999; width: 100%">
         @{
@@ -30,7 +32,7 @@
     <div class="mr-0">
         <div class="row">
             <div class="col-10">
-                <img style="width:100%;height:400px" asp-append-version="true" class="mt-2" src="~/content/Images/@Model.ImagePath" />
+                <img style="width:100%;height:400px" asp-append-version="true" class="mt-2" src="~/ContentImages/@Model.ImagePath" />
             </div>
         </div>
         <div class="mt-3">

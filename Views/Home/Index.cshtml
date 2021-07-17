@@ -198,7 +198,7 @@
             @{
                 var firstevent = Model.News?.FirstOrDefault();
                 <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
-                    <img src="~/content/Images/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
+                    <img src="~/ContentImages/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
                     <div class="txtwrap">
                         <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
                         <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
@@ -212,7 +212,7 @@
                     foreach (var Event in events)
                     {
                         <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="~/content/Images/@Event.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
+                            <img src="~/ContentImages/@Event.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
                             <div class="txtwrap">
                                 <h6 class="heading" style="font-weight:600;font-size:medium">@Event.Title</h6>
                                 <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>

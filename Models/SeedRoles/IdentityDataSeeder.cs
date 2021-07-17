@@ -22,6 +22,8 @@ namespace HelpersNetwork.Models.SeedRoles
             {
                 var seeder = scope.ServiceProvider.GetRequiredService<RolesSeeder>();
                 await seeder.SeedRole();
+                seeder.SeedNews();
+                seeder.SeedYoutubeVideo();
             }
         }
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit News";
     Layout = "_AdministratorPortalLayout";
    
-    var imagePath = System.IO.Path.Combine("~/content/Images/", Model.ExistingImagePath);
+    var imagePath = System.IO.Path.Combine("~/ContentImages/", Model.ExistingImagePath);
 }
 
 
@@ -12,7 +12,7 @@
     <div>
         <h4>Edit News</h4>
     </div>
-    <div class="mt-5">
+    <div style="margin-top:100px">
         <form id="EditNews" asp-action="EditNews" asp-controller="Administrator" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -62,8 +62,16 @@
                     </div>
                 </div>
             </div>
-            <div style="text-align:center;margin-bottom:5px;">
-                <img asp-append-version="true" style="width:320px; height:240px" src="@imagePath" />
+           
+            <div class="row">
+                <div class="col-sm-4">
+
+                </div>
+                <div class="col-sm-6">
+                    <div style="text-align:center;margin-bottom:5px;">
+                        <img asp-append-version="true" style="width:100%; height:240px" src="@imagePath" />
+                    </div>
+                </div>
             </div>
             <div class="row mb-3">
                 <div class="form-group input-group">

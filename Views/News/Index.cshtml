@@ -6,7 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-  
+    .mean-container .mean-bar {
+        background-color: #4e7b88;
+    }
 </style>
 
 <header>
@@ -26,53 +28,45 @@
     </div>
 </div>
 
-
-
-
-
-<div class="container" style="padding:0; margin-top:80px">
-
-    @*<nav aria-label="Home Paging " class="mt-3 mb-4">
-            @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
-        </nav>*@
-
+<div class="container-fluid" style="margin-top:80px;padding-right:30px;padding-left:30px">
     <div class="row">
-
-        <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-            <div class="news-block mb-3">
+        <div class="col-lg-8 col-md-12 mb-4">
+            <div class="news-block mb-5">
                 @foreach (var item in Model.newsModel)
                 {
-                    <div class="mb-4">
-                        <div class="mb-3">
-                            <img asp-append-version="true" class="News-img" src="~/content/Images/@item.ImagePath" />
+                    <div class="mb-4 row">
+                        <div class="mb-3 col-sm-8 ">
+                            <img asp-append-version="true" class="News-img" src="~/ContentImages/@item.ImagePath" />
                         </div>
-                        <div>
-                            <h6 class="newsdate" datetime="@item.DatePublished.ToString("dd/MM/yyyy HH:mm")">@item.DatePublished.ToString("dd/MM/yyyy HH:mm")</h6>
-                            <h5 class="mt-2 newsparagraph"><b>@item.Title</b></h5>
-                            <p class="newsparagraph" style="font-weight:400">@item.ShortDescription</p>
-                            <a class="btn-sm news-btn" style="color:white" asp-action="NewsDetails" asp-controller="News" asp-route-id="@item.Id">Read More</a>
+                        <div class="ml-4">
+                            <h5 class="newsdate" datetime="@item.DatePublished.ToString("dd/MM/yyyy HH:mm")">@item.DatePublished.ToString("dd/MM/yyyy HH:mm")</h5>
+                            <p class="mt-2 newsparagraph" style="font-size:larger"><b>@item.Title</b></p>
+                            <p class="newsparagraph" style="font-weight:600">@item.ShortDescription</p>
+                            <a class="btn-lg news-btn" style="color:white" asp-action="NewsDetails" asp-controller="News" asp-route-id="@item.Id">Read More</a>
                         </div>
                     </div>
                 }
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+        <div class="col-lg-4 col-md-12 mt-5">
             <div class="comunityproject">
-                <h3 class="mt-3 text-center youtube-head">Latest Project Videos</h3>
-                <div class="mt-4 ml-4">
+                <h3 class="mt-3 mb-5 text-center youtube-head">Latest Project Videos</h3>
+                <div class="ml-4" style="margin-top:70px">
                     @foreach (var youtubevideo in Model.ProjectVideosmodel)
                     {
-                        <div class="mb-3">
-                            <div>
-                                <a href="@youtubevideo.VideoUrl"><img src="@youtubevideo.ThumbnailPath" /></a>                             
+                        <a href="@youtubevideo.VideoUrl">
+                            <div class="mb-3 row">
+                                <div class="col-3">
+                                    <img src="@youtubevideo.ThumbnailPath" />
+                                </div>
+                                <div class="col-8">
+                                    <p class="youtube-p" style="font-size:15px">@youtubevideo.Title</p>
+                                    <p class="youtube-p">@youtubevideo.Description</p>
+                                    <p class="youtube-p" datetime="@youtubevideo.PublicationDate" style="font-size:smaller;color:#4ac9f0">@youtubevideo.PublicationDate</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="youtube-p" style="font-size:15px">@youtubevideo.Title</p>
-                                <p class="youtube-p">@youtubevideo.Description</p>
-                                <p class="youtube-p"datetime="@youtubevideo.PublicationDate" style="font-size:smaller;color:#4ac9f0">@youtubevideo.PublicationDate</p>
-                            </div>
-                        </div>
-                     }
+                        </a>
+                    }
                 </div>
             </div>
         </div>
