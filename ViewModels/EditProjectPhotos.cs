@@ -9,7 +9,7 @@ namespace HelpersNetwork.ViewModels
 {
     public class EditProjectImages
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [DisplayName("Image Title")]
         public string ImageTitle { get; set; }

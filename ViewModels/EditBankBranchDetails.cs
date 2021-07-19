@@ -6,7 +6,7 @@ namespace HelpersNetwork.ViewModels
 {
     public class EditBankBranchDdtails
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Bank Name")]
         public string BankName { get; set; }

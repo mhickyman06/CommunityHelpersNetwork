@@ -31,26 +31,20 @@ namespace HelpersNetwork.Models
             table.Add(model);
         }
 
-        public void Delete(int? Id)
+        public void Delete(Guid Id)
         {
             T existing = table.Find(Id);
             table.Remove(existing);          
         }
-        public void Delete(int? Id, string imagePath)
+        public void Delete(Guid Id, string imagePath)
         {
             T existing = table.Find(Id);
             fileManagerService.DeleteImage(imagePath);
             table.Remove(existing);
         }
 
-        //public void EditDailyViewModel(DailyViewModel dailyViewModel)
-        //{
-        //    _context.DailyViewModels.Attach(dailyViewModel);
-        //    _context.Entry(dailyViewModel).State = EntityState.Modified;
 
-        //}
-
-        public T FindbyCondition(int? id)
+        public T FindbyCondition(Guid id)
         {
             return table.Find(id);
         }

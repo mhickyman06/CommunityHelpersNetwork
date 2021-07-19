@@ -6,8 +6,8 @@ namespace HelpersNetwork.ViewModels
 {
     public class EditProjectVideoViewModel
     {
+        public string Id { get; set; }
 
-        
         [DisplayName("Youtube Video Url")]
         public string VideoUrl { get; set; }
 

@@ -9,7 +9,7 @@ namespace HelpersNetwork.Models
     public interface IHelpersNetworkRepository<T> where T: class
     {
         void Create(T model);
-        T FindbyCondition(int? id);
+        T FindbyCondition(Guid id);
 
         List<T> Read();
 
@@ -19,32 +19,13 @@ namespace HelpersNetwork.Models
         IOrderedQueryable<ProjectGallery> ReadProjectImages();
 
         IOrderedQueryable<CommunityLatestProject> ReadProjectVideos();
-        void Delete(int? Id);
-        void Delete(int? Id,string imagepath);
+        void Delete(Guid Id);
+        void Delete(Guid Id,string imagepath);
 
         void Save();
         void Update(T eventModel);
         DailyViewModel GetDailyViewModel();
 
         public Task<YouTubeVideoDetails> GetVideoDetails(string searchid);
-        //void EditDailyViewModel(DailyViewModel dailyViewModel);
     }
-    //public interface IHelpersNetworkEventRepository
-    // {
-    //     void Create(EventModel eventModel);
-    //     EventModel FindEventByCondition(int? id);
-    //     News FindNewsByCondition(int? id);
-    //     List<EventModel> Read();
-    //     EventModel Delete(int Id);
-    //     News DeleteNews(int Id);
-    //     EventModel Update(EventModel eventModel);
-    //     DailyViewModel GetDailyViewModel();
-    //     List<News> GetNewsModel();
-
-    //     DailyViewModel GetDailyViewModelByCondition(int? id);
-    //     News GetNewsByCondition(int? id);
-    //     void CreateNews(News news);
-
-    //     void EditDailyViewModel(DailyViewModel dailyViewModel);
-    // }
 }

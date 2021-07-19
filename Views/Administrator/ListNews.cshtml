@@ -38,16 +38,16 @@
                                     <td>@news.ShortDescription</td>
                                     <td>@news.Body</td>
                                     <td>
-                                        <a class="btn btn-primary btn-sm" asp-action="EditNews" asp-controller="Administrator" asp-route-Id="@news.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                        <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete(@news.Id)">
+                                        <a class="btn btn-primary btn-sm mb-2" asp-action="EditNews" asp-controller="Administrator" asp-route-NewsId="@news.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <a class="btn btn-danger  btn-sm" href="#" @*data-toggle="modal" data-target="#newsModal"*@  onclick="ConfirmDelete('@news.Id')">
                                             <i class=" fas fa-trash-alt"></i>
                                         </a>
                                     </td>
                                 </tr>
-                            }
+                            } 
                         </tbody>
                     </table>
-                    <div class="modal fade" id="myModal">
+                    <div class="modal fade" id="newsModal" aria-labelledby="mynewsModal" >
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -114,7 +114,7 @@
     <script>
         var ConfirmDelete = function (NewsId) {
             $("#hiddennewsid").val(NewsId);
-            $("#myModal").modal('show');
+            $("#newsModal").modal('show');
         }
 
         var DeleteNews = function () {
@@ -123,14 +123,15 @@
                 type: "POST",
                 url: "DeleteNews",
                 data: {
-                    Id: newsid
+                    "Id": newsid
                 },
                 success: function (result) {
-                    $("#myModal").modal("hide");
+                    $("#newsModal").modal("hide");
                     $("#row_" + newsid).remove();
                     $("#col_" + newsid).remove();
                 }
             })
         }
+
     </script>
 }

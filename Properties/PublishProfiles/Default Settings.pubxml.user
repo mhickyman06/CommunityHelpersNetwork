@@ -8,9 +8,4 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword />
   </PropertyGroup>
-  <ItemGroup>
-    <DestinationConnectionStrings Include="HelpersNetworkContextConnection">
-      <Value>Data Source=SQL5050.site4now.net%3bInitial Catalog=db_a77791_communityhlpnet%3bUser Id=db_a77791_communityhlpnet_admin%3bPassword=felixmadu123</Value>
-    </DestinationConnectionStrings>
-  </ItemGroup>
 </Project>

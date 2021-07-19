@@ -103,10 +103,9 @@
 
             $.ajax({
                 type: "POST",
-                url: "api/Administrator/DeleteBranch",
-                //dataType : "application/json",
+                url: "/api/Administrator/DeleteBranch",
                 data: {
-                    Id: userid
+                    "Id": userid
                 },
                 success: function (result) {
 

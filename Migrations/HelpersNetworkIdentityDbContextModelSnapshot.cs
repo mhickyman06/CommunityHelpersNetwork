@@ -114,10 +114,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.CommunityLatestProject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DatePublished")
                         .HasColumnType("nvarchar(max)");
@@ -137,10 +136,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.DailyViewModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -153,10 +151,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.HelpersNetworkBranchesTb", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BranchAddress")
                         .IsRequired()
@@ -193,10 +190,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.NewsModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -228,10 +224,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.ProjectGallery", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DatePublished")
                         .HasColumnType("datetime2");
@@ -251,10 +246,9 @@ namespace HelpersNetwork.Migrations
 
             modelBuilder.Entity("HelpersNetwork.Models.chnbankdetails", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BankAccountName")
                         .IsRequired()

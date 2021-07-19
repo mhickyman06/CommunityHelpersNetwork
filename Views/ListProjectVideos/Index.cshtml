@@ -17,7 +17,7 @@
 <div class="container-fluid">
     <div class="mt-5">
         <div>
-            <h4>Project Images</h4>
+            <h4>Project Videos</h4>
             <div class="row mt-5">
                 @foreach (var gallery in Model)
                 {
@@ -35,7 +35,7 @@
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-primary btn-sm" asp-action="UpdateProjectVideo" asp-controller="Administrator" asp-route-Id="@gallery.InbuiltId"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete(@gallery.InbuiltId)">
+                            <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete('@gallery.InbuiltId')">
                                 <i class=" fas fa-trash-alt"></i>
                             </a>
                         </div>
@@ -80,9 +80,9 @@
             var newsid = $("#hiddennewsid").val();
             $.ajax({
                 type: "POST",
-                url: "DeleteProjectImages",
+                url: "/api/Administrator/DeleteProjectVideos",
                 data: {
-                    Id: newsid
+                    "Id": newsid
                 },
                 success: function (result) {
                     $("#myModal").modal("hide");

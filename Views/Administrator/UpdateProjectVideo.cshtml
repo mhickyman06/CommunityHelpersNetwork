@@ -12,6 +12,7 @@
     <div style="margin-top:100px">
         <form id="updatevideo" asp-action="UpdateProjectVideo" asp-controller="Administrator">
             <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id" />
             <div class="row mb-3">
                 <div class="form-group input-group">
                     <div class="col-sm-4">

@@ -545,6 +545,7 @@ body {
 
 .newsparagraph {
     font-family: "Montserrat";
+    font-size:medium;
 }
 
 .section-img {
@@ -563,9 +564,10 @@ body {
 }
 
 .youtube-head {
+    font-family: 'Poppins';
     font-weight: 600;
     text-shadow: 0 0 black;
-    border-bottom: 1px solid black
+    border-bottom: 5px solid #023041
 }
 
 .youtube-p {

@@ -8,6 +8,7 @@ using HelpersNetwork.Models;
 using HelpersNetwork.Models.SeedRoles;
 using HelpersNetwork.Services;
 using MailKit;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -65,6 +66,7 @@ namespace HelpersNetwork
             
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
+
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -84,7 +86,18 @@ namespace HelpersNetwork
                 .AddEntityFrameworkStores<HelpersNetworkIdentityDbContext>();
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
-             opt.TokenLifespan = TimeSpan.FromHours(2));
+            opt.TokenLifespan = TimeSpan.FromMinutes(10));
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/api/Account/Login";
+                options.AccessDeniedPath = "/api/Account/AccessDenied";
+                options.Cookie.IsEssential = true;
+                //options.SlidingExpiration = true;
+                //options.ExpireTimeSpan = TimeSpan.FromSeconds(10);
+            });          
+
+           
 
             services.Configure<FormOptions>(options =>
             {

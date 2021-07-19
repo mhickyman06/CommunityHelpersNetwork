@@ -139,6 +139,7 @@ namespace HelpersNetwork.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("Login")]
         public IActionResult Login()
@@ -169,7 +170,7 @@ namespace HelpersNetwork.Controllers
                     return View();
                 }
 
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.IsPersistent, false);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password,isPersistent: model.IsPersistent, false);
                 if (result.Succeeded)
                 {
                     if (returnUrl != null && Url.IsLocalUrl(returnUrl))

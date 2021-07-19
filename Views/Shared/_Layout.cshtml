@@ -33,11 +33,11 @@
     <link rel="stylesheet" href="~/lib/style.css" />
     <link rel="stylesheet" href="~/lib/framework.css" />
     <link rel="stylesheet" href="~/lib/layout.css" />
-    <environment include="Staging">
+    @*<environment include="Staging">*@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="icon" href="~/lib/fontawesome-free-5.13.0-web/svgs/brands" />
         <link rel="stylesheet" href="~/lib/DataTables-1.10.25/css/jquery.dataTables.min.css" />
-    </environment>
+    @*</environment>*@
     <environment exclude="Development">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
@@ -170,13 +170,20 @@
             </div>
         </div>
     </footer>
-
-
+   
+<environment include="Production">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/Custom.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
     <script src="~/lib/waypoints/waypoints.min.js"></script>
+    @*<script src="https://maxcdn.bootstrapcdn.com/3.3.6/js/bootstrap.min.js" integrity="sha384-OmSbJDEHialfmuBBQP6A4Qrprq50VfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>*@
+</environment>
+<environment exclude="Development">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</environment>
     <script src="~/lib/wow/wow.min.js"></script>
 
     <script>
@@ -193,8 +200,6 @@
     <script src="~/customJs/plugin.js"></script>
     <script src="~/lib/DataTables-1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>*@
 
 
     @{

@@ -2,7 +2,7 @@ using System;
  namespace HelpersNetwork.Models
 {    public class YouTubeVideoDetails
     {
-        public int InbuiltId { get; set; }
+        public Guid InbuiltId { get; set; }
         public string VideoId { get; set; }
         public string VideoUrl { get; set; }
 

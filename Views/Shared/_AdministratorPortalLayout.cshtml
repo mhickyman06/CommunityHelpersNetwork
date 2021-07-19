@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    @*<link rel="stylesheet" href="~/dist/plugins/fontawesome-free/css/all.min.css">*@
+
     <link rel="stylesheet" href="~/dist/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 
     <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
@@ -34,8 +34,18 @@
 
     <link rel="stylesheet" href="~/dist/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+    <link rel="stylesheet" href="~/dist/plugins/jquery-ui/jquery-ui.min.css" />
+
+    <link rel="stylesheet" href="~/dist/plugins/jquery-ui/jquery-ui.theme.min.css" />
+
+    <link rel="stylesheet" href="~/dist/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
+
+    <link rel="stylesheet" href="~/dist/plugins/jquery-ui/jquery-ui.min.css" />
+
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.min.css" />
+
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/all.css" />
+
     <link rel="stylesheet" href="~/lib/fontawesome-free-5.13.0-web/css/brands.css" />
 
     <link rel="stylesheet" href="~/css/nice-select.css" />
@@ -44,20 +54,18 @@
 
     <link rel="stylesheet" href="~/css/adminstyles.css" />
 
-    @*<link rel="stylesheet" href="~/lib/DataTables-1.10.25/css/jquery.dataTables.min.css" />*@
-
-    <environment include="Staging">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/lib/DataTables-1.10.25/css/jquery.dataTables.min.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,300&family=Poppins:wght@200&display=swap" rel="stylesheet" />
-    </environment>
-
+    @*<environment include="Staging">*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/DataTables-1.10.25/css/jquery.dataTables.min.css" />
+    @*</environment>*@
+<environment exclude="Development">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;1,300&family=Poppins:wght@200&display=swap" rel="stylesheet" />
+</environment>
     <style>
         .top-btn {
             border-radius: 5px;
@@ -76,16 +84,21 @@
             color: wheat;
         }
 
-            .top-link:hover {
-                cursor: pointer;
-                color: rgba(79, 86, 173, 0.93);
-            }
+        .top-link:hover {
+            cursor: pointer;
+            color: rgba(79, 86, 173, 0.93);
+        }
+
+        .navbar {
+            border-radius: 0;
+        }
 
         @@media screen and (max-width:500px) {
             .top-word, .top-link {
                 font-size: medium;
             }
         }
+       
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -145,7 +158,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -178,167 +191,167 @@
                         @{
                             if (User.IsInRole(ConstantRoles.Admin))
                             {
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>
-                                            News/Event
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="ListNews" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage </p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-controller="Administrator" asp-action="CreateNews" class="nav-link">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>Create </p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-pager"></i>
-                                        <p>
-                                            DailyView
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="GetDailyView" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-image"></i>
-                                        <p>
-                                            Project Photos
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="Index" asp-controller="ListProjectPhotos" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-action="ProjectImages" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>Create</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>
-                                            Project Videos
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="Index" asp-controller="ListProjectVideos" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-action="CreateProjectVideo" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>
-                                                    Create
-                                                </p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>
-                                            Registered Users
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="ListUsers" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-action="CreateApplicationUser" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Create</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>
-                                            CHN Branches
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="ListBranches" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-action="CreateBranch" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>
-                                                    Create
-                                                </p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item menu-open" style="padding-bottom:150px">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-newspaper"></i>
-                                        <p>
-                                            CHN Bank Details
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a asp-action="ListBankDetails" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-list-alt nav-icon"></i>
-                                                <p>Manage</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a asp-action="CreateBankDetails" asp-controller="Administrator" class="nav-link">
-                                                <i class="far fa-plus-square nav-icon"></i>
-                                                <p>
-                                                    Create
-                                                </p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>
+                                        News/Event
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ListNews" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Administrator" asp-action="CreateNews" class="nav-link">
+                                            <i class="far fa-plus-square nav-icon"></i>
+                                            <p>Create </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-pager"></i>
+                                    <p>
+                                        DailyView
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="GetDailyView" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-image"></i>
+                                    <p>
+                                        Project Photos
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Index" asp-controller="ListProjectPhotos" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="ProjectImages" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-plus-square nav-icon"></i>
+                                            <p>Create</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>
+                                        Project Videos
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="Index" asp-controller="ListProjectVideos" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="CreateProjectVideo" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-plus-square nav-icon"></i>
+                                            <p>
+                                                Create
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>
+                                        Registered Users
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ListUsers" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="CreateApplicationUser" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Create</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>
+                                        CHN Branches
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ListBranches" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="CreateBranch" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-plus-square nav-icon"></i>
+                                            <p>
+                                                Create
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item menu-open" style="padding-bottom:150px">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-newspaper"></i>
+                                    <p>
+                                        CHN Bank Details
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-action="ListBankDetails" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-list-alt nav-icon"></i>
+                                            <p>Manage</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-action="CreateBankDetails" asp-controller="Administrator" class="nav-link">
+                                            <i class="far fa-plus-square nav-icon"></i>
+                                            <p>
+                                                Create
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             }
                         }
                     </ul>
@@ -376,8 +389,19 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-    <script src="~/dist/plugins/jquery/jquery.min.js"></script>
-    <script src="~/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>*@
+    @*<script src="~/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+<environment include="Production">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+</environment>
     <script src="~/dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <script src="~/dist/js/adminlte.min.js"></script>
     <script src="~/dist/js/demo.js"></script>
@@ -392,7 +416,7 @@
     </script>
     @if (IsSectionDefined("Scripts"))
     {
-        @RenderSection("Scripts", true);
+    @RenderSection("Scripts", true);
     }
 </body>
 </html>

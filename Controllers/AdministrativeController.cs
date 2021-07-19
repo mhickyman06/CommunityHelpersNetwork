@@ -231,15 +231,16 @@ namespace HelpersNetwork.Controllers
         [HttpGet]
         [Route("UpdateProjectVideo/{Id}")]
 
-        public IActionResult UpdateProjectVideo(int? Id)
+        public IActionResult UpdateProjectVideo(string Id)
         {
-            var video =  projectvideosrepository.FindbyCondition(Id);
+            var video =  projectvideosrepository.FindbyCondition(Guid.Parse(Id));
             if(video == null)
             {
                 return NotFound();
             }
             var model = new EditProjectVideoViewModel()
             {
+                Id = video.Id.ToString(),
                 VideoId = video.VideoId,
                 VideoUrl = video.VideoUrl
             };
@@ -248,9 +249,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpPost]
         [Route("UpdateProjectVideo/{Id}")]
-        public IActionResult UpdateProjectVideo(int? Id,EditProjectVideoViewModel viewmodel)
+        public IActionResult UpdateProjectVideo(EditProjectVideoViewModel viewmodel)
         {
-            var video =  projectvideosrepository.FindbyCondition(Id);
+            var video =  projectvideosrepository.FindbyCondition(Guid.Parse(viewmodel.Id));
             if(video == null)
             {
                 return NotFound();
@@ -259,7 +260,7 @@ namespace HelpersNetwork.Controllers
             {
                 video.VideoUrl = viewmodel.VideoUrl;
                 video.VideoId = viewmodel.VideoId;
-                video.DatePublished = DateTime.Now.ToString();
+                //video.DatePublished = DateTime.Now.ToString();
 
                 projectvideosrepository.Update(video);
                 projectvideosrepository.Save();
@@ -267,6 +268,29 @@ namespace HelpersNetwork.Controllers
             }
           
             return View(viewmodel);
+        }
+
+        [HttpPost("DeleteProjectVideos")]
+        [Route("DeleteProjectVideos")]
+
+        public JsonResult DeleteProjectVideos(string Id)
+        {
+            var videos =  projectvideosrepository.FindbyCondition(Guid.Parse(Id));
+            try
+            {
+                projectvideosrepository.Delete(Guid.Parse(Id));
+                _newsrepository.Save();
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return Json("Couldn't Delete this Video");
+            }
+
+            logger.LogInformation("Successfully Deleted a video with the  url " + videos.VideoUrl);
+
+            return Json(new { Status = "Successfully Deleted" });
         }
 
         #endregion
@@ -493,9 +517,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpGet]
         [Route("EditBankDetails")]
-        public IActionResult EditBankDetails(int? Id)
+        public IActionResult EditBankDetails(string Id)
         {
-            var bankdetails = Bankdetailsrepository.FindbyCondition(Id);
+            var bankdetails = Bankdetailsrepository.FindbyCondition(Guid.Parse(Id));
             if (bankdetails == null)
             {
                 return NotFound();
@@ -512,9 +536,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpPost]
         [Route("EditBankDetails")]
-        public IActionResult EditBankDetails(int? Id, EditBankBranchDdtails model)
+        public IActionResult EditBankDetails(string Id, EditBankBranchDdtails model)
         {
-            var bankdetails = Bankdetailsrepository.FindbyCondition(Id);
+            var bankdetails = Bankdetailsrepository.FindbyCondition(Guid.Parse(Id));
             if (bankdetails == null)
             {
                 return NotFound();
@@ -538,16 +562,20 @@ namespace HelpersNetwork.Controllers
         [HttpPost("DeleteBankDetails")]
         [Route("DeleteBankDetails")]
 
-        public JsonResult DeleteBankDetails(int? Id)
+        public JsonResult DeleteBankDetails(string Id)
         {
-            var branch = Bankdetailsrepository.FindbyCondition(Id);
+            var branch = Bankdetailsrepository.FindbyCondition(Guid.Parse(Id));
             if (branch == null)
+            
+            
+            
+            
             {
                 return Json("The Specified branch was not found please check your inputs and try again");
             }
             try
             {
-                Bankdetailsrepository.Delete(Id);
+                Bankdetailsrepository.Delete(Guid.Parse(Id));
                 Bankdetailsrepository.Save();
 
             }
@@ -609,9 +637,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpGet]
         [Route("EditBranch")]
-        public IActionResult EditBranch(int? Id)
+        public IActionResult EditBranch(string Id)
         {
-            var branch = branchrepository.FindbyCondition(Id);
+            var branch = branchrepository.FindbyCondition(Guid.Parse(Id));
             if(branch == null)
             {
                 return NotFound(); 
@@ -632,9 +660,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpPost]
         [Route("EditBranch")]
-        public IActionResult EditBranch(int? Id,EditBranchViewModel model)
+        public IActionResult EditBranch(string Id,EditBranchViewModel model)
         {
-            var branch = branchrepository.FindbyCondition(Id);
+            var branch = branchrepository.FindbyCondition(Guid.Parse(Id));
             if(branch == null)
             {
                 return NotFound();
@@ -662,16 +690,16 @@ namespace HelpersNetwork.Controllers
         [HttpPost("DeleteBranch")]
         [Route("DeleteBranch")]
 
-        public JsonResult DeleteBranch(int? Id)
+        public JsonResult DeleteBranch(string Id)
         {
-            var branch = branchrepository.FindbyCondition(Id);
+            var branch = branchrepository.FindbyCondition(Guid.Parse(Id));
             if(branch == null)
             {
                 return Json("The Specified branch was not found please check your inputs and try again");
             }
             try
             {
-                branchrepository.Delete(Id);
+                branchrepository.Delete(Guid.Parse(Id));
                 branchrepository.Save();
 
             }
@@ -714,7 +742,6 @@ namespace HelpersNetwork.Controllers
             {
                 var News = new NewsModel()
                 {
-                    //Id = newsView.i,
                     Title = newsView.Title,
                     PageTtile = newsView.PageTtile,
                     DatePublished = DateTime.Now,
@@ -730,15 +757,14 @@ namespace HelpersNetwork.Controllers
         }
 
         [HttpPost("DeleteNews")]
-        //[ValidateAntiForgeryToken]
         [Route("DeleteNews")]
 
-        public async Task<JsonResult> DeleteNews(int? Id)
+        public async Task<JsonResult> DeleteNews(string Id)
         {
-            var newmodel = await HelpersNetworkContext.News.FindAsync(Id);
+            var newmodel = await HelpersNetworkContext.News.FindAsync(Guid.Parse(Id));
             try
             {
-                _newsrepository.Delete(Id, newmodel.ImagePath);
+                _newsrepository.Delete(Guid.Parse(Id), newmodel.ImagePath);
                 _newsrepository.Save();
 
             }
@@ -751,23 +777,22 @@ namespace HelpersNetwork.Controllers
             logger.LogInformation("Successfully Deleted a news with the page title " + newmodel.PageTtile); 
 
             return Json(new { Status = "Successfully Deleted" });
-
         }
 
         [HttpGet("EditNews")]
         [Route("EditNews")]
-        public  IActionResult EditNews(int? id)
+        public  IActionResult EditNews(string NewsId)
         {
-            if(id == null)
+            if(NewsId == null)
             {
                 return NotFound();
             }
 
-            var news = _newsrepository.FindbyCondition(id);
-
+            var news = _newsrepository.FindbyCondition(Guid.Parse(NewsId));
+            logger.LogInformation(news.Id.ToString());
             var newsmodel = new EditNewsViewModel
             {
-                Id = news.Id,
+                Id = news.Id.ToString(),
                 PageTtile = news.PageTtile,
                 Title = news.Title,
                 Body = news.Body,
@@ -780,9 +805,9 @@ namespace HelpersNetwork.Controllers
 
         [HttpPost("EditNews")]
         [Route("EditNews")]
-        public async Task<IActionResult> EditNews(int? id, EditNewsViewModel editNewsViewModel)
+        public async Task<IActionResult> EditNews( EditNewsViewModel editNewsViewModel)
         {
-            var news = _newsrepository.FindbyCondition(id);
+            var news = _newsrepository.FindbyCondition(Guid.Parse(editNewsViewModel.Id));
 
             if (news == null)
             {
@@ -792,12 +817,12 @@ namespace HelpersNetwork.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    news.Id = editNewsViewModel.Id;
+                    //news.Id = Guid.Parse(editNewsViewModel.Id);
                     news.PageTtile = editNewsViewModel.PageTtile;
                     news.Title = editNewsViewModel.Title;
                     news.ShortDescription = editNewsViewModel.ShortDescription;
                     news.Body = editNewsViewModel.Body;
-                    news.DatePublished = DateTime.Now;
+                    //news.DatePublished = DateTime.Now;
                     if(editNewsViewModel.ImagePath != null)
                     {
                         news.ImagePath = await FileManager.UpdateImage(editNewsViewModel.ExistingImagePath, editNewsViewModel.ImagePath);
@@ -821,25 +846,25 @@ namespace HelpersNetwork.Controllers
 
         [HttpGet]
         [Route("EditDailyView")]
-        public IActionResult EditDailyView(int? id)
+        public IActionResult EditDailyView(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var dailyview = dailyviewrepository.FindbyCondition(id);
+            var dailyview = dailyviewrepository.FindbyCondition(Guid.Parse(id));
             var model = new EditDailyView
             {
-                Id = dailyview.Id,
+                Id = dailyview.Id.ToString(),
                 Body = dailyview.Body
             };
             return View(model);
         }
         [HttpPost("EditDailyView")]
         [Route("EditDailyView")]
-        public IActionResult EditDailyView(int? id, EditDailyView editDailyView)
+        public IActionResult EditDailyView(EditDailyView editDailyView)
         {
-            var dailyview = dailyviewrepository.FindbyCondition(id);
+            var dailyview = dailyviewrepository.FindbyCondition(Guid.Parse(editDailyView.Id));
 
             if (dailyview == null)
             {
@@ -849,7 +874,7 @@ namespace HelpersNetwork.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    dailyview.Id = editDailyView.Id;
+                    //dailyview.Id = editDailyView.Id;
                     dailyview.Body = editDailyView.Body;
                   
                     dailyviewrepository.Update(dailyview);
@@ -903,12 +928,12 @@ namespace HelpersNetwork.Controllers
         [HttpPost]
         [Route("DeleteProjectImages")]
 
-        public JsonResult DeleteProjectImages(int Id)
+        public JsonResult DeleteProjectImages(string Id)
         {
-            var newmodel = _gelleryrepository.FindbyCondition(Id);
+            var newmodel = _gelleryrepository.FindbyCondition(Guid.Parse(Id));
             try
             {
-                _gelleryrepository.Delete(Id, newmodel.ImagePath);
+                _gelleryrepository.Delete(Guid.Parse(Id), newmodel.ImagePath);
                 _gelleryrepository.Save();
 
             }
@@ -926,16 +951,16 @@ namespace HelpersNetwork.Controllers
 
         [HttpGet]
         [Route("EditProjectImages")]
-        public IActionResult EditProjectImages(int? id)
+        public IActionResult EditProjectImages(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var projectimages = _gelleryrepository.FindbyCondition(id);
+            var projectimages = _gelleryrepository.FindbyCondition(Guid.Parse(id));
             var model = new EditProjectImages
             {
-                Id = projectimages.Id,
+                Id = projectimages.Id.ToString(),
                 ImageTitle = projectimages.ImageTitle,
                 ExistingImagePath = projectimages.ImagePath
             };
@@ -943,9 +968,9 @@ namespace HelpersNetwork.Controllers
         }
         [HttpPost("EditProjectImages")]
         [Route("EditProjectImages")]
-        public async Task<IActionResult> EditProjectImages(int? id, EditProjectImages editProjectImages)
+        public async Task<IActionResult> EditProjectImages(EditProjectImages editProjectImages)
         {
-            var projectgallery = _gelleryrepository.FindbyCondition(id);
+            var projectgallery = _gelleryrepository.FindbyCondition(Guid.Parse(editProjectImages.Id));
 
             if (projectgallery == null)
             {
@@ -955,7 +980,7 @@ namespace HelpersNetwork.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    projectgallery.Id = editProjectImages.Id;
+                    //projectgallery.Id = editProjectImages.Id;
                     projectgallery.ImageTitle = editProjectImages.ImageTitle;
                     if(editProjectImages.ImagePath == null)
                     {
@@ -967,7 +992,7 @@ namespace HelpersNetwork.Controllers
                     };
                     _gelleryrepository.Update(projectgallery);
                     _newsrepository.Save();
-                    return RedirectToAction(nameof(ListProjectPhotos));
+                    return RedirectToAction("Index", "ListProjectPhotos");
                 }
             }
             return View(editProjectImages);

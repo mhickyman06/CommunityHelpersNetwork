@@ -38,7 +38,7 @@ namespace HelpersNetwork.Models
 
                 //var save_path = Path.Combine(_imagepath);
 
-                if (!Directory.Exists(_imagepath))
+                if (!Directory.Exists(save_path))
                 {
                     Directory.CreateDirectory(save_path);
                 }

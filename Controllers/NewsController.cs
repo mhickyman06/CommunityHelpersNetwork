@@ -52,13 +52,13 @@ namespace HelpersNetwork.Controllers
             return View(model);
         }
 
-        public IActionResult NewsDetails(int? id)
+        public IActionResult NewsDetails(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var model = newsrepository.FindbyCondition(id);
+            var model = newsrepository.FindbyCondition(Guid.Parse(id));
             return View(model);
         }
     }

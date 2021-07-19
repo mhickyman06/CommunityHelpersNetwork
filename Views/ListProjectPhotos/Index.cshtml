@@ -35,7 +35,7 @@
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-primary btn-sm" asp-action="EditProjectImages" asp-controller="Administrator" asp-route-Id="@gallery.Id"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                            <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete(@gallery.Id)">
+                            <a class="btn btn-danger  btn-sm" href="#" onclick="ConfirmDelete('@gallery.Id')">
                                 <i class=" fas fa-trash-alt"></i>
                             </a>
                         </div>
@@ -80,9 +80,9 @@
             var newsid = $("#hiddennewsid").val();
             $.ajax({
                 type: "POST",
-                url: "DeleteProjectImages",
+                url: "/api/Administrator/DeleteProjectImages",
                 data: {
-                    Id: newsid
+                    "Id": newsid
                 },
                 success: function (result) {
                     $("#myModal").modal("hide");

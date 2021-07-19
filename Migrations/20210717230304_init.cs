@@ -55,16 +55,45 @@ namespace HelpersNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Branches",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BranchName = table.Column<string>(nullable: false),
+                    BranchCountry = table.Column<string>(nullable: false),
+                    BranchState = table.Column<string>(nullable: false),
+                    BranchLocalGovt = table.Column<string>(nullable: false),
+                    BranchAddress = table.Column<string>(nullable: false),
+                    BranchContactPerson = table.Column<string>(nullable: false),
+                    ContactPersonNumber = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branches", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "chnbankdetails",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BankName = table.Column<string>(nullable: false),
+                    BankAccountName = table.Column<string>(nullable: false),
+                    BankAccountNumber = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_chnbankdetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "communityLatestProjects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DatePublished = table.Column<DateTime>(nullable: false),
-                    ProjectTitle = table.Column<string>(nullable: false),
-                    ShortDescription = table.Column<string>(nullable: false),
-                    Body = table.Column<string>(nullable: false),
-                    VideoUrl = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    DatePublished = table.Column<string>(nullable: true),
+                    VideoUrl = table.Column<string>(nullable: false),
+                    VideoId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,8 +104,7 @@ namespace HelpersNetwork.Migrations
                 name: "DailyViewModels",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     Body = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -88,12 +116,11 @@ namespace HelpersNetwork.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     DatePublished = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: false),
                     PageTtile = table.Column<string>(nullable: false),
-                    ShortDescription = table.Column<string>(nullable: false),
+                    ShortDescription = table.Column<string>(maxLength: 400, nullable: false),
                     Body = table.Column<string>(nullable: false),
                     ImagePath = table.Column<string>(nullable: true)
                 },
@@ -106,8 +133,7 @@ namespace HelpersNetwork.Migrations
                 name: "ProjectGalleries",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(nullable: false),
                     DatePublished = table.Column<DateTime>(nullable: false),
                     ImageTitle = table.Column<string>(nullable: false),
                     ImagePath = table.Column<string>(nullable: false)
@@ -279,6 +305,12 @@ namespace HelpersNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "chnbankdetails");
 
             migrationBuilder.DropTable(
                 name: "communityLatestProjects");
