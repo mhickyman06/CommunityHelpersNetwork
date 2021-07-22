@@ -175,9 +175,6 @@ C:\Users\HI\Documents\HelpersNetwork\bin\Release\netcoreapp3.1\runtimes\unix\lib
 C:\Users\HI\Documents\HelpersNetwork\bin\Release\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\HI\Documents\HelpersNetwork\bin\Release\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.csprojAssemblyReference.cache
-C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.csproj.CoreCompileInputs.cache
-C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.RazorAssemblyInfo.cache
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.RazorAssemblyInfo.cs
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.AssemblyInfoInputs.cache
@@ -249,3 +246,7 @@ C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\staticwebassets\H
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.dll
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.pdb
 C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.genruntimeconfig.cache
+C:\Users\HI\Documents\HelpersNetwork\bin\Release\netcoreapp3.1\itextsharp.dll
+C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.csproj.CoreCompileInputs.cache
+C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\HI\Documents\HelpersNetwork\obj\Release\netcoreapp3.1\HelpersNetwork.MvcApplicationPartsAssemblyInfo.cache

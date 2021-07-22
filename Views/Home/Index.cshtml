@@ -23,7 +23,7 @@
                         </h6>
                     </marquee>
                 </div>
-                <div class="col-4" style="padding-top:25px; text-align:right" >
+                <div class="col-4" style="padding-top:25px;" >
                     <a asp-action="Donate" asp-controller="Home" class="btn-sm donate-btn " style="color:white;background-color: #48b3d3;padding:10px">Support Us</a>
                 </div>
             </div>
@@ -40,7 +40,10 @@
 
         <div class="container-fluid welcome-text wow fadeInRight" data-wow-delay="0.0s">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-2 col-md-2 col-sm-4">
+
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <h1>
                         Every community need constant, consistent and considerate interventions.<br />
                         We are here to inspire and ensure that.
@@ -62,61 +65,56 @@
                 We also bring the community back to the church for personal and spiritual developments and interventions.
             </p>
             <div class="row imageview mt-5">
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
+                <div class="col-lg-4 col-md-4 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
                     <div class="service-item">
-                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img1.jpg" />
+                        <img class="section-img" asp-append-version="true" src="~/Images/IMG-20210721-WA0004.jpg" />
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 mb-4  wow fadeInUp" data-wow-delay="0.2s">
+                <div class="col-lg-4 col-md-4 col-sm-6 mb-4  wow fadeInUp" data-wow-delay="0.2s">
                     <div class="service-item">
-                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img3.jpeg" />
+                        <img class="section-img" asp-append-version="true" src="~/Images/IMG-20210721-WA0006.jpg" />
                     </div>
                 </div>
-                <div class="col-lg-4 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
+                <div class="col-lg-4  col-md-4 col-sm-6 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
                     <div class="service-item">
-                        <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img4.jpg" />
+                        <img class="section-img" asp-append-version="true" src="~/Images/IMG-20210721-WA0003.jpg" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
 <div class="works" id="works">
-    <div class="container">
+    <div class="container pt-0">
         <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
             <h6>How we work</h6>
             <p>
-                We work with individuals, companies, religeous bodies,
+                We work with individuals, companies, religious bodies,
                 non governmental organisation and government agencies to bring human capacity and infrastructural development
                 to communities.
             </p>
         </div>
         <div class="row imageview mt-5">           
-            <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
+            <div class="col-lg-4 col-md-4 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.0s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/download.jpg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/what-we-do-img4.jpg"/>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="col-lg-4 col-md-4 col-sm-6 mb-4 wow fadeInUp" data-wow-delay="0.2s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/download (2) - Copy.jpg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/IMG-20210721-WA0000.jpg" />
                 </div>
             </div>
-            <div class="col-lg-4 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
+            <div class="col-lg-4 col-md-4 col-sm-6 mb-4 wow fadeInUp last-item" data-wow-delay="0.4s">
                 <div class="service-item">
-                    <img class="section-img" asp-append-version="true" src="~/Images/OIP.jpg" />
+                    <img class="section-img" asp-append-version="true" src="~/Images/IMG-20210721-WA0002.jpg" />
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 <div class="works" id="works">
-    <div class="container">
+    <div class="container pt-0">
         <div class="section-header text-center wow zoomIn" data-wow-delay="0.1s">
             <h6>Our unique approach</h6>
             <p>
@@ -128,10 +126,48 @@
     </div>
 </div>
 
+<div class="wrapper row2 " style="background-color:#6f838a;margin-bottom:200px;margin-top:50px;padding-bottom:80px">
+    <section class="hoc container clear">
+        <div class="sectiontitle" style="position:relative; z-index:99; color:white">
+            <h6 class="heading" style="color:white;font-weight:800">Latest News and Event</h6>
+        </div>
+        <div class="group latest mb-5 ">
+            @{
+                var firstevent = Model.News?.FirstOrDefault();
+                <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
+                    <img src="~/ContentImages/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
+                    <div class="txtwrap">
+                        <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
+                        <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0;font-size:smaller" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
+                        <p>@firstevent?.ShortDescription</p>
+                        <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@firstevent.Id" style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
+                    </div>
+                </article>
+                if (Model.News != null)
+                {
+                    var events = @Model.News.GetRange(1, 2);
+                    foreach (var Event in events)
+                    {
+                        <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="~/ContentImages/@Event.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
+                            <div class="txtwrap">
+                                <h6 class="heading" style="font-weight:600;font-size:medium">@Event.Title</h6>
+                                <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0;font-size:smaller" datetime="@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
+                                <p>@Event?.ShortDescription</p>
+                                <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@Event.Id" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
+                            </div>
+                        </article>
+                    }
+                }
 
+            }
+        </div>
+    </section>
+    <a class=" btn-lg news-btn  text-center text-white mt-3" asp-action="Index" asp-controller="News" style="position:relative; left:40%">See more</a>
+</div>
 
 <!--Our Values Section-->
-<div class="wrapper row2 mt-5">
+<div class="wrapper row2 mt-5" style="margin-bottom:100px">
     <section class="hoc container clear">
         <!-- ################################################################################################ -->
         <div class="sectiontitle">
@@ -184,49 +220,20 @@
                     </p>
                 </article>
             </li>
+            <li class="one_third">
+                <article class="infobox">
+                    <h6 class="heading" style="font-weight:800"><i class="fa fa-praying-hands"></i>PRAYERS</h6>
+                    <p>
+                        We believe in the power of prayers to achieve our vision. Our members pray constantly
+                        and consistently for the work to achieve bigger success than we can on our own
+                    </p>
+                </article>
+            </li>
         </ul>
     </section>
 </div>
 <!--Latest Event-->
-<div class="wrapper row2 " style="background-color:#6f838a;margin-bottom:200px;margin-top:100px;padding-bottom:80px">
-    <section class="hoc container clear">
-        <div class="sectiontitle" style="position:relative; z-index:99; color:white">
-            <h6 class="heading" style="color:white;font-weight:800">Community Latest News and Event</h6>
-        </div>
-        <div class="group latest mb-5 ">
-            @{
-                var firstevent = Model.News?.FirstOrDefault();
-                <article class="one_third first wow fadeInLeft" data-wow-delay="0.1s">
-                    <img src="~/ContentImages/@firstevent?.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
-                    <div class="txtwrap">
-                        <h6 class="heading" style="font-weight:600;font-size:medium">@firstevent?.Title</h6>
-                        <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@firstevent?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
-                        <p>@firstevent?.ShortDescription</p>
-                        <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@firstevent.Id" style="color: #4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
-                    </div>
-                </article>
-                if (Model.News != null)
-                {
-                    var events = @Model.News.GetRange(1, 2);
-                    foreach (var Event in events)
-                    {
-                        <article class="one_third wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="~/ContentImages/@Event.ImagePath" style="width:-webkit-fill-available;height:185px" alt="">
-                            <div class="txtwrap">
-                                <h6 class="heading" style="font-weight:600;font-size:medium">@Event.Title</h6>
-                                <time class="font-xs block btmspace-10" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0" datetime="@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")">@Event?.DatePublished.ToString("dd/MM/yyyy HH:mm")</time>
-                                <p>@Event?.ShortDescription</p>
-                                <footer><a asp-action="NewsDetails" asp-controller="News" asp-route-id="@Event.Id" style="color:#4ac9f0;text-shadow:0 0 #4ac9f0">Read More</a></footer>
-                            </div>
-                        </article>
-                    }
-                }
 
-            }
-        </div>
-    </section>
-    <a class=" btn-lg news-btn  text-center text-white mt-3" asp-action="Index" asp-controller="News" style="position:relative; left:40%">See more</a>
-</div>
 
 @section Scripts{
 

@@ -1,15 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "nPsT0xy/nq7eEOcIGafqipqJAePE7BmPdXdvGvlI9OqTulm1s4E9MU40WDq/PMp6u2KUcqOgNzKafU68En8vGA==",
+  "dgSpecHash": "kZaNZ7WpAHXYo7AgjlN9INf6xtWl/5B/7J13r58ripGGsAONpY7y0L+9E9ByXj98+i3/bW9V+4/U1/qB4itWUw==",
   "success": true,
   "projectFilePath": "C:\\Users\\HI\\Documents\\HelpersNetwork\\HelpersNetwork.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\HI\\.nuget\\packages\\bouncycastle\\1.8.6.1\\bouncycastle.1.8.6.1.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis\\1.52.0\\google.apis.1.52.0.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis.auth\\1.52.0\\google.apis.auth.1.52.0.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis.core\\1.52.0\\google.apis.core.1.52.0.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis.gmail.v1\\1.52.0.2356\\google.apis.gmail.v1.1.52.0.2356.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis.youtube.v3\\1.52.0.2366\\google.apis.youtube.v3.1.52.0.2366.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\google.apis.youtubeanalytics.v1\\1.49.0.2197\\google.apis.youtubeanalytics.v1.1.49.0.2197.nupkg.sha512",
+    "C:\\Users\\HI\\.nuget\\packages\\itextsharp\\5.5.13.2\\itextsharp.5.5.13.2.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\mailkit\\2.13.0\\mailkit.2.13.0.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.1.0\\microsoft.aspnetcore.antiforgery.2.1.0.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.1.0\\microsoft.aspnetcore.authentication.abstractions.2.1.0.nupkg.sha512",
@@ -244,5 +246,26 @@
     "C:\\Users\\HI\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
     "C:\\Users\\HI\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.12\\microsoft.netcore.app.host.win-x64.3.1.12.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'BouncyCastle 1.8.6.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "BouncyCastle",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'iTextSharp 5.5.13.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "iTextSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

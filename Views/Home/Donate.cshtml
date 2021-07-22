@@ -6,81 +6,48 @@
 
 <style>
 
-    .donate-top1 {
-        /*z-index: 99;*/
-        background: url(../Images/carousel-img1.jpg);
-        background-size: cover;
-        background-position: top;
-        background-repeat: no-repeat;
-        padding-bottom: 90px;
-        /*height: 700px;*/
-        height: -webkit-fill-available;
+
+    input.button {
+        font-size: 1.5rem;
+        background: white;
+        border: 1px solid black;
+        padding: 4px 40px;
     }
 
-    .donate-top1::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        /*height: 700px;*/
-        height: -webkit-fill-available;
-        background: rgba(0,0,0,.7);
-        z-index: 9;
-    }
-    .custom-label {
-        padding-top: 15px;
-        color: white;
-        font-family: 'Montserrat';
-        /* font-weight: bolder; */
-        font-size: 17px;
-        font-weight: bold;
-        z-index: 99;
-        opacity: 1;
+        input.button:hover {
+            background-color: beige;
+            transition: ease-in;
+        }
+
+    input.error {
+        border: 2px dashed red;
+        background: #fee;
     }
 
-    .donate-block {
-        font-family: "Monteserrat";
-        color: black;
-        font-weight: 500;
-        /*width: 50%;*/
-    }
-
-    .donate-text {
+    label.error {
+        color: red;
+        font-size: 1rem;
         text-align: center;
-        font-family: "Montserrat"
-    }
-
-    .donate-text h1, .donate-text p {
-        font-weight: 600;
-        font-size:xx-large;
-        color:white;
-    }
-
-    .container {
-        padding-top: 80px;
-        padding-bottom: 100px;
-    }
-
-    .donate {
-        position: relative;
-        /*left: 3000px;*/
-        z-index: 99;
+        width: 100%;
+        margin: 0 0;
+        font-family:"Poppins"
     }
     /*.welcome-text{
         left:0;
     }*/
 </style>
-
-    
-<div class="donate-top1"> 
-    <div class=" donate " >      
+<div class="donate-top1">
+    <div class=" donate ">
         <div class="text-center container donate-block">
             <div>
+                <h2 class="text-center text-white donate-text" style="font-weight:800">
+                    Thank you for choosing to support us. May God bless you.
+                    You may choose to support us monthly, quarterly, yearly or just once
+                </h2>
                 <div>
                     @foreach (var bank in Model)
-                     {
-                         <div class="mt-3 mb-4 container donate-text mb-4 wow fadeInLeft" data-wow-delay="0.2s">
+                    {
+                        <div class="mt-3 mb-4 container donate-text mb-4 wow fadeInLeft" data-wow-delay="0.2s">
                             <h1><span class="mb-2">Bank: </span><span>@bank.BankName</span></h1>
                             <div class="mt-5 row">
                                 <div class="col-sm-5 p-0 mb-4">
@@ -89,7 +56,6 @@
                                 <div class="col-sm-5 p-0">
                                     <p>@bank.BankAccountName</p>
                                 </div>
-                                @*<span class="mb-2"> </span><span>@bank.BankAccountName</span>*@
                             </div>
                             <div class="mt-5 row">
                                 <div class="col-sm-5 p-0 mb-4">
@@ -98,13 +64,140 @@
                                 <div class="col-sm-5 p-0">
                                     <p>@bank.BankAccountNumber</p>
                                 </div>
-                                @*<span class="mb-2"> </span><span>@bank.BankAccountName</span>*@
                             </div>
-                        @*<p class="mt-5"><span class="mb-2">Account Number: </span><span>@bank.BankAccountNumber</span></p>*@
-                         </div>
-                     }
+                        </div>
+                    }
+                </div>
+                <div class="text-center transaction ">
+                    <form id="donation" action="">
+                        <div class="row mb-3">
+                            <div class="form-group input-group ">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <label for="name" class="donate-label">Name</label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <input id="name" name="name" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" required /><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="form-group input-group ">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <label for="email" class="donate-label">Email</label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <input id="email" name="email" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" required /><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="form-group input-group">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <label for="amount" class="donate-label">Amount sent</label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <input id="amount" name="amount" class="form-control" style="border-bottom-left-radius:0;border-top-left-radius:0" required /><br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group input-group">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <label for="message" class="donate-label">Any Message</label>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">                                                                   
+                                   <textarea id="message" name="message" class="form-control"
+                                                style="border-bottom-left-radius:0;border-top-left-radius:0;width:100%; height:120px">
+                                    </textarea>                                  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group input-group">
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                </div>
+                                <div class="col-lg-7 col-md-8 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-12"style="text-align:-webkit-center">
+                                            <input type="submit" name="submit" class="button" id="submit_btn " value="Send" style="display:inherit" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-5 col-sm-12"style="text-align:-webkit-center">
+                                            <p class="text-white" style="display:none;font-family:Montserrat;padding:12px" id="loader">Sending please wait</p>
+                                        </div>                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{
+    <script>
+
+        $(function () {
+            $("form").validate();
+        });
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var amount = $("#amount").val();
+        var message = $("#message").val();
+        $("#submit_btn").click(function () {
+            $("#submit_btn").css("display", "none");
+            $("#loader").css("display", "inherit");
+        })
+       
+
+        //const PdfModel = {
+        //    "Name": name,
+        //    "Email": email,
+        //    "Amount": amount,
+        //    "Message": message,
+        //}
+
+        $("form").on("submit", function (e) {
+            var PdfModel = $(this).serialize();
+            $("#loader").css("display", "inherit");
+
+            $.ajax({
+                type: "POST",
+                url: "/api/Account/GenerateDonationPayment",
+                data: PdfModel,
+                success: function (result) {
+                    $("#loader").css("display", "none");
+                    alert(result.message);
+                },
+                error(error) {
+                    $("#loader").css("display", "none");
+                    alert(error.message);
+                }
+            });
+            e.preventDefault();
+        })
+
+        var GetDonationPdf = function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/Account/GenerateDonationPayment",
+                data: {
+                    "Name": name,
+                },
+                success: function (result) {
+                    alert(result.message);
+                   
+                    if (result.message != "Sent") {
+                        alert("An error occurred while processing your request");
+                    }
+                },
+                error: function (request,status,error) {
+
+                    alert("An error occurred while processing your request");
+                    //alert(request.message);
+                }
+            })
+        }
+    </script>
+}
+@*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@

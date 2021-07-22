@@ -70,7 +70,15 @@ $(document).ready(function () {
             currentIndex = 0;
         }
         $(".header-top1").fadeIn(10).css('background-image', 'url(../../Images/' + imageFile[currentIndex++] + ')');
-        $(".donate-top1").fadeIn(10).css('background-image', 'url(../../Images/' + imageFile[currentIndex++] + ')');
+
+    }, 3000);
+    var currentIndex1 = 0;
+
+    setInterval(function () {
+        if (currentIndex1 == imageFile.length) {
+            currentIndex1 = 0;
+        }
+        $(".donate-top1").fadeIn(10).css('background-image', 'url(../../Images/' + imageFile[currentIndex1++] + ')');
 
     }, 3000);
   

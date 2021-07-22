@@ -250,3 +250,4 @@ C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\scopedcss\bundle\He
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\Administrator\SendUserMail.cshtml.g.cs
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\SendUserMail.cshtml.g.cs
 C:\Users\HI\Documents\HelpersNetwork\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\HI\Documents\HelpersNetwork\bin\Debug\netcoreapp3.1\itextsharp.dll

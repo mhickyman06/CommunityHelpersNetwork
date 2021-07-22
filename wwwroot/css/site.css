@@ -22,7 +22,93 @@ body {
 }
 
 
+.donate-label {
+    font-family: "Poppins";
+    font-size: x-large;
+    color: white;
+}
 
+.donate-top1 {
+    /*z-index: 99;*/
+    background: url(../Images/carousel-img1.jpg);
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+    padding-bottom: 90px;
+    /*height: 700px;*/
+    height: -webkit-fill-available;
+}
+
+.donate-top1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    /*height: 700px;*/
+    height: -webkit-fill-available;
+    background: rgba(0,0,0,.7);
+    z-index: 9;
+}
+
+.custom-label {
+    padding-top: 15px;
+    color: white;
+    font-family: 'Montserrat';
+    /* font-weight: bolder; */
+    font-size: 17px;
+    font-weight: bold;
+    z-index: 99;
+    opacity: 1;
+}
+
+.donate-block {
+    font-family: "Monteserrat";
+    color: black;
+    font-weight: 500;
+    /*width: 50%;*/
+}
+
+.donate-text {
+    text-align: center;
+    font-family: "Montserrat"
+}
+
+    .donate-text h1, .donate-text p {
+        font-weight: 600;
+        font-size: xx-large;
+        color: white;
+    }
+
+.container {
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+.donate {
+    position: relative;
+    /*left: 3000px;*/
+    z-index: 99;
+}
+
+.send-btn {
+    font-family: "Monteserrat"
+}
+
+.send-btn:hover {
+    background-color: wheat;
+    cursor: pointer;
+}
+
+.transaction input {
+    font-family: "Montserrat";
+    font-size: medium;
+    text-align:center
+}
+.transaction textarea {
+    font-family: "Montserrat";
+    font-size: medium;
+}
 .daily-inspiration-div {
    
   position: relative;
@@ -509,9 +595,10 @@ body {
  }
 
 
+
 .container {
     padding-top: 100px;
-    padding-bottom:100px;
+    /*padding-bottom:100px;*/
 }
 
 .imageview {
@@ -550,7 +637,7 @@ body {
 
 .section-img {
     width: 100%;
-    height: 200px
+    height: 260px
 }
 
 .last-item {
@@ -583,7 +670,7 @@ body {
 .welcome-text {
     position: relative;
     top: 160px;
-    left: 130px;
+    /*left: 130px;*/
     /*left: 3000px;*/
     z-index: 99;
 }

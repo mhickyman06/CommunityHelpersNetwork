@@ -2,6 +2,10 @@ using HelpersNetwork.Models;
 using HelpersNetwork.Models.SeedRoles;
 using HelpersNetwork.Services;
 using HelpersNetwork.ViewModels;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Identity;
@@ -9,10 +13,14 @@ using Microsoft.AspNetCore.Identity.UI.V3.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.Web.CodeGeneration;
+using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -26,12 +34,14 @@ namespace HelpersNetwork.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IMailService mailService;
+        private readonly MailSettings mailSettings;
 
         public AccountController(ILogger<AccountController> logger,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IMailService mailService
+            IMailService mailService,
+            IOptions<MailSettings> mailSettings
             )
         {
             this.logger = logger;
@@ -39,6 +49,7 @@ namespace HelpersNetwork.Controllers
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.mailService = mailService;
+            this.mailSettings = mailSettings.Value;
         }
         
         [HttpGet]
@@ -121,6 +132,8 @@ namespace HelpersNetwork.Controllers
                         catch(Exception ex)
                         {
                             logger.LogError(ex.Message);
+                            ModelState.AddModelError("", "An error occured while processing your request please try again");
+                            return View(model);
                             //userManager.DeleteAsync()
                         }                                        
                     }
@@ -420,10 +433,107 @@ namespace HelpersNetwork.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("UserNotFound")]
         public IActionResult UserNotFound()
         {
             return View();
         }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("GenerateDonationPayment")]
+        public async Task<IActionResult> GenerateDonationPayment(PdfModel model)
+        {
+            byte[] bytes;
+            if (model.Name == null || model.Email == null)
+            {
+                return BadRequest(new
+                {
+                    Message = "Couldnt send Please check your input and try again"
+                });
+            }
+            try
+            {
+                using (var memorystream = new MemoryStream())
+                {
+                    Document document = new Document(PageSize.A4, 10, 10, 10, 10);
+                    PdfWriter writer = PdfWriter.GetInstance(document, memorystream);
+
+                    document.Open();
+
+                    Paragraph Name = new Paragraph();
+                    Name.SpacingBefore = 10;
+                    Name.SpacingAfter = 10;
+                    Name.Alignment = Element.ALIGN_CENTER;
+                    Name.Font = FontFactory.GetFont(FontFactory.HELVETICA, 16f, BaseColor.BLACK);
+                    Name.Add(model.Name);
+                    document.Add(Name);
+
+                    Paragraph Email = new Paragraph();
+                    Email.SpacingBefore = 10;
+                    Email.SpacingAfter = 10;
+                    Email.Alignment = Element.ALIGN_CENTER;
+                    Email.Font = FontFactory.GetFont(FontFactory.HELVETICA, 16f, BaseColor.BLACK);
+                    Email.Add(model.Email);
+                    document.Add(Email);
+
+                    Paragraph Amount = new Paragraph();
+                    Amount.SpacingBefore = 10;
+                    Amount.SpacingAfter = 10;
+                    Amount.Alignment = Element.ALIGN_CENTER;
+                    Amount.Font = FontFactory.GetFont(FontFactory.HELVETICA, 16f, BaseColor.BLACK);
+                    Amount.Add(model.Amount);
+                    document.Add(Amount);
+
+                    Paragraph Message = new Paragraph();
+                    Message.SpacingBefore = 10;
+                    Message.SpacingAfter = 10;
+                    Message.Alignment = Element.ALIGN_CENTER;
+                    Message.Font = FontFactory.GetFont(FontFactory.HELVETICA, 16f, BaseColor.BLACK);
+                    Message.Add(model.Message);
+                    document.Add(Message);
+
+                    document.Close();
+                    //memorystream.Close();
+                    bytes = memorystream.ToArray();
+                }
+                MailMessage message = new MailMessage();
+                var email = new MimeMessage();
+                email.Sender = MailboxAddress.Parse(mailSettings.Mail);
+                email.To.Add(MailboxAddress.Parse(mailSettings.Mail));
+                email.Subject = "Donation From Supporters";
+
+                var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<p style='color:black;'>{0}</p>", model.Name + " Donation transaction details ") };
+                var guid = Guid.NewGuid();
+                var filename = guid + model.Name + ".pdf";
+                ContentType type = new ContentType("application/pdf", "application/pdf");
+                bodyBuilder.Attachments.Add(filename, bytes, type);
+
+                email.Body = bodyBuilder.ToMessageBody();
+
+                using var smtp = new MailKit.Net.Smtp.SmtpClient();
+
+                smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
+                await smtp.SendAsync(email);
+                smtp.Disconnect(true);
+                return Ok(new
+                {
+                    Message = "Sent"
+                });
+            
+            }catch(Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(new
+                {
+                    Message = "An error occured while processing your request please try again"
+                });
+            }
+           
+        }
+
     }
 }

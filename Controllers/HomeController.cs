@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using HelpersNetwork.ViewModels;
 using ReflectionIT.Mvc.Paging;
+using Google.Apis.Gmail.v1.Data;
 
 namespace HelpersNetwork.Controllers
 {
@@ -148,12 +149,15 @@ namespace HelpersNetwork.Controllers
         public IActionResult AccessDenied()
         {
             return View();
-        } 
+        }
 
+       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }
